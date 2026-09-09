@@ -1,20 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
   <title>IMEI Scanner</title>
 
   <script src="https://unpkg.com/@zxing/browser@0.2.1"></script>
 
   <style>
-
     * {
       box-sizing: border-box;
     }
@@ -91,14 +85,19 @@
 
     .scan-frame {
       position: absolute;
-      left: 6%;
-      right: 6%;
-      top: 32%;
-      height: 36%;
+      left: 5%;
+      right: 5%;
+      top: 30%;
+      height: 40%;
+
       border: 3px solid #00ff55;
       border-radius: 12px;
+
       pointer-events: none;
-      box-shadow: 0 0 12px rgba(0, 255, 85, 0.6);
+
+      box-shadow:
+        0 0 10px rgba(0, 255, 85, 0.7),
+        inset 0 0 10px rgba(0, 255, 85, 0.15);
     }
 
     .scan-line {
@@ -107,8 +106,12 @@
       right: 3%;
       top: 50%;
       height: 3px;
+
       background: #00ff55;
-      box-shadow: 0 0 12px #00ff55;
+
+      box-shadow:
+        0 0 10px #00ff55,
+        0 0 20px #00ff55;
     }
 
     .instruction {
@@ -191,36 +194,31 @@
       margin-top: 12px;
     }
 
+    .debug {
+      text-align: center;
+      color: #777;
+      font-size: 11px;
+      margin-top: 8px;
+      min-height: 15px;
+    }
   </style>
-
 </head>
 
-
 <body>
-
 
   <div class="header">
     📷 IMEI SCANNER
   </div>
 
-
   <div class="container">
-
 
     <div class="title">
       Scan IMEI 1 Barcode
     </div>
 
-
-    <div
-      id="status"
-      class="status">
-
-      Camera start karne ke liye
-      button dabayein.
-
+    <div id="status" class="status">
+      Camera start karne ke liye button dabayein.
     </div>
-
 
     <div class="video-box">
 
@@ -231,162 +229,113 @@
         playsinline>
       </video>
 
-
       <div class="scan-frame">
-
         <div class="scan-line"></div>
-
       </div>
 
     </div>
 
-
     <div class="instruction">
-
-      📱 <b>IMEI 1</b> barcode ko
-      green frame ke andar rakhein.
-
+      📱 <b>IMEI 1</b> barcode ko green frame ke andar rakhein.
       <br>
-
-      Barcode ko clear aur seedha rakhein.
-
+      Barcode ko seedha aur jitna ho sake clear rakhein.
+      <br>
+      <b>Thoda paas/door karke focus try karein.</b>
     </div>
-
 
     <button
       id="startBtn"
       class="start"
       onclick="startScanner()">
-
       📷 START CAMERA
-
     </button>
-
 
     <button
       id="stopBtn"
       class="stop hidden"
       onclick="stopScanner()">
-
       ✕ STOP CAMERA
-
     </button>
 
-
-    <div
-      id="result"
-      class="result">
+    <div id="result" class="result">
 
       <div class="result-title">
         ✅ IMEI 1 SCANNED
       </div>
 
-
-      <div
-        id="imeiValue"
-        class="imei">
-      </div>
-
+      <div id="imeiValue" class="imei"></div>
 
       <button
         class="use-btn"
         onclick="sendIMEIBack()">
-
         ✓ USE THIS IMEI
-
       </button>
-
 
       <button
         class="again-btn"
         onclick="scanAgain()">
-
         🔄 SCAN AGAIN
-
       </button>
 
     </div>
 
+    <div id="debug" class="debug"></div>
 
     <div class="small-info">
-
-      Rear Camera • Barcode Scanner •
-      IMEI Validation
-
+      Rear Camera • 1D Barcode • IMEI Validation
     </div>
-
 
   </div>
 
 
-
 <script>
 
-
   let codeReader = null;
-
   let controls = null;
 
   let currentIMEI = '';
 
   let scanning = false;
 
+  let nativeDetector = null;
+  let nativeTimer = null;
+
+  let detectorRunning = false;
 
 
-  /*
-   * START SCANNER
-   */
+  /* =========================================================
+     START SCANNER
+     ========================================================= */
 
   async function startScanner() {
 
+    const status = document.getElementById('status');
 
-    const status =
-      document.getElementById('status');
+    const startBtn = document.getElementById('startBtn');
 
+    const stopBtn = document.getElementById('stopBtn');
 
-    const startBtn =
-      document.getElementById('startBtn');
+    const result = document.getElementById('result');
 
-
-    const stopBtn =
-      document.getElementById('stopBtn');
-
-
-    const result =
-      document.getElementById('result');
+    const video = document.getElementById('video');
 
 
     try {
 
-
       scanning = true;
-
 
       currentIMEI = '';
 
+      result.style.display = 'none';
 
-      result.style.display =
-        'none';
+      startBtn.classList.add('hidden');
 
-
-      startBtn.classList.add(
-        'hidden'
-      );
-
-
-      stopBtn.classList.remove(
-        'hidden'
-      );
+      stopBtn.classList.remove('hidden');
 
 
       status.textContent =
         '📷 Camera starting...';
 
-
-
-      /*
-       * Check browser camera support
-       */
 
       if (
         !navigator.mediaDevices ||
@@ -400,13 +349,10 @@
       }
 
 
-
       /*
-       * Simple rear camera.
-       *
-       * No forced focus.
-       * No forced zoom.
-       * No complicated constraints.
+       * IMPORTANT:
+       * Ye wahi camera-start method hai jo phone par
+       * successfully working tha.
        */
 
       const constraints = {
@@ -436,11 +382,6 @@
       };
 
 
-
-      /*
-       * Start ZXing camera
-       */
-
       if (
         typeof ZXingBrowser === 'undefined'
       ) {
@@ -456,13 +397,8 @@
         new ZXingBrowser.BrowserMultiFormatReader();
 
 
-      status.textContent =
-        '📷 Camera starting...';
-
-
-
       /*
-       * ZXing starts the camera.
+       * ZXing camera scanner
        */
 
       controls =
@@ -470,133 +406,52 @@
 
           constraints,
 
-          document.getElementById('video'),
+          video,
 
           function(result, error) {
 
-
             if (!scanning) {
-
               return;
-
             }
-
 
             if (!result) {
-
               return;
-
             }
 
-
-
-            /*
-             * Barcode text
-             */
 
             const raw =
               result.getText();
 
 
             console.log(
-              'Barcode detected:',
+              'ZXing barcode:',
               raw
             );
 
 
-
-            /*
-             * Find IMEI
-             */
-
-            const imei =
-              extractIMEI(raw);
-
-
-            if (!imei) {
-
-              status.textContent =
-                '⚠️ 15 digit IMEI nahi mila. IMEI 1 barcode scan karein.';
-
-              return;
-
-            }
-
-
-
-            /*
-             * Validate IMEI
-             */
-
-            if (
-              !isValidIMEI(imei)
-            ) {
-
-              status.textContent =
-                '⚠️ IMEI invalid hai. Dobara scan karein.';
-
-              return;
-
-            }
-
-
-
-            /*
-             * SUCCESS
-             */
-
-            currentIMEI =
-              imei;
-
-
-            scanning =
-              false;
-
-
-
-            try {
-
-              navigator.vibrate(200);
-
-            } catch (e) {}
-
-
-
-            document
-              .getElementById('imeiValue')
-              .textContent =
-              imei;
-
-
-
-            document
-              .getElementById('result')
-              .style.display =
-              'block';
-
-
-
-            status.textContent =
-              '✅ IMEI 1 successfully scanned.';
-
-
-
-            stopCameraOnly();
-
+            processDetectedValue(raw);
 
           }
 
         );
 
 
-
       status.textContent =
         '✅ Camera ready — IMEI 1 barcode scan karein.';
 
 
+      /*
+       * Start native BarcodeDetector also.
+       *
+       * Ye Chrome ke supported phones par
+       * barcode ko directly camera frame se read
+       * karne ki koshish karega.
+       */
+
+      startNativeDetector(video);
+
 
     } catch (error) {
-
 
       console.error(
         'Camera error:',
@@ -604,19 +459,11 @@
       );
 
 
-      scanning =
-        false;
+      scanning = false;
 
+      startBtn.classList.remove('hidden');
 
-      startBtn.classList.remove(
-        'hidden'
-      );
-
-
-      stopBtn.classList.add(
-        'hidden'
-      );
-
+      stopBtn.classList.add('hidden');
 
       status.textContent =
         cameraError(error);
@@ -626,18 +473,304 @@
   }
 
 
+  /* =========================================================
+     NATIVE BARCODE DETECTOR
+     ========================================================= */
 
-  /*
-   * Extract IMEI
-   */
+  async function startNativeDetector(video) {
+
+    if (!('BarcodeDetector' in window)) {
+
+      console.log(
+        'Native BarcodeDetector not available.'
+      );
+
+      return;
+
+    }
+
+
+    try {
+
+      let supportedFormats = [];
+
+
+      if (
+        typeof BarcodeDetector.getSupportedFormats ===
+        'function'
+      ) {
+
+        supportedFormats =
+          await BarcodeDetector.getSupportedFormats();
+
+      }
+
+
+      /*
+       * Common 1D barcode formats.
+       */
+
+      const wantedFormats = [
+
+        'code_128',
+        'code_39',
+        'code_93',
+        'ean_13',
+        'ean_8',
+        'itf',
+        'codabar',
+        'upc_a',
+        'upc_e'
+
+      ];
+
+
+      let formats =
+        wantedFormats.filter(function(format) {
+
+          return supportedFormats.includes(format);
+
+        });
+
+
+      /*
+       * Agar browser formats list nahi deta,
+       * normal detector try karenge.
+       */
+
+      if (
+        supportedFormats.length > 0 &&
+        formats.length === 0
+      ) {
+
+        console.log(
+          'No common barcode format supported.'
+        );
+
+        return;
+
+      }
+
+
+      if (formats.length > 0) {
+
+        nativeDetector =
+          new BarcodeDetector({
+            formats: formats
+          });
+
+      } else {
+
+        nativeDetector =
+          new BarcodeDetector();
+
+      }
+
+
+      console.log(
+        'Native detector formats:',
+        formats
+      );
+
+
+      detectorRunning = true;
+
+      runNativeDetection(video);
+
+
+    } catch (error) {
+
+      console.log(
+        'Native detector error:',
+        error
+      );
+
+    }
+
+  }
+
+
+  async function runNativeDetection(video) {
+
+    if (!detectorRunning) {
+      return;
+    }
+
+
+    if (!scanning) {
+      return;
+    }
+
+
+    try {
+
+      if (
+        video.readyState >= 2 &&
+        video.videoWidth > 0 &&
+        video.videoHeight > 0
+      ) {
+
+        const barcodes =
+          await nativeDetector.detect(video);
+
+
+        if (
+          barcodes &&
+          barcodes.length > 0
+        ) {
+
+          for (
+            let i = 0;
+            i < barcodes.length;
+            i++
+          ) {
+
+            const raw =
+              barcodes[i].rawValue || '';
+
+
+            if (raw) {
+
+              console.log(
+                'Native barcode:',
+                raw
+              );
+
+
+              processDetectedValue(raw);
+
+
+              if (!scanning) {
+                return;
+              }
+
+            }
+
+          }
+
+        }
+
+      }
+
+    } catch (error) {
+
+      console.log(
+        'Native detect:',
+        error
+      );
+
+    }
+
+
+    /*
+     * Detection ko continuously run karna hai,
+     * lekin har frame par nahi.
+     */
+
+    nativeTimer =
+      setTimeout(function() {
+
+        runNativeDetection(video);
+
+      }, 180);
+
+  }
+
+
+  /* =========================================================
+     PROCESS BARCODE VALUE
+     ========================================================= */
+
+  function processDetectedValue(raw) {
+
+    if (!scanning) {
+      return;
+    }
+
+
+    if (!raw) {
+      return;
+    }
+
+
+    console.log(
+      'Processing:',
+      raw
+    );
+
+
+    const imei =
+      extractIMEI(raw);
+
+
+    if (!imei) {
+
+      document.getElementById('debug').textContent =
+        'Barcode mila, IMEI 15 digit nahi mila...';
+
+      return;
+
+    }
+
+
+    if (!isValidIMEI(imei)) {
+
+      document.getElementById('debug').textContent =
+        '15 digit number mila, lekin IMEI valid nahi hai...';
+
+      return;
+
+    }
+
+
+    /*
+     * SUCCESS
+     */
+
+    currentIMEI = imei;
+
+    scanning = false;
+
+
+    try {
+      navigator.vibrate(200);
+    } catch (e) {}
+
+
+    document.getElementById(
+      'imeiValue'
+    ).textContent = imei;
+
+
+    document.getElementById(
+      'result'
+    ).style.display = 'block';
+
+
+    document.getElementById(
+      'status'
+    ).textContent =
+      '✅ IMEI 1 successfully scanned.';
+
+
+    document.getElementById(
+      'debug'
+    ).textContent = '';
+
+
+    stopCameraOnly();
+
+  }
+
+
+  /* =========================================================
+     EXTRACT IMEI
+     ========================================================= */
 
   function extractIMEI(text) {
 
-
     if (!text) {
-
       return null;
-
     }
 
 
@@ -645,26 +778,24 @@
       String(text).trim();
 
 
-
     /*
-     * Look for exactly
-     * 15 consecutive digits.
+     * First:
+     * direct 15 consecutive digits.
      */
 
-    const match =
+    const directMatch =
       value.match(/\d{15}/);
 
 
-    if (match) {
+    if (directMatch) {
 
-      return match[0];
+      return directMatch[0];
 
     }
 
 
-
     /*
-     * Fallback:
+     * Second:
      * remove all non-digits.
      */
 
@@ -672,11 +803,42 @@
       value.replace(/\D/g, '');
 
 
-    if (
-      digits.length === 15
-    ) {
+    if (digits.length === 15) {
 
       return digits;
+
+    }
+
+
+    /*
+     * Sometimes barcode reader can return
+     * extra digits around the IMEI.
+     *
+     * Check every possible 15-digit section.
+     */
+
+    if (digits.length > 15) {
+
+      for (
+        let i = 0;
+        i <= digits.length - 15;
+        i++
+      ) {
+
+        const candidate =
+          digits.substring(
+            i,
+            i + 15
+          );
+
+
+        if (isValidIMEI(candidate)) {
+
+          return candidate;
+
+        }
+
+      }
 
     }
 
@@ -686,22 +848,18 @@
   }
 
 
-
-  /*
-   * IMEI Luhn validation
-   */
+  /* =========================================================
+     IMEI Luhn VALIDATION
+     ========================================================= */
 
   function isValidIMEI(imei) {
-
 
     imei =
       String(imei || '')
         .replace(/\D/g, '');
 
 
-    if (
-      imei.length !== 15
-    ) {
+    if (imei.length !== 15) {
 
       return false;
 
@@ -717,7 +875,6 @@
       i++
     ) {
 
-
       let digit =
         parseInt(
           imei.charAt(i),
@@ -725,20 +882,19 @@
         );
 
 
-      if (
-        i % 2 === 1
-      ) {
+      /*
+       * IMEI Luhn:
+       * Double digits at odd indexes.
+       */
 
-        digit =
-          digit * 2;
+      if (i % 2 === 1) {
+
+        digit *= 2;
 
 
-        if (
-          digit > 9
-        ) {
+        if (digit > 9) {
 
-          digit =
-            digit - 9;
+          digit -= 9;
 
         }
 
@@ -750,19 +906,30 @@
     }
 
 
-    return (
-      sum % 10 === 0
-    );
+    return sum % 10 === 0;
 
   }
 
 
-
-  /*
-   * Stop camera
-   */
+  /* =========================================================
+     STOP CAMERA ONLY
+     ========================================================= */
 
   function stopCameraOnly() {
+
+    detectorRunning = false;
+
+
+    if (nativeTimer) {
+
+      clearTimeout(nativeTimer);
+
+      nativeTimer = null;
+
+    }
+
+
+    nativeDetector = null;
 
 
     try {
@@ -776,8 +943,7 @@
     } catch (e) {}
 
 
-    controls =
-      null;
+    controls = null;
 
 
     const video =
@@ -786,9 +952,7 @@
 
     try {
 
-      if (
-        video.srcObject
-      ) {
+      if (video.srcObject) {
 
         video.srcObject
           .getTracks()
@@ -800,24 +964,21 @@
 
       }
 
-      video.srcObject =
-        null;
+
+      video.srcObject = null;
 
     } catch (e) {}
 
   }
 
 
-
-  /*
-   * STOP SCANNER
-   */
+  /* =========================================================
+     STOP SCANNER
+     ========================================================= */
 
   function stopScanner() {
 
-
-    scanning =
-      false;
+    scanning = false;
 
 
     stopCameraOnly();
@@ -834,32 +995,32 @@
     }
 
 
-    codeReader =
-      null;
+    codeReader = null;
 
-
-    currentIMEI =
-      '';
+    currentIMEI = '';
 
 
     document
       .getElementById('startBtn')
-      .classList.remove(
-        'hidden'
-      );
+      .classList
+      .remove('hidden');
 
 
     document
       .getElementById('stopBtn')
-      .classList.add(
-        'hidden'
-      );
+      .classList
+      .add('hidden');
 
 
     document
       .getElementById('result')
-      .style.display =
-      'none';
+      .style
+      .display = 'none';
+
+
+    document
+      .getElementById('debug')
+      .textContent = '';
 
 
     document
@@ -870,12 +1031,13 @@
   }
 
 
-
-  /*
-   * SCAN AGAIN
-   */
+  /* =========================================================
+     SCAN AGAIN
+     ========================================================= */
 
   function scanAgain() {
+
+    scanning = false;
 
 
     stopCameraOnly();
@@ -892,18 +1054,20 @@
     }
 
 
-    codeReader =
-      null;
+    codeReader = null;
 
-
-    currentIMEI =
-      '';
+    currentIMEI = '';
 
 
     document
       .getElementById('result')
-      .style.display =
-      'none';
+      .style
+      .display = 'none';
+
+
+    document
+      .getElementById('debug')
+      .textContent = '';
 
 
     startScanner();
@@ -911,19 +1075,15 @@
   }
 
 
-
-  /*
-   * Camera error
-   */
+  /* =========================================================
+     CAMERA ERROR
+     ========================================================= */
 
   function cameraError(error) {
 
-
     if (!error) {
 
-      return (
-        '❌ Camera start nahi hua.'
-      );
+      return '❌ Camera start nahi hua.';
 
     }
 
@@ -941,33 +1101,28 @@
       name === 'PermissionDeniedError'
     ) {
 
-      return (
-        '❌ Camera permission denied. ' +
-        'Chrome mein Camera permission Allow karein.'
-      );
+      return '❌ Camera permission denied. Chrome mein Camera permission Allow karein.';
 
     }
 
 
-    if (
-      name === 'NotFoundError'
-    ) {
+    if (name === 'NotFoundError') {
 
-      return (
-        '❌ Camera nahi mila.'
-      );
+      return '❌ Camera nahi mila.';
 
     }
 
 
-    if (
-      name === 'NotReadableError'
-    ) {
+    if (name === 'NotReadableError') {
 
-      return (
-        '❌ Camera kisi doosri app mein use ho raha hai. ' +
-        'Camera app band karein.'
-      );
+      return '❌ Camera kisi doosri app mein use ho raha hai. Camera app band karein.';
+
+    }
+
+
+    if (name === 'OverconstrainedError') {
+
+      return '❌ Camera resolution support nahi hui.';
 
     }
 
@@ -975,37 +1130,26 @@
     return (
       '❌ Camera error: ' +
       name +
-      (
-        message
-          ? ' — ' + message
-          : ''
-      )
+      (message ? ' — ' + message : '')
     );
 
   }
 
 
-
-  /*
-   * RETURN IMEI TO INVOICE APP
-   */
+  /* =========================================================
+     SEND IMEI BACK TO APPS SCRIPT
+     ========================================================= */
 
   function sendIMEIBack() {
 
-
     if (!currentIMEI) {
-
       return;
-
     }
 
 
     try {
-
       navigator.vibrate(100);
-
     } catch (e) {}
-
 
 
     const params =
@@ -1018,31 +1162,22 @@
       params.get('return');
 
 
-
     /*
-     * Scanner opened directly,
-     * without Invoice app.
+     * Agar return URL nahi hai,
+     * sirf IMEI screen par show karein.
      */
 
     if (!returnUrl) {
 
-
       document
         .getElementById('status')
         .textContent =
-        '✅ IMEI: ' +
-        currentIMEI;
-
+        '✅ IMEI: ' + currentIMEI;
 
       return;
 
     }
 
-
-
-    /*
-     * Return to Invoice app.
-     */
 
     const separator =
       returnUrl.includes('?')
@@ -1061,9 +1196,34 @@
   }
 
 
+  /* =========================================================
+     PAGE CLOSE / HIDE SAFETY
+     ========================================================= */
+
+  window.addEventListener(
+    'pagehide',
+    function() {
+
+      scanning = false;
+
+      stopCameraOnly();
+
+    }
+  );
+
+
+  window.addEventListener(
+    'beforeunload',
+    function() {
+
+      scanning = false;
+
+      stopCameraOnly();
+
+    }
+  );
+
 </script>
 
-
 </body>
-
 </html>
