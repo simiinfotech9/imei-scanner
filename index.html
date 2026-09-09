@@ -3,799 +3,693 @@
 
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-  >
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+>
 
-  <title>SCAN TEST v4.3</title>
+<title>SCAN TEST v4.4</title>
 
-  <script src="https://unpkg.com/@ericblade/quagga2@1.12.1/dist/quagga.js"></script>
+<script src="https://unpkg.com/@ericblade/quagga2@1.12.1/dist/quagga.js"></script>
 
+<style>
 
-  <style>
+*{
+  box-sizing:border-box;
+}
 
-    * {
-      box-sizing: border-box;
-    }
+html,body{
 
+  margin:0;
+  padding:0;
 
-    html,
-    body {
+  width:100%;
+  height:100%;
 
-      margin: 0;
-      padding: 0;
+  overflow:hidden;
 
-      width: 100%;
-      height: 100%;
+  background:#0b0f14;
 
-      overflow: hidden;
+  color:#fff;
 
-      background: #0b0f14;
+  font-family:Arial,Helvetica,sans-serif;
 
-      color: #ffffff;
+}
 
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+body{
 
-    }
+  display:flex;
 
+  flex-direction:column;
 
-    body {
+}
 
-      display: flex;
 
-      flex-direction: column;
+/* ================= HEADER ================= */
 
-    }
+.header{
 
+  flex:0 0 auto;
 
-    /* ================================================
-       HEADER
-       ================================================ */
+  background:linear-gradient(
+    135deg,
+    #1976d2,
+    #1565c0
+  );
 
-    .header {
+  padding:8px 6px;
 
-      flex: 0 0 auto;
+  text-align:center;
 
-      background:
-        linear-gradient(
-          135deg,
-          #1976d2,
-          #1565c0
-        );
+  font-size:19px;
 
-      padding: 8px 6px;
+  font-weight:800;
 
-      text-align: center;
+  box-shadow:0 2px 8px rgba(0,0,0,.35);
 
-      font-size: 19px;
+}
 
-      font-weight: 800;
 
-      letter-spacing: 0.3px;
+/* ================= VERSION ================= */
 
-      box-shadow:
-        0 2px 8px rgba(0,0,0,0.35);
+.version{
 
-    }
+  flex:0 0 auto;
 
+  background:#18242a;
 
-    /* ================================================
-       VERSION
-       ================================================ */
+  color:#39ff78;
 
-    .version {
+  text-align:center;
 
-      flex: 0 0 auto;
+  padding:5px 4px;
 
-      background: #18242a;
+  font-size:11px;
 
-      color: #39ff78;
+  font-weight:800;
 
-      text-align: center;
+  letter-spacing:.5px;
 
-      padding: 5px 4px;
+  border-bottom:1px solid #304047;
 
-      font-size: 11px;
+}
 
-      font-weight: 800;
 
-      letter-spacing: 0.5px;
+/* ================= CONTAINER ================= */
 
-      border-bottom:
-        1px solid #304047;
+.container{
 
-    }
+  width:100%;
 
+  max-width:650px;
 
-    /* ================================================
-       CONTAINER
-       ================================================ */
+  margin:0 auto;
 
-    .container {
+  padding:6px 10px;
 
-      width: 100%;
+  flex:1;
 
-      max-width: 650px;
+  min-height:0;
 
-      margin: 0 auto;
+  display:flex;
 
-      padding: 6px 10px;
+  flex-direction:column;
 
-      flex: 1;
+}
 
-      min-height: 0;
 
-      display: flex;
+/* ================= TITLE ================= */
 
-      flex-direction: column;
+.title{
 
-    }
+  flex:0 0 auto;
 
+  text-align:center;
 
-    /* ================================================
-       TITLE
-       ================================================ */
+  font-size:17px;
 
-    .title {
+  font-weight:800;
 
-      flex: 0 0 auto;
+  margin:2px 0 5px;
 
-      text-align: center;
+}
 
-      font-size: 17px;
 
-      font-weight: 800;
+/* ================= STATUS ================= */
 
-      margin: 2px 0 5px;
+.status{
 
-      color: #f5f7fa;
+  flex:0 0 auto;
 
-    }
+  background:linear-gradient(
+    135deg,
+    #20272e,
+    #171d22
+  );
 
+  border:1px solid #303941;
 
-    /* ================================================
-       STATUS
-       ================================================ */
+  border-radius:9px;
 
-    .status {
+  padding:7px;
 
-      flex: 0 0 auto;
+  text-align:center;
 
-      background:
-        linear-gradient(
-          135deg,
-          #20272e,
-          #171d22
-        );
+  min-height:36px;
 
-      border:
-        1px solid #303941;
+  display:flex;
 
-      border-radius: 9px;
+  align-items:center;
 
-      padding: 7px;
+  justify-content:center;
 
-      text-align: center;
+  font-size:12px;
 
-      min-height: 36px;
+  margin-bottom:6px;
 
-      display: flex;
+  box-shadow:0 2px 6px rgba(0,0,0,.25);
 
-      align-items: center;
+}
 
-      justify-content: center;
 
-      font-size: 12px;
+/* ================= CAMERA ================= */
 
-      line-height: 1.2;
+#scanner{
 
-      margin-bottom: 6px;
+  position:relative;
 
-      box-shadow:
-        0 2px 6px rgba(0,0,0,0.25);
+  width:100%;
 
-    }
+  height:220px;
 
+  flex:0 0 220px;
 
-    /* ================================================
-       CAMERA
-       ================================================ */
+  background:#000;
 
-    #scanner {
+  border-radius:12px;
 
-      position: relative;
+  overflow:hidden;
 
-      width: 100%;
+  border:2px solid #39434b;
 
-      height: 220px;
+  box-shadow:0 4px 14px rgba(0,0,0,.45);
 
-      flex: 0 0 220px;
+}
 
-      background: #000;
 
-      border-radius: 12px;
+#scanner video{
 
-      overflow: hidden;
+  width:100%!important;
 
-      border:
-        2px solid #39434b;
+  height:100%!important;
 
-      box-shadow:
-        0 4px 14px rgba(0,0,0,0.45);
+  display:block;
 
-    }
+  object-fit:cover;
 
+}
 
-    #scanner video {
 
-      width: 100% !important;
+#scanner canvas{
 
-      height: 100% !important;
+  position:absolute!important;
 
-      display: block;
+  top:0!important;
 
-      object-fit: cover;
+  left:0!important;
 
-    }
+  width:100%!important;
 
+  height:100%!important;
 
-    #scanner canvas {
+  pointer-events:none;
 
-      position: absolute !important;
+}
 
-      top: 0 !important;
 
-      left: 0 !important;
+/* ================= GREEN FRAME ================= */
 
-      width: 100% !important;
+.scan-frame{
 
-      height: 100% !important;
+  position:absolute;
 
-      pointer-events: none;
+  left:7%;
 
-    }
+  right:7%;
 
+  top:27%;
 
-    /* ================================================
-       GREEN FRAME
-       ================================================ */
+  height:46%;
 
-    .scan-frame {
+  border:3px solid #39ff68;
 
-      position: absolute;
+  border-radius:10px;
 
-      left: 7%;
+  pointer-events:none;
 
-      right: 7%;
+  box-shadow:
+    0 0 8px rgba(57,255,104,.7),
+    inset 0 0 8px rgba(57,255,104,.15);
 
-      top: 27%;
+  z-index:10;
 
-      height: 46%;
+}
 
-      border:
-        3px solid #39ff68;
 
-      border-radius: 10px;
+.scan-line{
 
-      pointer-events: none;
+  position:absolute;
 
-      box-shadow:
-        0 0 8px rgba(57,255,104,0.7),
-        inset 0 0 8px rgba(57,255,104,0.15);
+  left:3%;
 
-      z-index: 10;
+  right:3%;
 
-    }
+  top:50%;
 
+  height:2px;
 
-    .scan-line {
+  background:#39ff68;
 
-      position: absolute;
+  box-shadow:0 0 9px #39ff68;
 
-      left: 3%;
+}
 
-      right: 3%;
 
-      top: 50%;
+/* ================= ZOOM ================= */
 
-      height: 2px;
+.zoom-row{
 
-      background: #39ff68;
+  flex:0 0 auto;
 
-      box-shadow:
-        0 0 9px #39ff68;
+  height:38px;
 
-    }
+  display:flex;
 
+  align-items:center;
 
-    /* ================================================
-       ZOOM
-       ================================================ */
+  justify-content:center;
 
-    .zoom-row {
+  gap:10px;
 
-      flex: 0 0 auto;
+  margin-top:5px;
 
-      height: 38px;
+}
 
-      display: flex;
 
-      align-items: center;
+.zoom-btn{
 
-      justify-content: center;
+  width:58px;
 
-      gap: 10px;
+  height:34px;
 
-      margin-top: 5px;
+  padding:0;
 
-    }
+  margin:0;
 
+  border-radius:9px;
 
-    .zoom-btn {
+  border:1px solid #505b64;
 
-      width: 58px;
+  background:linear-gradient(
+    180deg,
+    #39434b,
+    #293138
+  );
 
-      height: 34px;
+  color:#fff;
 
-      padding: 0;
+  font-size:22px;
 
-      margin: 0;
+  font-weight:800;
 
-      border-radius: 9px;
+}
 
-      border:
-        1px solid #505b64;
 
-      background:
-        linear-gradient(
-          180deg,
-          #39434b,
-          #293138
-        );
+.zoom-value{
 
-      color: white;
+  width:78px;
 
-      font-size: 22px;
+  text-align:center;
 
-      font-weight: 800;
+  font-size:13px;
 
-      box-shadow:
-        0 2px 5px rgba(0,0,0,0.35);
+  color:#e0e6eb;
 
-    }
+  font-weight:800;
 
+}
 
-    .zoom-btn:active {
 
-      background: #46525b;
+/* ================= INSTRUCTION ================= */
 
-    }
+.instruction{
 
+  flex:0 0 auto;
 
-    .zoom-value {
+  text-align:center;
 
-      width: 78px;
+  color:#b8c1c8;
 
-      text-align: center;
+  font-size:11px;
 
-      font-size: 13px;
+  line-height:1.25;
 
-      color: #e0e6eb;
+  margin:3px 0;
 
-      font-weight: 800;
+}
 
-    }
 
+/* ================= SCAN INFO ================= */
 
-    /* ================================================
-       INSTRUCTION
-       ================================================ */
+.scan-info{
 
-    .instruction {
+  flex:0 0 auto;
 
-      flex: 0 0 auto;
+  text-align:center;
 
-      text-align: center;
+  color:#8f9ba4;
 
-      color: #b8c1c8;
+  font-size:11px;
 
-      font-size: 11px;
+  min-height:15px;
 
-      line-height: 1.25;
+  margin:2px 0;
 
-      margin: 3px 0;
+}
 
-    }
 
+/* ================= BUTTONS ================= */
 
-    /* ================================================
-       SCAN INFO
-       ================================================ */
+button{
 
-    .scan-info {
+  border:none;
 
-      flex: 0 0 auto;
+  cursor:pointer;
 
-      text-align: center;
+  touch-action:manipulation;
 
-      color: #8f9ba4;
+  font-weight:bold;
 
-      font-size: 11px;
+  -webkit-tap-highlight-color:transparent;
 
-      min-height: 15px;
+}
 
-      margin: 2px 0;
 
-    }
+button:active{
 
+  transform:scale(.97);
 
-    /* ================================================
-       BUTTONS
-       ================================================ */
+}
 
-    button {
 
-      border: none;
+.main-btn{
 
-      cursor: pointer;
+  width:100%;
 
-      touch-action: manipulation;
+  height:42px;
 
-      font-weight: bold;
+  flex:0 0 42px;
 
-      -webkit-tap-highlight-color:
-        transparent;
+  border-radius:9px;
 
-    }
+  font-size:16px;
 
+  margin-top:3px;
 
-    button:active {
+}
 
-      transform: scale(0.97);
 
-    }
+.start{
 
+  background:linear-gradient(
+    135deg,
+    #18d866,
+    #0dbb50
+  );
 
-    .main-btn {
+  color:#fff;
 
-      width: 100%;
+}
 
-      height: 42px;
 
-      flex: 0 0 42px;
+.stop{
 
-      border-radius: 9px;
+  background:linear-gradient(
+    135deg,
+    #ef4444,
+    #c62828
+  );
 
-      font-size: 16px;
+  color:#fff;
 
-      margin-top: 3px;
+}
 
-    }
 
+/* ================= RESULT ================= */
 
-    .start {
+.result{
 
-      background:
-        linear-gradient(
-          135deg,
-          #18d866,
-          #0dbb50
-        );
+  display:none;
 
-      color: white;
+  flex:0 0 auto;
 
-    }
+  background:linear-gradient(
+    135deg,
+    #155d22,
+    #104b1b
+  );
 
+  border:1px solid #267a35;
 
-    .stop {
+  padding:8px;
 
-      background:
-        linear-gradient(
-          135deg,
-          #ef4444,
-          #c62828
-        );
+  border-radius:10px;
 
-      color: white;
+  text-align:center;
 
-    }
+  margin-top:5px;
 
+  box-shadow:0 3px 10px rgba(0,0,0,.35);
 
-    /* ================================================
-       RESULT
-       ================================================ */
+}
 
-    .result {
 
-      display: none;
+.result-title{
 
-      flex: 0 0 auto;
+  font-size:15px;
 
-      background:
-        linear-gradient(
-          135deg,
-          #155d22,
-          #104b1b
-        );
+  font-weight:800;
 
-      border:
-        1px solid #267a35;
+  margin-bottom:5px;
 
-      padding: 8px;
+}
 
-      border-radius: 10px;
 
-      text-align: center;
+.barcode-value{
 
-      margin-top: 5px;
+  font-size:21px;
 
-      box-shadow:
-        0 3px 10px rgba(0,0,0,0.35);
+  font-weight:800;
 
-    }
+  letter-spacing:.5px;
 
+  word-break:break-all;
 
-    .result-title {
+  background:rgba(0,0,0,.28);
 
-      font-size: 15px;
+  padding:8px;
 
-      font-weight: 800;
+  border-radius:7px;
 
-      margin-bottom: 5px;
+  max-height:58px;
 
-    }
+  overflow:hidden;
 
+}
 
-    .barcode-value {
 
-      font-size: 21px;
+/* ================= RESULT BUTTONS ================= */
 
-      font-weight: 800;
+.result-buttons{
 
-      letter-spacing: 0.5px;
+  width:100%;
 
-      word-break: break-all;
+  display:flex;
 
-      color: #ffffff;
+  flex-direction:row;
 
-      background:
-        rgba(0,0,0,0.28);
+  gap:12px;
 
-      border:
-        1px solid rgba(255,255,255,0.08);
+  margin-top:7px;
 
-      padding: 8px;
+}
 
-      border-radius: 7px;
 
-      max-height: 58px;
+.result-buttons button{
 
-      overflow: hidden;
+  flex:1;
 
-    }
+  width:50%;
 
+  height:43px;
 
-    /* ================================================
-       RESULT BUTTONS
-       ================================================ */
+  margin:0;
 
-    .result-buttons {
+  padding:0 5px;
 
-      width: 100%;
+  border-radius:8px;
 
-      display: flex;
+  font-size:14px;
 
-      flex-direction: row;
+  font-weight:800;
 
-      align-items: stretch;
+  white-space:nowrap;
 
-      gap: 12px;
+}
 
-      margin-top: 7px;
 
-    }
+.again-btn{
 
+  background:linear-gradient(
+    135deg,
+    #59636b,
+    #454e55
+  );
 
-    .result-buttons button {
+  color:#fff;
 
-      flex: 1;
+}
 
-      width: 50%;
 
-      height: 43px;
+.use-btn{
 
-      margin: 0;
+  background:linear-gradient(
+    135deg,
+    #fff,
+    #e8f5e9
+  );
 
-      padding: 0 5px;
+  color:#146521;
 
-      border-radius: 8px;
+}
 
-      font-size: 14px;
 
-      font-weight: 800;
+/* ================= HIDDEN ================= */
 
-      white-space: nowrap;
+.hidden{
 
-    }
+  display:none!important;
 
+}
 
-    .again-btn {
 
-      background:
-        linear-gradient(
-          135deg,
-          #59636b,
-          #454e55
-        );
+/* ================= FOOTER ================= */
 
-      color: white;
+.small-info{
 
-      border:
-        1px solid #68747d;
+  flex:0 0 auto;
 
-    }
+  text-align:center;
 
+  color:#56616a;
 
-    .use-btn {
+  font-size:9px;
 
-      background:
-        linear-gradient(
-          135deg,
-          #ffffff,
-          #e8f5e9
-        );
+  margin-top:3px;
 
-      color: #146521;
+}
 
-      border:
-        1px solid #d7ead9;
 
-    }
+/* ================= SMALL PHONE ================= */
 
+@media(max-height:700px){
 
-    /* ================================================
-       HIDDEN
-       ================================================ */
+  .header{
 
-    .hidden {
+    padding:6px;
 
-      display: none !important;
+    font-size:17px;
 
-    }
+  }
 
 
-    /* ================================================
-       FOOTER
-       ================================================ */
+  .version{
 
-    .small-info {
+    padding:4px;
 
-      flex: 0 0 auto;
+    font-size:10px;
 
-      text-align: center;
+  }
 
-      color: #56616a;
 
-      font-size: 9px;
+  .title{
 
-      margin-top: 3px;
+    font-size:16px;
 
-    }
+  }
 
 
-    /* ================================================
-       SMALL PHONE
-       ================================================ */
+  #scanner{
 
-    @media (max-height: 700px) {
+    height:185px;
 
+    flex-basis:185px;
 
-      .header {
+  }
 
-        padding: 6px;
 
-        font-size: 17px;
+  .zoom-row{
 
-      }
+    height:34px;
 
+  }
 
-      .version {
 
-        padding: 4px;
+  .zoom-btn{
 
-        font-size: 10px;
+    height:32px;
 
-      }
+  }
 
 
-      .container {
+  .instruction{
 
-        padding-top: 5px;
+    font-size:10px;
 
-      }
+  }
 
 
-      .title {
+  .main-btn{
 
-        font-size: 16px;
+    height:39px;
 
-        margin-bottom: 4px;
+    flex-basis:39px;
 
-      }
+    font-size:15px;
 
+  }
 
-      #scanner {
 
-        height: 185px;
+  .barcode-value{
 
-        flex-basis: 185px;
+    font-size:19px;
 
-      }
+  }
 
 
-      .zoom-row {
+  .result-buttons button{
 
-        height: 34px;
+    height:39px;
 
-      }
+    font-size:13px;
 
+  }
 
-      .zoom-btn {
+}
 
-        height: 32px;
-
-      }
-
-
-      .instruction {
-
-        font-size: 10px;
-
-      }
-
-
-      .main-btn {
-
-        height: 39px;
-
-        flex-basis: 39px;
-
-        font-size: 15px;
-
-      }
-
-
-      .result {
-
-        padding: 7px;
-
-      }
-
-
-      .barcode-value {
-
-        font-size: 19px;
-
-      }
-
-
-      .result-buttons button {
-
-        height: 39px;
-
-        font-size: 13px;
-
-      }
-
-    }
-
-  </style>
+</style>
 
 </head>
 
@@ -803,841 +697,804 @@
 <body>
 
 
-  <!-- ================================================
-       HEADER
-       ================================================ -->
+<div class="header">
 
-  <div class="header">
+📷 BARCODE SCANNER
 
-    📷 BARCODE SCANNER
+</div>
+
+
+<div class="version">
+
+🟢 SCAN TEST v4.4 • FAST + SMART READ
+
+</div>
+
+
+<div class="container">
+
+
+<div class="title">
+
+Scan Any Barcode
+
+</div>
+
+
+<div
+  id="status"
+  class="status"
+>
+
+📷 Camera starting automatically...
+
+</div>
+
+
+<div id="scanner">
+
+  <div class="scan-frame">
+
+    <div class="scan-line"></div>
 
   </div>
 
+</div>
 
-  <!-- ================================================
-       VERSION
-       ================================================ -->
 
-  <div class="version">
+<div class="zoom-row">
 
-    🟢 SCAN TEST v4.3 • SMART READ • ANY BARCODE
 
-  </div>
+<button
+  class="zoom-btn"
+  onclick="changeZoom(-0.5)"
+>
 
+−
 
-  <div class="container">
+</button>
 
 
-    <div class="title">
+<div
+  id="zoomValue"
+  class="zoom-value"
+>
 
-      Scan Any Barcode
+Zoom 1.0×
 
-    </div>
+</div>
 
 
-    <div
-      id="status"
-      class="status">
+<button
+  class="zoom-btn"
+  onclick="changeZoom(0.5)"
+>
 
-      📷 Camera starting automatically...
++
 
-    </div>
+</button>
 
 
-    <!-- ==============================================
-         CAMERA
-         ============================================== -->
+</div>
 
-    <div id="scanner">
 
+<div class="instruction">
 
-      <div class="scan-frame">
+Barcode ko green frame mein rakhein.
 
-        <div class="scan-line"></div>
+<br>
 
-      </div>
+Number + Alphabet dono allowed.
 
+</div>
 
-    </div>
 
+<div
+  id="scanInfo"
+  class="scan-info"
+>
 
-    <!-- ==============================================
-         ZOOM
-         ============================================== -->
+🔎 Fast smart scan...
 
-    <div class="zoom-row">
+</div>
 
 
-      <button
-        class="zoom-btn"
-        onclick="changeZoom(-0.5)">
+<button
+  id="startBtn"
+  class="main-btn start hidden"
+  onclick="startScanner()"
+>
 
-        −
+📷 START CAMERA
 
-      </button>
+</button>
 
 
-      <div
-        id="zoomValue"
-        class="zoom-value">
+<button
+  id="stopBtn"
+  class="main-btn stop hidden"
+  onclick="stopScanner()"
+>
 
-        Zoom 1.0×
+✕ STOP CAMERA
 
-      </div>
+</button>
 
 
-      <button
-        class="zoom-btn"
-        onclick="changeZoom(0.5)">
+<div
+  id="result"
+  class="result"
+>
 
-        +
 
-      </button>
+<div class="result-title">
 
+✅ BARCODE SCANNED
 
-    </div>
+</div>
 
 
-    <div class="instruction">
+<div
+  id="barcodeValue"
+  class="barcode-value"
+>
+</div>
 
-      Barcode ko green frame mein rakhein.
 
-      <br>
+<div class="result-buttons">
 
-      Number + Alphabet dono allowed.
 
-    </div>
+<button
+  class="again-btn"
+  onclick="scanAgain()"
+>
 
+🔄 SCAN AGAIN
 
-    <div
-      id="scanInfo"
-      class="scan-info">
+</button>
 
-      🔎 Starting smart scanner...
 
-    </div>
+<button
+  class="use-btn"
+  onclick="sendBarcodeBack()"
+>
 
+✓ ACCEPT
 
-    <!-- MANUAL FALLBACK -->
+</button>
 
-    <button
-      id="startBtn"
-      class="main-btn start hidden"
-      onclick="startScanner()">
 
-      📷 START CAMERA
+</div>
 
-    </button>
 
+</div>
 
-    <!-- STOP -->
 
-    <button
-      id="stopBtn"
-      class="main-btn stop hidden"
-      onclick="stopScanner()">
+<div class="small-info">
 
-      ✕ STOP CAMERA
+SCAN TEST v4.4 • FAST + SMART READ
 
-    </button>
+</div>
 
 
-    <!-- ==============================================
-         RESULT
-         ============================================== -->
-
-    <div
-      id="result"
-      class="result">
-
-
-      <div class="result-title">
-
-        ✅ BARCODE SCANNED
-
-      </div>
-
-
-      <div
-        id="barcodeValue"
-        class="barcode-value">
-
-      </div>
-
-
-      <div class="result-buttons">
-
-
-        <button
-          class="again-btn"
-          onclick="scanAgain()">
-
-          🔄 SCAN AGAIN
-
-        </button>
-
-
-        <button
-          class="use-btn"
-          onclick="sendBarcodeBack()">
-
-          ✓ ACCEPT
-
-        </button>
-
-
-      </div>
-
-
-    </div>
-
-
-    <div class="small-info">
-
-      SCAN TEST v4.3 • SMART READ
-
-    </div>
-
-
-  </div>
-
+</div>
 
 
 <script>
 
 
-  /* =================================================
-     VERSION
-     ================================================= */
+/* =================================================
+   VERSION
+   ================================================= */
 
-  const SCANNER_VERSION =
-    'SCAN TEST v4.3';
-
-
-  console.log(
-    '===================================='
-  );
-
-  console.log(
-    SCANNER_VERSION
-  );
-
-  console.log(
-    'SMART BARCODE READ'
-  );
-
-  console.log(
-    'ANY BARCODE'
-  );
-
-  console.log(
-    '===================================='
-  );
+console.log(
+  'SCAN TEST v4.4 • FAST + SMART READ'
+);
 
 
+/* =================================================
+   VARIABLES
+   ================================================= */
 
-  /* =================================================
-     VARIABLES
-     ================================================= */
+let scanning=false;
 
-  let scanning = false;
+let scannerRunning=false;
 
-  let scannerRunning = false;
-
-  let currentValue = '';
-
-
-  /*
-   * Candidate barcode.
-   */
-
-  let candidateValue = '';
-
-  let candidateFormat = '';
-
-  let candidateCount = 0;
-
-  let candidateFirstTime = 0;
-
-  let candidateLastTime = 0;
+let currentValue='';
 
 
-  /*
-   * Zoom.
-   */
+let candidateValue='';
 
-  let currentZoom = 1;
+let candidateFormat='';
 
-  let minZoom = 1;
+let candidateCount=0;
 
-  let maxZoom = 1;
-
-  let hardwareZoomSupported = false;
+let candidateTime=0;
 
 
+let currentZoom=1;
 
-  /* =================================================
-     START SCANNER
-     ================================================= */
+let minZoom=1;
 
-  function startScanner() {
+let maxZoom=1;
+
+let hardwareZoomSupported=false;
 
 
-    const status =
-      document.getElementById(
-        'status'
+/* =================================================
+   START CAMERA
+   ================================================= */
+
+function startScanner(){
+
+  const status=
+    document.getElementById('status');
+
+  const startBtn=
+    document.getElementById('startBtn');
+
+  const stopBtn=
+    document.getElementById('stopBtn');
+
+  const result=
+    document.getElementById('result');
+
+  const scanInfo=
+    document.getElementById('scanInfo');
+
+
+  try{
+
+
+    if(typeof Quagga==='undefined'){
+
+      throw new Error(
+        'Scanner library load nahi hui.'
       );
-
-
-    const startBtn =
-      document.getElementById(
-        'startBtn'
-      );
-
-
-    const stopBtn =
-      document.getElementById(
-        'stopBtn'
-      );
-
-
-    const result =
-      document.getElementById(
-        'result'
-      );
-
-
-    const scanInfo =
-      document.getElementById(
-        'scanInfo'
-      );
-
-
-    try {
-
-
-      if (
-        typeof Quagga === 'undefined'
-      ) {
-
-        throw new Error(
-          'Scanner library load nahi hui.'
-        );
-
-      }
-
-
-      /*
-       * Reset scanner state.
-       */
-
-      scanning = true;
-
-      scannerRunning = false;
-
-      currentValue = '';
-
-      candidateValue = '';
-
-      candidateFormat = '';
-
-      candidateCount = 0;
-
-      candidateFirstTime = 0;
-
-      candidateLastTime = 0;
-
-      currentZoom = 1;
-
-
-      result.style.display =
-        'none';
-
-
-      startBtn.classList.add(
-        'hidden'
-      );
-
-
-      stopBtn.classList.remove(
-        'hidden'
-      );
-
-
-      status.textContent =
-        '📷 Camera starting...';
-
-
-      scanInfo.textContent =
-        '🔎 Smart barcode search...';
-
-
-
-      /* ===============================================
-         CAMERA CONFIG
-         =============================================== */
-
-      const config = {
-
-
-        inputStream: {
-
-          name: 'Live',
-
-          type: 'LiveStream',
-
-
-          target:
-            document.getElementById(
-              'scanner'
-            ),
-
-
-          constraints: {
-
-            facingMode: {
-              ideal: 'environment'
-            },
-
-            width: {
-              ideal: 1920
-            },
-
-            height: {
-              ideal: 1080
-            },
-
-            frameRate: {
-              ideal: 30
-            }
-
-          },
-
-
-          /*
-           * Camera processing area.
-           */
-
-          area: {
-
-            top: '20%',
-
-            right: '5%',
-
-            left: '5%',
-
-            bottom: '20%'
-
-          }
-
-        },
-
-
-        /* =============================================
-           LOCATOR
-           ============================================= */
-
-        locator: {
-
-          patchSize: 'medium',
-
-          halfSample: false
-
-        },
-
-
-        /* =============================================
-           WORKERS
-           ============================================= */
-
-        numOfWorkers:
-          navigator.hardwareConcurrency
-            ? Math.min(
-                4,
-                navigator.hardwareConcurrency
-              )
-            : 2,
-
-
-        /* =============================================
-           FAST BUT STABLE
-           ============================================= */
-
-        frequency: 12,
-
-
-        /* =============================================
-           BARCODE FORMATS
-           ============================================= */
-
-        decoder: {
-
-          readers: [
-
-            {
-              format: 'code_128_reader',
-              config: {}
-            },
-
-            {
-              format: 'code_39_reader',
-              config: {}
-            },
-
-            {
-              format: 'code_39_vin_reader',
-              config: {}
-            },
-
-            {
-              format: 'code_93_reader',
-              config: {}
-            },
-
-            {
-              format: 'ean_reader',
-              config: {}
-            },
-
-            {
-              format: 'ean_8_reader',
-              config: {}
-            },
-
-            {
-              format: 'upc_reader',
-              config: {}
-            },
-
-            {
-              format: 'upc_e_reader',
-              config: {}
-            },
-
-            {
-              format: 'codabar_reader',
-              config: {}
-            },
-
-            {
-              format: 'i2of5_reader',
-              config: {}
-            },
-
-            {
-              format: '2of5_reader',
-              config: {}
-            }
-
-          ]
-
-        },
-
-
-        locate: true,
-
-        debug: false
-
-      };
-
-
-
-      console.log(
-        'Starting Quagga v4.3...'
-      );
-
-
-      Quagga.init(
-
-        config,
-
-        function(error) {
-
-
-          if (error) {
-
-
-            console.error(
-              'QUAGGA ERROR:',
-              error
-            );
-
-
-            scanning = false;
-
-
-            startBtn.classList.remove(
-              'hidden'
-            );
-
-
-            stopBtn.classList.add(
-              'hidden'
-            );
-
-
-            status.textContent =
-              '⚠️ Auto camera start nahi hua. START CAMERA dabayein.';
-
-
-            scanInfo.textContent =
-              '📷 Manual start available';
-
-
-            return;
-
-          }
-
-
-
-          /*
-           * Camera ON.
-           */
-
-          Quagga.start();
-
-
-          scannerRunning = true;
-
-
-          status.textContent =
-            '🟢 Camera ON — smart scan active';
-
-
-          scanInfo.textContent =
-            '🔎 Barcode ko green frame mein rakhein...';
-
-
-
-          setTimeout(
-            setupZoom,
-            700
-          );
-
-
-        }
-
-      );
-
-
-    } catch (error) {
-
-
-      console.error(
-        'START ERROR:',
-        error
-      );
-
-
-      scanning = false;
-
-
-      startBtn.classList.remove(
-        'hidden'
-      );
-
-
-      stopBtn.classList.add(
-        'hidden'
-      );
-
-
-      status.textContent =
-        '❌ ' +
-        (
-          error.message ||
-          error
-        );
 
     }
 
-  }
+
+    scanning=true;
+
+    scannerRunning=false;
+
+    currentValue='';
+
+    candidateValue='';
+
+    candidateFormat='';
+
+    candidateCount=0;
+
+    candidateTime=0;
+
+    currentZoom=1;
 
 
-
-  /* =================================================
-     AUTO START
-     ================================================= */
-
-  function autoStartCamera() {
+    result.style.display='none';
 
 
-    setTimeout(
+    startBtn.classList.add('hidden');
 
-      function() {
+    stopBtn.classList.remove('hidden');
 
-        startScanner();
+
+    status.textContent=
+      '📷 Camera starting...';
+
+
+    scanInfo.textContent=
+      '🔎 Fast smart scan...';
+
+
+    /* =============================================
+       CAMERA
+       ============================================= */
+
+    const config={
+
+
+      inputStream:{
+
+        name:'Live',
+
+        type:'LiveStream',
+
+        target:
+          document.getElementById(
+            'scanner'
+          ),
+
+        constraints:{
+
+          facingMode:{
+            ideal:'environment'
+          },
+
+          width:{
+            ideal:1920
+          },
+
+          height:{
+            ideal:1080
+          },
+
+          frameRate:{
+            ideal:30
+          }
+
+        },
+
+
+        area:{
+
+          top:'20%',
+
+          right:'5%',
+
+          left:'5%',
+
+          bottom:'20%'
+
+        }
 
       },
 
-      250
 
+      /* =========================================
+         SPEED
+
+         halfSample true =
+         considerably less processing.
+
+         Higher camera resolution compensates.
+         ========================================= */
+
+      locator:{
+
+        patchSize:'large',
+
+        halfSample:true
+
+      },
+
+
+      numOfWorkers:
+        navigator.hardwareConcurrency
+          ? Math.min(
+              4,
+              navigator.hardwareConcurrency
+            )
+          : 2,
+
+
+      frequency:15,
+
+
+      /* =========================================
+         BARCODE READERS
+         ========================================= */
+
+      decoder:{
+
+        readers:[
+
+          'code_128_reader',
+
+          'code_39_reader',
+
+          'code_39_vin_reader',
+
+          'code_93_reader',
+
+          'ean_reader',
+
+          'ean_8_reader',
+
+          'upc_reader',
+
+          'upc_e_reader',
+
+          'codabar_reader',
+
+          'i2of5_reader',
+
+          '2of5_reader'
+
+        ],
+
+        multiple:false
+
+      },
+
+
+      /*
+       * Barcode position already guided
+       * by green frame.
+       *
+       * This avoids expensive full-frame
+       * localization and makes scanning faster.
+       */
+
+      locate:false,
+
+      debug:false
+
+    };
+
+
+    Quagga.init(
+      config,
+      function(error){
+
+        if(error){
+
+          console.error(
+            'QUAGGA ERROR:',
+            error
+          );
+
+
+          scanning=false;
+
+
+          startBtn.classList.remove(
+            'hidden'
+          );
+
+          stopBtn.classList.add(
+            'hidden'
+          );
+
+
+          status.textContent=
+            '⚠️ Camera auto-start nahi hua. START CAMERA dabayein.';
+
+
+          scanInfo.textContent=
+            '📷 Manual start available';
+
+
+          return;
+
+        }
+
+
+        Quagga.start();
+
+
+        scannerRunning=true;
+
+
+        status.textContent=
+          '🟢 Camera ON — FAST SMART SCAN';
+
+
+        scanInfo.textContent=
+          '🔎 Barcode ko green frame mein rakhein...';
+
+
+        setTimeout(
+          setupZoom,
+          600
+        );
+
+      }
     );
 
-  }
+
+  }catch(error){
+
+    console.error(
+      error
+    );
 
 
-
-  /* =================================================
-     ZOOM SETUP
-     ================================================= */
-
-  function setupZoom() {
+    scanning=false;
 
 
-    try {
+    startBtn.classList.remove(
+      'hidden'
+    );
 
 
-      const scanner =
-        document.getElementById(
-          'scanner'
-        );
+    stopBtn.classList.add(
+      'hidden'
+    );
 
 
-      const video =
-        scanner.querySelector(
-          'video'
-        );
-
-
-      if (
-        !video ||
-        !video.srcObject
-      ) {
-
-        hardwareZoomSupported =
-          false;
-
-        updateZoomText();
-
-        return;
-
-      }
-
-
-      const tracks =
-        video.srcObject
-          .getVideoTracks();
-
-
-      if (
-        !tracks.length
-      ) {
-
-        hardwareZoomSupported =
-          false;
-
-        updateZoomText();
-
-        return;
-
-      }
-
-
-      const track =
-        tracks[0];
-
-
-      if (
-        !track.getCapabilities
-      ) {
-
-        hardwareZoomSupported =
-          false;
-
-        updateZoomText();
-
-        return;
-
-      }
-
-
-      const capabilities =
-        track.getCapabilities();
-
-
-      if (
-        capabilities &&
-        capabilities.zoom
-      ) {
-
-
-        hardwareZoomSupported =
-          true;
-
-
-        minZoom =
-          Number(
-            capabilities.zoom.min || 1
-          );
-
-
-        maxZoom =
-          Number(
-            capabilities.zoom.max || 1
-          );
-
-
-        currentZoom =
-          Math.max(
-            minZoom,
-            Math.min(
-              1,
-              maxZoom
-            )
-          );
-
-
-      } else {
-
-
-        hardwareZoomSupported =
-          false;
-
-
-        minZoom = 1;
-
-        maxZoom = 3;
-
-        currentZoom = 1;
-
-      }
-
-
-      updateZoomText();
-
-
-    } catch (error) {
-
-
-      console.log(
-        'Zoom setup:',
+    status.textContent=
+      '❌ '+
+      (
+        error.message||
         error
       );
 
+  }
 
-      hardwareZoomSupported =
-        false;
+}
 
 
-      updateZoomText();
+/* =================================================
+   AUTO START
+   ================================================= */
+
+function autoStartCamera(){
+
+  setTimeout(
+    function(){
+
+      startScanner();
+
+    },
+    250
+  );
+
+}
+
+
+/* =================================================
+   BARCODE QUALITY CHECK
+   ================================================= */
+
+/*
+ * Quagga result.codeResult.decodedCodes
+ * mein individual decoding errors milte hain.
+ *
+ * Lower error = stronger decode.
+ *
+ * Isse random false positives ko filter
+ * karne mein help milti hai.
+ */
+
+function getBarcodeQuality(result){
+
+  try{
+
+    if(
+      !result||
+      !result.codeResult||
+      !Array.isArray(
+        result.codeResult.decodedCodes
+      )
+    ){
+
+      return null;
 
     }
 
+
+    const errors=[];
+
+
+    result.codeResult.decodedCodes.forEach(
+      function(item){
+
+        if(
+          item &&
+          typeof item.error==='number' &&
+          Number.isFinite(item.error)
+        ){
+
+          errors.push(
+            item.error
+          );
+
+        }
+
+      }
+    );
+
+
+    if(!errors.length){
+
+      return null;
+
+    }
+
+
+    /*
+     * Average error.
+     */
+
+    let total=0;
+
+
+    errors.forEach(
+      function(error){
+
+        total+=error;
+
+      }
+    );
+
+
+    const average=
+      total/errors.length;
+
+
+    /*
+     * Median error.
+     */
+
+    const sorted=
+      errors
+        .slice()
+        .sort(
+          function(a,b){
+            return a-b;
+          }
+        );
+
+
+    const middle=
+      Math.floor(
+        sorted.length/2
+      );
+
+
+    let median;
+
+
+    if(
+      sorted.length%2
+    ){
+
+      median=
+        sorted[middle];
+
+    }else{
+
+      median=
+        (
+          sorted[middle-1]+
+          sorted[middle]
+        )/2;
+
+    }
+
+
+    return{
+
+      average:average,
+
+      median:median
+
+    };
+
+
+  }catch(error){
+
+    console.log(
+      'Quality check error:',
+      error
+    );
+
+
+    return null;
+
   }
 
+}
 
 
-  /* =================================================
-     CHANGE ZOOM
-     ================================================= */
+/* =================================================
+   BARCODE DETECTED
+   ================================================= */
 
-  async function changeZoom(amount) {
+Quagga.onDetected(
+  function(result){
+
+    if(!scanning){
+
+      return;
+
+    }
 
 
-    if (
-      !scannerRunning
-    ) {
+    if(
+      !result||
+      !result.codeResult
+    ){
+
+      return;
+
+    }
+
+
+    const value=
+      String(
+        result.codeResult.code||
+        ''
+      ).trim();
+
+
+    if(!value){
+
+      return;
+
+    }
+
+
+    const format=
+      String(
+        result.codeResult.format||
+        ''
+      );
+
+
+    const quality=
+      getBarcodeQuality(
+        result
+      );
+
+
+    console.log(
+      'FOUND:',
+      value,
+      'FORMAT:',
+      format,
+      'QUALITY:',
+      quality
+    );
+
+
+    /*
+     * ==========================================
+     * QUALITY FILTER
+     *
+     * Very strong decode:
+     * accept immediately.
+     *
+     * Medium decode:
+     * require one quick repeat.
+     *
+     * Poor decode:
+     * ignore.
+     * ==========================================
+     */
+
+    let qualityLevel='medium';
+
+
+    if(quality){
+
+      if(
+        quality.median<=0.10 &&
+        quality.average<=0.16
+      ){
+
+        qualityLevel='strong';
+
+      }else if(
+        quality.median<=0.18 &&
+        quality.average<=0.24
+      ){
+
+        qualityLevel='medium';
+
+      }else{
+
+        qualityLevel='poor';
+
+      }
+
+    }
+
+
+    /*
+     * Strong result:
+     * accept immediately.
+     */
+
+    if(
+      qualityLevel==='strong'
+    ){
+
+      acceptBarcode(
+        value
+      );
 
       return;
 
@@ -1645,987 +1502,746 @@
 
 
     /*
-     * Hardware zoom.
+     * Poor result:
+     * do not accept.
      */
 
-    if (
-      hardwareZoomSupported
-    ) {
-
-
-      try {
-
-
-        let newZoom =
-          currentZoom + amount;
-
-
-        newZoom =
-          Math.max(
-            minZoom,
-            Math.min(
-              maxZoom,
-              newZoom
-            )
-          );
-
-
-        newZoom =
-          Math.round(
-            newZoom * 10
-          ) / 10;
-
-
-        const scanner =
-          document.getElementById(
-            'scanner'
-          );
-
-
-        const video =
-          scanner.querySelector(
-            'video'
-          );
-
-
-        if (
-          video &&
-          video.srcObject
-        ) {
-
-
-          const tracks =
-            video.srcObject
-              .getVideoTracks();
-
-
-          if (
-            tracks.length
-          ) {
-
-
-            await tracks[0]
-              .applyConstraints({
-
-                advanced: [
-
-                  {
-                    zoom: newZoom
-                  }
-
-                ]
-
-              });
-
-
-            currentZoom =
-              newZoom;
-
-
-            updateZoomText();
-
-
-            return;
-
-          }
-
-        }
-
-
-      } catch (error) {
-
-
-        console.log(
-          'Hardware zoom error:',
-          error
-        );
-
-      }
-
-    }
-
-
-    /*
-     * Digital zoom fallback.
-     */
-
-    currentZoom += amount;
-
-
-    currentZoom =
-      Math.max(
-        1,
-        Math.min(
-          3,
-          currentZoom
-        )
-      );
-
-
-    currentZoom =
-      Math.round(
-        currentZoom * 10
-      ) / 10;
-
-
-    const scanner =
-      document.getElementById(
-        'scanner'
-      );
-
-
-    const video =
-      scanner.querySelector(
-        'video'
-      );
-
-
-    if (video) {
-
-      video.style.transform =
-        'scale(' +
-        currentZoom +
-        ')';
-
-    }
-
-
-    updateZoomText();
-
-  }
-
-
-
-  /* =================================================
-     ZOOM TEXT
-     ================================================= */
-
-  function updateZoomText() {
-
-
-    const element =
-      document.getElementById(
-        'zoomValue'
-      );
-
-
-    if (!element) {
-
-      return;
-
-    }
-
-
-    element.textContent =
-      'Zoom ' +
-      currentZoom.toFixed(1) +
-      '×';
-
-  }
-
-
-
-  /* =================================================
-     CHECK BARCODE POSITION
-     ================================================= */
-
-  function isBarcodeInsideScanFrame(result) {
-
-
-    /*
-     * Agar Quagga ne box nahi diya,
-     * to barcode ko reject nahi karenge.
-     */
-
-    if (
-      !result ||
-      !result.box ||
-      !result.box.length
-    ) {
-
-      return true;
-
-    }
-
-
-    try {
-
-
-      let minX = Infinity;
-
-      let maxX = -Infinity;
-
-      let minY = Infinity;
-
-      let maxY = -Infinity;
-
-
-      result.box.forEach(
-
-        function(point) {
-
-
-          if (
-            !point ||
-            point.length < 2
-          ) {
-
-            return;
-
-          }
-
-
-          const x =
-            Number(point[0]);
-
-
-          const y =
-            Number(point[1]);
-
-
-          if (
-            !Number.isFinite(x) ||
-            !Number.isFinite(y)
-          ) {
-
-            return;
-
-          }
-
-
-          minX =
-            Math.min(
-              minX,
-              x
-            );
-
-
-          maxX =
-            Math.max(
-              maxX,
-              x
-            );
-
-
-          minY =
-            Math.min(
-              minY,
-              y
-            );
-
-
-          maxY =
-            Math.max(
-              maxY,
-              y
-            );
-
-        }
-
-      );
-
-
-      if (
-        !Number.isFinite(minX) ||
-        !Number.isFinite(maxX) ||
-        !Number.isFinite(minY) ||
-        !Number.isFinite(maxY)
-      ) {
-
-        return true;
-
-      }
-
-
-      /*
-       * Quagga video/canvas size.
-       */
-
-      const scanner =
-        document.getElementById(
-          'scanner'
-        );
-
-
-      const video =
-        scanner.querySelector(
-          'video'
-        );
-
-
-      const width =
-        (
-          video &&
-          video.videoWidth
-        )
-          ? video.videoWidth
-          : 1920;
-
-
-      const height =
-        (
-          video &&
-          video.videoHeight
-        )
-          ? video.videoHeight
-          : 1080;
-
-
-      const centerX =
-        (
-          minX +
-          maxX
-        ) / 2;
-
-
-      const centerY =
-        (
-          minY +
-          maxY
-        ) / 2;
-
-
-      const xRatio =
-        centerX / width;
-
-
-      const yRatio =
-        centerY / height;
-
-
-      /*
-       * Green frame approximately:
-       *
-       * X = 7% to 93%
-       * Y = 27% to 73%
-       *
-       * Thoda tolerance rakha hai.
-       */
-
-      const insideX =
-        xRatio >= 0.05 &&
-        xRatio <= 0.95;
-
-
-      const insideY =
-        yRatio >= 0.22 &&
-        yRatio <= 0.78;
-
-
-      return (
-        insideX &&
-        insideY
-      );
-
-
-    } catch (error) {
-
-
-      console.log(
-        'Position check:',
-        error
-      );
-
-
-      /*
-       * Error ki wajah se genuine barcode
-       * reject nahi karenge.
-       */
-
-      return true;
-
-    }
-
-  }
-
-
-
-  /* =================================================
-     BARCODE DETECTED
-     ================================================= */
-
-  Quagga.onDetected(
-
-    function(result) {
-
-
-      if (!scanning) {
-
-        return;
-
-      }
-
-
-      if (
-        !result ||
-        !result.codeResult
-      ) {
-
-        return;
-
-      }
-
-
-      const code =
-        result.codeResult.code;
-
-
-      if (
-        code === undefined ||
-        code === null
-      ) {
-
-        return;
-
-      }
-
-
-      const value =
-        String(code).trim();
-
-
-      if (!value) {
-
-        return;
-
-      }
-
-
-      const format =
-        String(
-          result.codeResult.format || ''
-        );
-
-
-      console.log(
-        'Detected:',
-        value,
-        'Format:',
-        format
-      );
-
-
-      /* =============================================
-         POSITION FILTER
-         ============================================= */
-
-      if (
-        !isBarcodeInsideScanFrame(
-          result
-        )
-      ) {
-
-
-        console.log(
-          'Ignored: outside scan frame',
-          value
-        );
-
-
-        return;
-
-      }
-
-
-
-      /* =============================================
-         SAME VALUE CONFIRMATION
-         ============================================= */
-
-      const now =
-        Date.now();
-
-
-      /*
-       * Agar same value hai aur
-       * short time ke andar dobara mili.
-       */
-
-      if (
-        candidateValue === value &&
-        candidateFormat === format &&
-        (now - candidateLastTime) <= 900
-      ) {
-
-
-        candidateCount++;
-
-
-      } else {
-
-
-        candidateValue =
-          value;
-
-
-        candidateFormat =
-          format;
-
-
-        candidateCount = 1;
-
-
-        candidateFirstTime =
-          now;
-
-      }
-
-
-      candidateLastTime =
-        now;
-
+    if(
+      qualityLevel==='poor'
+    ){
 
       document
         .getElementById(
           'scanInfo'
         )
-        .textContent =
-        '🔎 Checking barcode... ' +
-        candidateCount +
-        '/2';
+        .textContent=
+        '🔎 Searching...';
 
-
-
-      /*
-       * =============================================
-       * FAST SMART CONFIRMATION
-       *
-       * Same barcode 2 readings.
-       *
-       * Normally very fast.
-       * =============================================
-       */
-
-      if (
-        candidateCount >= 2 &&
-        (now - candidateFirstTime) <= 1200
-      ) {
-
-
-        acceptBarcode(
-          value
-        );
-
-
-      }
-
-    }
-
-  );
-
-
-
-  /* =================================================
-     ACCEPT BARCODE
-     ================================================= */
-
-  function acceptBarcode(value) {
-
-
-    if (!scanning) {
 
       return;
 
     }
 
 
-    currentValue =
-      String(value);
+    /*
+     * Medium result:
+     *
+     * Same value within 600ms.
+     */
+
+    const now=
+      Date.now();
 
 
-    scanning = false;
+    if(
+      candidateValue===value&&
+      candidateFormat===format&&
+      (now-candidateTime)<=650
+    ){
+
+      candidateCount++;
+
+    }else{
+
+      candidateValue=value;
+
+      candidateFormat=format;
+
+      candidateCount=1;
+
+    }
 
 
-    try {
-
-      navigator.vibrate(180);
-
-    } catch (e) {}
-
-
-    document
-      .getElementById(
-        'barcodeValue'
-      )
-      .textContent =
-      currentValue;
-
-
-    document
-      .getElementById(
-        'result'
-      )
-      .style
-      .display =
-      'block';
-
-
-    document
-      .getElementById(
-        'status'
-      )
-      .textContent =
-      '✅ Barcode successfully scanned.';
+    candidateTime=now;
 
 
     document
       .getElementById(
         'scanInfo'
       )
-      .textContent =
-      '✅ Smart read confirmed';
+      .textContent=
+      '🔎 Confirming barcode...';
 
 
-    stopCameraOnly();
+    /*
+     * Second matching read.
+     */
+
+    if(
+      candidateCount>=2
+    ){
+
+      acceptBarcode(
+        value
+      );
+
+    }
+
+  }
+);
+
+
+/* =================================================
+   ACCEPT BARCODE
+   ================================================= */
+
+function acceptBarcode(value){
+
+  if(!scanning){
+
+    return;
 
   }
 
 
-
-  /* =================================================
-     STOP CAMERA
-     ================================================= */
-
-  function stopCameraOnly() {
+  currentValue=
+    String(value);
 
 
-    try {
+  scanning=false;
 
 
-      if (
-        scannerRunning
-      ) {
+  try{
 
-        Quagga.stop();
+    navigator.vibrate(150);
 
-      }
-
-    } catch (e) {}
+  }catch(e){}
 
 
-    scannerRunning = false;
+  document
+    .getElementById(
+      'barcodeValue'
+    )
+    .textContent=
+    currentValue;
 
 
-    const scanner =
+  document
+    .getElementById(
+      'result'
+    )
+    .style
+    .display=
+    'block';
+
+
+  document
+    .getElementById(
+      'status'
+    )
+    .textContent=
+    '✅ Barcode successfully scanned.';
+
+
+  document
+    .getElementById(
+      'scanInfo'
+    )
+    .textContent=
+    '✅ Smart read confirmed';
+
+
+  stopCameraOnly();
+
+}
+
+
+/* =================================================
+   ZOOM SETUP
+   ================================================= */
+
+function setupZoom(){
+
+  try{
+
+    const scanner=
       document.getElementById(
         'scanner'
       );
 
 
-    const videos =
-      scanner.querySelectorAll(
+    const video=
+      scanner.querySelector(
         'video'
       );
 
 
-    videos.forEach(
+    if(
+      !video||
+      !video.srcObject
+    ){
 
-      function(video) {
+      return;
 
-
-        try {
-
-
-          if (
-            video.srcObject
-          ) {
+    }
 
 
-            video.srcObject
-              .getTracks()
-              .forEach(
-
-                function(track) {
-
-                  track.stop();
-
-                }
-
-              );
-
-          }
+    const tracks=
+      video.srcObject
+        .getVideoTracks();
 
 
-          video.style.transform =
-            'scale(1)';
+    if(!tracks.length){
+
+      return;
+
+    }
 
 
-        } catch (e) {}
+    const track=
+      tracks[0];
 
-      }
 
-    );
+    if(
+      !track.getCapabilities
+    ){
+
+      return;
+
+    }
+
+
+    const capabilities=
+      track.getCapabilities();
+
+
+    if(
+      capabilities.zoom
+    ){
+
+      hardwareZoomSupported=true;
+
+
+      minZoom=
+        Number(
+          capabilities.zoom.min||1
+        );
+
+
+      maxZoom=
+        Number(
+          capabilities.zoom.max||1
+        );
+
+
+      currentZoom=
+        Math.max(
+          minZoom,
+          Math.min(
+            1,
+            maxZoom
+          )
+        );
+
+    }else{
+
+      hardwareZoomSupported=false;
+
+      minZoom=1;
+
+      maxZoom=3;
+
+      currentZoom=1;
+
+    }
+
+
+    updateZoomText();
+
+
+  }catch(error){
+
+    hardwareZoomSupported=false;
+
+  }
+
+}
+
+
+/* =================================================
+   ZOOM
+   ================================================= */
+
+async function changeZoom(amount){
+
+  if(!scannerRunning){
+
+    return;
 
   }
 
 
+  if(
+    hardwareZoomSupported
+  ){
 
-  /* =================================================
-     STOP SCANNER
-     ================================================= */
+    try{
 
-  function stopScanner() {
-
-
-    scanning = false;
-
-
-    stopCameraOnly();
+      let newZoom=
+        currentZoom+amount;
 
 
-    currentValue = '';
-
-    candidateValue = '';
-
-    candidateFormat = '';
-
-    candidateCount = 0;
-
-    candidateFirstTime = 0;
-
-    candidateLastTime = 0;
+      newZoom=
+        Math.max(
+          minZoom,
+          Math.min(
+            maxZoom,
+            newZoom
+          )
+        );
 
 
+      newZoom=
+        Math.round(
+          newZoom*10
+        )/10;
+
+
+      const video=
+        document
+          .getElementById(
+            'scanner'
+          )
+          .querySelector(
+            'video'
+          );
+
+
+      if(
+        video&&
+        video.srcObject
+      ){
+
+        const tracks=
+          video.srcObject
+            .getVideoTracks();
+
+
+        if(tracks.length){
+
+          await tracks[0]
+            .applyConstraints({
+
+              advanced:[
+                {
+                  zoom:newZoom
+                }
+              ]
+
+            });
+
+
+          currentZoom=
+            newZoom;
+
+
+          updateZoomText();
+
+          return;
+
+        }
+
+      }
+
+    }catch(error){
+
+      console.log(
+        'Hardware zoom:',
+        error
+      );
+
+    }
+
+  }
+
+
+  /*
+   * Digital fallback.
+   */
+
+  currentZoom+=amount;
+
+
+  currentZoom=
+    Math.max(
+      1,
+      Math.min(
+        3,
+        currentZoom
+      )
+    );
+
+
+  currentZoom=
+    Math.round(
+      currentZoom*10
+    )/10;
+
+
+  const video=
     document
       .getElementById(
-        'startBtn'
+        'scanner'
       )
-      .classList
-      .remove(
-        'hidden'
+      .querySelector(
+        'video'
       );
 
 
-    document
-      .getElementById(
-        'stopBtn'
-      )
-      .classList
-      .add(
-        'hidden'
-      );
+  if(video){
+
+    video.style.transform=
+      'scale('+
+      currentZoom+
+      ')';
+
+  }
 
 
-    document
-      .getElementById(
-        'result'
-      )
-      .style
-      .display =
-      'none';
+  updateZoomText();
+
+}
 
 
-    document
-      .getElementById(
-        'scanInfo'
-      )
-      .textContent =
-      '🔎 Ready';
+/* =================================================
+   ZOOM TEXT
+   ================================================= */
 
+function updateZoomText(){
+
+  const element=
+    document.getElementById(
+      'zoomValue'
+    );
+
+
+  if(!element){
+
+    return;
+
+  }
+
+
+  element.textContent=
+    'Zoom '+
+    currentZoom.toFixed(1)+
+    '×';
+
+}
+
+
+/* =================================================
+   STOP CAMERA
+   ================================================= */
+
+function stopCameraOnly(){
+
+  try{
+
+    if(scannerRunning){
+
+      Quagga.stop();
+
+    }
+
+  }catch(e){}
+
+
+  scannerRunning=false;
+
+
+  const scanner=
+    document.getElementById(
+      'scanner'
+    );
+
+
+  const videos=
+    scanner.querySelectorAll(
+      'video'
+    );
+
+
+  videos.forEach(
+    function(video){
+
+      try{
+
+        if(
+          video.srcObject
+        ){
+
+          video.srcObject
+            .getTracks()
+            .forEach(
+              function(track){
+
+                track.stop();
+
+              }
+            );
+
+        }
+
+
+        video.style.transform=
+          'scale(1)';
+
+      }catch(e){}
+
+    }
+  );
+
+}
+
+
+/* =================================================
+   STOP SCANNER
+   ================================================= */
+
+function stopScanner(){
+
+  scanning=false;
+
+  stopCameraOnly();
+
+
+  currentValue='';
+
+  candidateValue='';
+
+  candidateFormat='';
+
+  candidateCount=0;
+
+  candidateTime=0;
+
+
+  document
+    .getElementById(
+      'startBtn'
+    )
+    .classList
+    .remove(
+      'hidden'
+    );
+
+
+  document
+    .getElementById(
+      'stopBtn'
+    )
+    .classList
+    .add(
+      'hidden'
+    );
+
+
+  document
+    .getElementById(
+      'result'
+    )
+    .style
+    .display=
+    'none';
+
+
+  document
+    .getElementById(
+      'status'
+    )
+    .textContent=
+    'Camera band ho gaya.';
+
+
+  document
+    .getElementById(
+      'scanInfo'
+    )
+    .textContent=
+    '🔎 Ready';
+
+
+  currentZoom=1;
+
+  hardwareZoomSupported=false;
+
+
+  updateZoomText();
+
+}
+
+
+/* =================================================
+   SCAN AGAIN
+   ================================================= */
+
+function scanAgain(){
+
+  scanning=false;
+
+  stopCameraOnly();
+
+
+  currentValue='';
+
+  candidateValue='';
+
+  candidateFormat='';
+
+  candidateCount=0;
+
+  candidateTime=0;
+
+
+  document
+    .getElementById(
+      'result'
+    )
+    .style
+    .display=
+    'none';
+
+
+  currentZoom=1;
+
+  hardwareZoomSupported=false;
+
+
+  startScanner();
+
+}
+
+
+/* =================================================
+   ACCEPT
+   ================================================= */
+
+function sendBarcodeBack(){
+
+  if(!currentValue){
+
+    return;
+
+  }
+
+
+  try{
+
+    navigator.vibrate(100);
+
+  }catch(e){}
+
+
+  const params=
+    new URLSearchParams(
+      window.location.search
+    );
+
+
+  const returnUrl=
+    params.get('return');
+
+
+  /*
+   * GitHub direct test.
+   */
+
+  if(!returnUrl){
 
     document
       .getElementById(
         'status'
       )
-      .textContent =
-      'Camera band ho gaya.';
+      .textContent=
+      '✅ Accepted: '+
+      currentValue;
 
 
-    currentZoom = 1;
-
-    hardwareZoomSupported =
-      false;
-
-
-    updateZoomText();
+    return;
 
   }
 
 
-
-  /* =================================================
-     SCAN AGAIN
-     ================================================= */
-
-  function scanAgain() {
+  const separator=
+    returnUrl.includes('?')
+      ? '&'
+      : '?';
 
 
-    scanning = false;
+  window.location.href=
+    returnUrl+
+    separator+
+    'barcode='+
+    encodeURIComponent(
+      currentValue
+    );
 
+}
+
+
+/* =================================================
+   AUTO START
+   ================================================= */
+
+function autoStartCamera(){
+
+  setTimeout(
+    function(){
+
+      startScanner();
+
+    },
+    250
+  );
+
+}
+
+
+if(
+  document.readyState==='loading'
+){
+
+  document.addEventListener(
+    'DOMContentLoaded',
+    autoStartCamera
+  );
+
+}else{
+
+  autoStartCamera();
+
+}
+
+
+/* =================================================
+   PAGE CLOSE
+   ================================================= */
+
+window.addEventListener(
+  'pagehide',
+  function(){
+
+    scanning=false;
 
     stopCameraOnly();
 
-
-    currentValue = '';
-
-    candidateValue = '';
-
-    candidateFormat = '';
-
-    candidateCount = 0;
-
-    candidateFirstTime = 0;
-
-    candidateLastTime = 0;
+  }
+);
 
 
-    document
-      .getElementById(
-        'result'
-      )
-      .style
-      .display =
-      'none';
+window.addEventListener(
+  'beforeunload',
+  function(){
 
+    scanning=false;
 
-    document
-      .getElementById(
-        'scanInfo'
-      )
-      .textContent =
-      '🔎 Starting smart scan...';
-
-
-    currentZoom = 1;
-
-    hardwareZoomSupported =
-      false;
-
-
-    startScanner();
+    stopCameraOnly();
 
   }
-
-
-
-  /* =================================================
-     ACCEPT BUTTON
-     ================================================= */
-
-  function sendBarcodeBack() {
-
-
-    if (!currentValue) {
-
-      return;
-
-    }
-
-
-    try {
-
-      navigator.vibrate(100);
-
-    } catch (e) {}
-
-
-    const params =
-      new URLSearchParams(
-        window.location.search
-      );
-
-
-    const returnUrl =
-      params.get('return');
-
-
-    /*
-     * Direct GitHub test.
-     */
-
-    if (!returnUrl) {
-
-
-      document
-        .getElementById(
-          'status'
-        )
-        .textContent =
-        '✅ Accepted: ' +
-        currentValue;
-
-
-      return;
-
-    }
-
-
-    const separator =
-      returnUrl.includes('?')
-        ? '&'
-        : '?';
-
-
-    /*
-     * Exact barcode value.
-     */
-
-    window.location.href =
-      returnUrl +
-      separator +
-      'barcode=' +
-      encodeURIComponent(
-        currentValue
-      );
-
-  }
-
-
-
-  /* =================================================
-     AUTO CAMERA START
-     ================================================= */
-
-  if (
-    document.readyState === 'loading'
-  ) {
-
-
-    document.addEventListener(
-      'DOMContentLoaded',
-      autoStartCamera
-    );
-
-
-  } else {
-
-
-    autoStartCamera();
-
-  }
-
-
-
-  /* =================================================
-     PAGE CLOSE
-     ================================================= */
-
-  window.addEventListener(
-    'pagehide',
-    function() {
-
-      scanning = false;
-
-      stopCameraOnly();
-
-    }
-  );
-
-
-  window.addEventListener(
-    'beforeunload',
-    function() {
-
-      scanning = false;
-
-      stopCameraOnly();
-
-    }
-  );
-
+);
 
 </script>
-
 
 </body>
 
