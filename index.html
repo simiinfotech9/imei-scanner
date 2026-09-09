@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>IMEI Scanner</title>
+
+  <script src="https://unpkg.com/@zxing/browser@0.2.1"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: #1976d2;
+      padding: 18px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 18px;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 20px;
+      margin: 10px 0 18px;
+    }
+
+    .video-box {
+      position: relative;
+      width: 100%;
+      background: black;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    video {
+      width: 100%;
+      height: auto;
+      min-height: 300px;
+      display: block;
+      object-fit: cover;
+    }
+
+    .scan-line {
+      position: absolute;
+      left: 8%;
+      right: 8%;
+      top: 50%;
+      height: 3px;
+      background: #00ff55;
+      box-shadow: 0 0 12px #00ff55;
+    }
+
+    .instruction {
+      text-align: center;
+      color: #ddd;
+      font-size: 15px;
+      margin: 18px 0;
+    }
+
+    .status {
+      background: #222;
+      border-radius: 10px;
+      padding: 13px;
+      text-align: center;
+      margin-bottom: 15px;
+      min-height: 45px;
+    }
+
+    .result {
+      display: none;
+      background: #1b5e20;
+      padding: 16px;
+      border-radius: 10px;
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .imei {
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      word-break: break-all;
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      padding: 15px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .start {
+      background: #2e7d32;
+      color: white;
+    }
+
+    .close {
+      background: #d32f2f;
+      color: white;
+    }
+
+    .back {
+      background: #555;
+      color: white;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    📷 IMEI SCANNER
+  </div>
+
+  <div class="container">
+
+    <div class="title">
+      Scan IMEI Barcode
+    </div>
+
+    <div id="status" class="status">
+      Camera start karne ke liye button dabayein.
+    </div>
+
+    <div class="video-box">
+      <video id="video" autoplay muted playsinline></video>
+      <div class="scan-line"></div>
+    </div>
+
+    <div class="instruction">
+      IMEI barcode ko green line ke andar rakhein.
+    </div>
+
+    <button
+      id="startBtn"
+      class="start"
+      onclick="startScanner()">
+      📷 START CAMERA
+    </button>
+
+    <button
+      id="closeBtn"
+      class="close hidden"
+      onclick="stopScanner()">
+      ✕ STOP CAMERA
+    </button>
+
+    <div id="result" class="result">
+
+      <div>✅ IMEI SCANNED</div>
+
+      <div id="imeiValue" class="imei"></div>
+
+      <button
+        class="back"
+        onclick="sendIMEIBack()">
+        ✓ USE THIS IMEI
+      </button>
+
+    </div>
+
+  </div>
+
+
+<script>
+
+  let codeReader = null;
+  let currentIMEI = '';
+  let controls = null;
+
+
+  /*
+   * Start scanner
+   */
+
+  async function startScanner() {
+
+    const status =
+      document.getElementById('status');
+
+    const startBtn =
+      document.getElementById('startBtn');
+
+    const closeBtn =
+      document.getElementById('closeBtn');
+
+    try {
+
+      status.textContent =
+        'Camera permission maang raha hai...';
+
+      startBtn.classList.add('hidden');
+      closeBtn.classList.remove('hidden');
+
+
+      if (
+        typeof ZXingBrowser === 'undefined'
+      ) {
+
+        throw new Error(
+          'Barcode scanner library load nahi hui.'
+        );
+      }
+
+
+      codeReader =
+        new ZXingBrowser.BrowserMultiFormatReader();
+
+
+      const video =
+        document.getElementById('video');
+
+
+      /*
+       * Rear camera ko prefer karo
+       */
+
+      const constraints = {
+        video: {
+          facingMode: {
+            ideal: 'environment'
+          }
+        },
+        audio: false
+      };
+
+
+      status.textContent =
+        '📷 Camera starting...';
+
+
+      controls =
+        await codeReader.decodeFromConstraints(
+          constraints,
+          video,
+          function(result, error) {
+
+            if (!result) {
+              return;
+            }
+
+
+            const raw =
+              result.getText();
+
+
+            const imei =
+              extractIMEI(raw);
+
+
+            if (!imei) {
+
+              status.textContent =
+                '⚠️ 15 digit IMEI nahi mila. Dobara scan karein.';
+
+              return;
+            }
+
+
+            if (!isValidIMEI(imei)) {
+
+              status.textContent =
+                '⚠️ IMEI invalid hai. Dobara scan karein.';
+
+              return;
+            }
+
+
+            /*
+             * SUCCESS
+             */
+
+            currentIMEI = imei;
+
+
+            try {
+              navigator.vibrate(200);
+            } catch (e) {}
+
+
+            document
+              .getElementById('imeiValue')
+              .textContent = imei;
+
+
+            document
+              .getElementById('result')
+              .style.display = 'block';
+
+
+            status.textContent =
+              '✅ IMEI successfully scanned.';
+
+
+            stopCameraOnly();
+
+          }
+        );
+
+
+      status.textContent =
+        'Camera ready — barcode scan karein.';
+
+    } catch (error) {
+
+      console.error(error);
+
+      status.textContent =
+        '❌ Camera start nahi hua: ' +
+        (error.message || error);
+
+      startBtn.classList.remove('hidden');
+      closeBtn.classList.add('hidden');
+    }
+  }
+
+
+  /*
+   * Extract 15 digit IMEI
+   */
+
+  function extractIMEI(text) {
+
+    if (!text) {
+      return null;
+    }
+
+
+    const digits =
+      String(text).replace(/\D/g, '');
+
+
+    if (digits.length === 15) {
+      return digits;
+    }
+
+
+    const match =
+      digits.match(/\d{15}/);
+
+
+    if (match) {
+      return match[0];
+    }
+
+
+    return null;
+  }
+
+
+  /*
+   * IMEI Luhn validation
+   */
+
+  function isValidIMEI(imei) {
+
+    imei =
+      String(imei).replace(/\D/g, '');
+
+
+    if (imei.length !== 15) {
+      return false;
+    }
+
+
+    let sum = 0;
+
+
+    for (let i = 0; i < 15; i++) {
+
+      let digit =
+        parseInt(imei.charAt(i), 10);
+
+
+      if (i % 2 === 1) {
+
+        digit *= 2;
+
+
+        if (digit > 9) {
+          digit -= 9;
+        }
+      }
+
+
+      sum += digit;
+    }
+
+
+    return sum % 10 === 0;
+  }
+
+
+  /*
+   * Stop camera
+   */
+
+  function stopCameraOnly() {
+
+    try {
+
+      if (controls) {
+        controls.stop();
+      }
+
+    } catch (e) {}
+
+    controls = null;
+  }
+
+
+  function stopScanner() {
+
+    stopCameraOnly();
+
+
+    if (codeReader) {
+
+      try {
+        codeReader.reset();
+      } catch (e) {}
+    }
+
+
+    codeReader = null;
+
+
+    document
+      .getElementById('startBtn')
+      .classList.remove('hidden');
+
+
+    document
+      .getElementById('closeBtn')
+      .classList.add('hidden');
+
+
+    document
+      .getElementById('status')
+      .textContent =
+      'Camera band ho gaya.';
+
+
+    document
+      .getElementById('result')
+      .style.display = 'none';
+
+
+    currentIMEI = '';
+  }
+
+
+  /*
+   * Send scanned IMEI back to Invoice app
+   */
+
+  function sendIMEIBack() {
+
+    if (!currentIMEI) {
+      return;
+    }
+
+
+    try {
+      navigator.vibrate(100);
+    } catch (e) {}
+
+
+    const params =
+      new URLSearchParams(window.location.search);
+
+
+    const returnUrl =
+      params.get('return');
+
+
+    if (!returnUrl) {
+
+      document
+        .getElementById('status')
+        .textContent =
+        '✅ IMEI: ' + currentIMEI +
+        ' — Return URL missing.';
+
+      return;
+    }
+
+
+    /*
+     * Return to Invoice app
+     */
+
+    const separator =
+      returnUrl.includes('?')
+        ? '&'
+        : '?';
+
+
+    window.location.href =
+      returnUrl +
+      separator +
+      'imei=' +
+      encodeURIComponent(currentIMEI);
+  }
+
+</script>
+
+</body>
+</html>
