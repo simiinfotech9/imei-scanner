@@ -10,13 +10,14 @@
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
   >
 
-  <title>SCAN TEST v4.0</title>
+  <title>SCAN TEST v4.1</title>
 
-  <!--
-    SCAN TEST v4.0
-    ANY BARCODE
-    2026-09-09
-  -->
+
+  <!-- ==================================================
+       SCAN TEST v4.1
+       ANY BARCODE
+       CAMERA + ZOOM
+       ================================================== -->
 
   <script src="https://unpkg.com/@ericblade/quagga2@1.12.1/dist/quagga.js"></script>
 
@@ -57,9 +58,9 @@
     }
 
 
-    /* =========================================
+    /* ==================================================
        HEADER
-       ========================================= */
+       ================================================== */
 
     .header {
 
@@ -78,9 +79,9 @@
     }
 
 
-    /* =========================================
-       VERSION BADGE
-       ========================================= */
+    /* ==================================================
+       VERSION
+       ================================================== */
 
     .version {
 
@@ -98,16 +99,16 @@
 
       font-weight: bold;
 
-      letter-spacing: 0.5px;
+      letter-spacing: 0.4px;
 
       border-bottom: 1px solid #444;
 
     }
 
 
-    /* =========================================
-       MAIN
-       ========================================= */
+    /* ==================================================
+       MAIN CONTAINER
+       ================================================== */
 
     .container {
 
@@ -130,9 +131,9 @@
     }
 
 
-    /* =========================================
+    /* ==================================================
        TITLE
-       ========================================= */
+       ================================================== */
 
     .title {
 
@@ -149,9 +150,9 @@
     }
 
 
-    /* =========================================
+    /* ==================================================
        STATUS
-       ========================================= */
+       ================================================== */
 
     .status {
 
@@ -182,9 +183,9 @@
     }
 
 
-    /* =========================================
-       CAMERA
-       ========================================= */
+    /* ==================================================
+       CAMERA AREA
+       ================================================== */
 
     #scanner {
 
@@ -206,15 +207,6 @@
 
     }
 
-
-    /*
-      IMPORTANT:
-
-      Camera element ko normal block rakha hai.
-
-      Flex / transform / unusual positioning
-      camera start ke time use nahi kar rahe.
-    */
 
     #scanner video {
 
@@ -246,9 +238,9 @@
     }
 
 
-    /* =========================================
-       SCAN FRAME
-       ========================================= */
+    /* ==================================================
+       GREEN SCAN FRAME
+       ================================================== */
 
     .scan-frame {
 
@@ -296,9 +288,9 @@
     }
 
 
-    /* =========================================
+    /* ==================================================
        ZOOM
-       ========================================= */
+       ================================================== */
 
     .zoom-row {
 
@@ -359,9 +351,9 @@
     }
 
 
-    /* =========================================
+    /* ==================================================
        INSTRUCTION
-       ========================================= */
+       ================================================== */
 
     .instruction {
 
@@ -380,9 +372,9 @@
     }
 
 
-    /* =========================================
+    /* ==================================================
        SCAN INFO
-       ========================================= */
+       ================================================== */
 
     .scan-info {
 
@@ -401,9 +393,9 @@
     }
 
 
-    /* =========================================
-       BUTTONS
-       ========================================= */
+    /* ==================================================
+       MAIN BUTTONS
+       ================================================== */
 
     button {
 
@@ -460,9 +452,9 @@
     }
 
 
-    /* =========================================
-       RESULT
-       ========================================= */
+    /* ==================================================
+       RESULT BOX
+       ================================================== */
 
     .result {
 
@@ -517,43 +509,77 @@
     }
 
 
-    .use-btn {
+    /* ==================================================
+       RESULT BUTTONS
+       LEFT = SCAN AGAIN
+       RIGHT = ACCEPT
+       ================================================== */
+
+    .result-buttons {
 
       width: 100%;
 
-      height: 39px;
+      display: flex;
 
-      margin-top: 6px;
+      flex-direction: row;
 
-      border-radius: 8px;
+      align-items: stretch;
 
-      background: white;
+      gap: 12px;
 
-      color: #1b5e20;
-
-      font-size: 15px;
+      margin-top: 7px;
 
     }
 
 
-    .again-btn {
+    .result-buttons button {
 
-      width: 100%;
+      flex: 1;
 
-      height: 39px;
+      width: 50%;
 
-      margin-top: 5px;
+      height: 43px;
+
+      margin: 0;
+
+      padding: 0 5px;
 
       border-radius: 8px;
+
+      font-size: 14px;
+
+      font-weight: bold;
+
+      white-space: nowrap;
+
+    }
+
+
+    /* LEFT */
+
+    .again-btn {
 
       background: #555;
 
       color: white;
 
-      font-size: 15px;
+    }
+
+
+    /* RIGHT */
+
+    .use-btn {
+
+      background: white;
+
+      color: #1b5e20;
 
     }
 
+
+    /* ==================================================
+       HIDDEN
+       ================================================== */
 
     .hidden {
 
@@ -562,9 +588,9 @@
     }
 
 
-    /* =========================================
+    /* ==================================================
        FOOTER
-       ========================================= */
+       ================================================== */
 
     .small-info {
 
@@ -581,9 +607,9 @@
     }
 
 
-    /* =========================================
-       SMALL SCREEN
-       ========================================= */
+    /* ==================================================
+       SMALL PHONE
+       ================================================== */
 
     @media (max-height: 700px) {
 
@@ -606,6 +632,22 @@
       }
 
 
+      .container {
+
+        padding-top: 5px;
+
+      }
+
+
+      .title {
+
+        font-size: 16px;
+
+        margin-bottom: 4px;
+
+      }
+
+
       #scanner {
 
         height: 185px;
@@ -615,9 +657,16 @@
       }
 
 
-      .title {
+      .zoom-row {
 
-        font-size: 16px;
+        height: 34px;
+
+      }
+
+
+      .zoom-btn {
+
+        height: 32px;
 
       }
 
@@ -640,9 +689,25 @@
       }
 
 
+      .result {
+
+        padding: 7px;
+
+      }
+
+
       .barcode-value {
 
         font-size: 19px;
+
+      }
+
+
+      .result-buttons button {
+
+        height: 39px;
+
+        font-size: 13px;
 
       }
 
@@ -656,9 +721,9 @@
 <body>
 
 
-  <!-- =========================================
+  <!-- ==================================================
        HEADER
-       ========================================= -->
+       ================================================== -->
 
   <div class="header">
 
@@ -667,13 +732,13 @@
   </div>
 
 
-  <!-- =========================================
-       VERSION
-       ========================================= -->
+  <!-- ==================================================
+       VERSION BADGE
+       ================================================== -->
 
   <div class="version">
 
-    🟢 SCAN TEST v4.0 • ANY BARCODE • 09-09-2026
+    🟢 SCAN TEST v4.1 • ANY BARCODE • 09-09-2026
 
   </div>
 
@@ -681,12 +746,16 @@
   <div class="container">
 
 
+    <!-- TITLE -->
+
     <div class="title">
 
       Scan Any Barcode
 
     </div>
 
+
+    <!-- STATUS -->
 
     <div
       id="status"
@@ -697,9 +766,9 @@
     </div>
 
 
-    <!-- =========================================
+    <!-- =================================================
          CAMERA
-         ========================================= -->
+         ================================================= -->
 
     <div id="scanner">
 
@@ -714,9 +783,9 @@
     </div>
 
 
-    <!-- =========================================
+    <!-- =================================================
          ZOOM
-         ========================================= -->
+         ================================================= -->
 
     <div class="zoom-row">
 
@@ -751,9 +820,11 @@
     </div>
 
 
+    <!-- INSTRUCTION -->
+
     <div class="instruction">
 
-      Barcode green frame mein rakhein.
+      Barcode ko green frame mein rakhein.
 
       <br>
 
@@ -761,6 +832,8 @@
 
     </div>
 
+
+    <!-- SCAN INFO -->
 
     <div
       id="scanInfo"
@@ -771,9 +844,7 @@
     </div>
 
 
-    <!-- =========================================
-         START
-         ========================================= -->
+    <!-- START CAMERA -->
 
     <button
       id="startBtn"
@@ -785,9 +856,7 @@
     </button>
 
 
-    <!-- =========================================
-         STOP
-         ========================================= -->
+    <!-- STOP CAMERA -->
 
     <button
       id="stopBtn"
@@ -799,9 +868,9 @@
     </button>
 
 
-    <!-- =========================================
+    <!-- =================================================
          RESULT
-         ========================================= -->
+         ================================================= -->
 
     <div
       id="result"
@@ -822,30 +891,43 @@
       </div>
 
 
-      <button
-        class="use-btn"
-        onclick="sendBarcodeBack()">
+      <!-- ===============================================
+           LEFT = SCAN AGAIN
+           RIGHT = ACCEPT
+           =============================================== -->
 
-        ✓ USE THIS VALUE
-
-      </button>
+      <div class="result-buttons">
 
 
-      <button
-        class="again-btn"
-        onclick="scanAgain()">
+        <button
+          class="again-btn"
+          onclick="scanAgain()">
 
-        🔄 SCAN AGAIN
+          🔄 SCAN AGAIN
 
-      </button>
+        </button>
+
+
+        <button
+          class="use-btn"
+          onclick="sendBarcodeBack()">
+
+          ✓ ACCEPT
+
+        </button>
+
+
+      </div>
 
 
     </div>
 
 
+    <!-- FOOTER -->
+
     <div class="small-info">
 
-      SCAN TEST v4.0 • Any Barcode Value
+      SCAN TEST v4.1 • Any Barcode Value
 
     </div>
 
@@ -857,14 +939,12 @@
 <script>
 
 
-  /*
-   * =====================================================
-   * VERSION
-   * =====================================================
-   */
+  /* =====================================================
+     VERSION
+     ===================================================== */
 
   const SCANNER_VERSION =
-    'SCAN TEST v4.0';
+    'SCAN TEST v4.1';
 
 
   console.log(
@@ -885,11 +965,9 @@
 
 
 
-  /*
-   * =====================================================
-   * VARIABLES
-   * =====================================================
-   */
+  /* =====================================================
+     VARIABLES
+     ===================================================== */
 
   let scanning = false;
 
@@ -898,9 +976,8 @@
   let currentValue = '';
 
 
-
   /*
-   * Same barcode ko 2 baar confirm.
+   * Same barcode ko 2 baar confirm karna.
    */
 
   let candidateValue = '';
@@ -908,9 +985,8 @@
   let candidateCount = 0;
 
 
-
   /*
-   * ZOOM
+   * Zoom
    */
 
   let currentZoom = 1;
@@ -960,7 +1036,6 @@
       );
 
 
-
     try {
 
 
@@ -994,7 +1069,6 @@
 
       candidateCount = 0;
 
-
       currentZoom = 1;
 
 
@@ -1023,12 +1097,9 @@
 
       /*
        * =================================================
-       * PROVEN CAMERA CONFIG
+       * PROVEN CAMERA SETUP
        *
-       * IMPORTANT:
-       * Ye wahi simple LiveStream setup hai
-       * jo pehle successfully camera start
-       * kar chuka hai.
+       * Same LiveStream method.
        * =================================================
        */
 
@@ -1070,7 +1141,7 @@
 
 
           /*
-           * Scanner area.
+           * Central scanning region.
            */
 
           area: {
@@ -1122,10 +1193,13 @@
 
 
         /*
-         * MULTIPLE BARCODE FORMATS
+         * =================================================
+         * BARCODE READERS
          *
-         * FINAL VALUE par koi
-         * 15 digit restriction nahi.
+         * Multiple common barcode formats.
+         *
+         * Final value par koi IMEI restriction nahi.
+         * =================================================
          */
 
         decoder: {
@@ -1202,7 +1276,7 @@
 
       /*
        * =================================================
-       * INITIALIZE
+       * INITIALIZE QUAGGA
        * =================================================
        */
 
@@ -1217,6 +1291,10 @@
 
         function(error) {
 
+
+          /*
+           * CAMERA ERROR
+           */
 
           if (error) {
 
@@ -1283,7 +1361,7 @@
 
 
           /*
-           * Zoom capabilities check.
+           * Setup zoom after camera starts.
            */
 
           setTimeout(
@@ -1333,7 +1411,7 @@
 
 
   /* =====================================================
-     ZOOM SETUP
+     SETUP ZOOM
      ===================================================== */
 
   function setupZoom() {
@@ -1375,6 +1453,7 @@
 
 
       if (
+        !tracks ||
         !tracks.length
       ) {
 
@@ -1445,6 +1524,12 @@
       } else {
 
 
+        /*
+         * Hardware zoom nahi hai.
+         *
+         * Digital zoom fallback.
+         */
+
         hardwareZoomSupported =
           false;
 
@@ -1489,7 +1574,9 @@
   async function changeZoom(amount) {
 
 
-    if (!scannerRunning) {
+    if (
+      !scannerRunning
+    ) {
 
       return;
 
@@ -1561,9 +1648,11 @@
               .applyConstraints({
 
                 advanced: [
+
                   {
                     zoom: newZoom
                   }
+
                 ]
 
               });
@@ -1598,7 +1687,7 @@
 
 
     /*
-     * DIGITAL FALLBACK
+     * DIGITAL ZOOM FALLBACK
      */
 
     currentZoom += amount;
@@ -1735,13 +1824,13 @@
 
 
       /*
-       * ===============================================
-       * ANY VALUE ACCEPTED
+       * =================================================
+       * ANY VALUE
        *
        * No 15 digit check.
        * No IMEI check.
        * No alphabet restriction.
-       * ===============================================
+       * =================================================
        */
 
 
@@ -1777,7 +1866,7 @@
 
 
       /*
-       * 2 baar same value
+       * Same value 2 times.
        */
 
       if (
@@ -1811,7 +1900,7 @@
 
 
     /*
-     * EXACT VALUE
+     * Exact barcode value.
      */
 
     currentValue =
@@ -1875,6 +1964,7 @@
 
 
     try {
+
 
       if (
         scannerRunning
@@ -2007,9 +2097,7 @@
 
     currentZoom = 1;
 
-
-    hardwareZoomSupported =
-      false;
+    hardwareZoomSupported = false;
 
 
     updateZoomText();
@@ -2057,9 +2145,7 @@
 
     currentZoom = 1;
 
-
-    hardwareZoomSupported =
-      false;
+    hardwareZoomSupported = false;
 
 
     startScanner();
@@ -2069,7 +2155,7 @@
 
 
   /* =====================================================
-     SEND BARCODE BACK
+     ACCEPT / USE VALUE
      ===================================================== */
 
   function sendBarcodeBack() {
@@ -2100,7 +2186,7 @@
 
 
     /*
-     * Direct GitHub test
+     * Direct GitHub testing.
      */
 
     if (!returnUrl) {
@@ -2111,7 +2197,7 @@
           'status'
         )
         .textContent =
-        '✅ Scanned: ' +
+        '✅ Accepted: ' +
         currentValue;
 
 
@@ -2125,6 +2211,10 @@
         ? '&'
         : '?';
 
+
+    /*
+     * Exact barcode value return.
+     */
 
     window.location.href =
       returnUrl +
