@@ -1,101 +1,186 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
   <title>IMEI Scanner</title>
 
+  <!-- ZXing Barcode Scanner -->
   <script src="https://unpkg.com/@zxing/browser@0.2.1"></script>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
 
+    html,
     body {
       margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
       background: #111;
       color: white;
       font-family: Arial, sans-serif;
+    }
+
+    body {
       min-height: 100vh;
     }
 
     .header {
       background: #1976d2;
-      padding: 18px;
+      padding: 18px 12px;
       text-align: center;
       font-size: 22px;
       font-weight: bold;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.35);
     }
 
     .container {
-      max-width: 600px;
-      margin: auto;
-      padding: 18px;
+      width: 100%;
+      max-width: 650px;
+      margin: 0 auto;
+      padding: 16px;
     }
 
     .title {
       text-align: center;
       font-size: 20px;
-      margin: 10px 0 18px;
+      font-weight: bold;
+      margin: 8px 0 16px;
+    }
+
+    .status {
+      background: #222;
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+      margin-bottom: 14px;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.4;
+      font-size: 15px;
     }
 
     .video-box {
       position: relative;
       width: 100%;
-      background: black;
+      background: #000;
       border-radius: 14px;
       overflow: hidden;
+      border: 2px solid #333;
     }
 
     video {
+      display: block;
       width: 100%;
       height: auto;
       min-height: 300px;
-      display: block;
+      max-height: 75vh;
       object-fit: cover;
+      background: #000;
+    }
+
+    /*
+     * Barcode scanning frame
+     */
+
+    .scan-frame {
+      position: absolute;
+      left: 7%;
+      right: 7%;
+      top: 30%;
+      height: 40%;
+      border: 3px solid #00ff55;
+      border-radius: 12px;
+      pointer-events: none;
+      box-shadow:
+        0 0 10px rgba(0,255,85,0.7),
+        inset 0 0 10px rgba(0,255,85,0.25);
     }
 
     .scan-line {
       position: absolute;
-      left: 8%;
-      right: 8%;
+      left: 3%;
+      right: 3%;
       top: 50%;
       height: 3px;
       background: #00ff55;
-      box-shadow: 0 0 12px #00ff55;
+      box-shadow: 0 0 14px #00ff55;
+      animation: scanline 2s linear infinite;
+    }
+
+    @keyframes scanline {
+
+      0% {
+        top: 15%;
+      }
+
+      50% {
+        top: 85%;
+      }
+
+      100% {
+        top: 15%;
+      }
+
+    }
+
+    .corner {
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      border-color: white;
+      border-style: solid;
+      pointer-events: none;
+    }
+
+    .corner.tl {
+      left: -2px;
+      top: -2px;
+      border-width: 4px 0 0 4px;
+    }
+
+    .corner.tr {
+      right: -2px;
+      top: -2px;
+      border-width: 4px 4px 0 0;
+    }
+
+    .corner.bl {
+      left: -2px;
+      bottom: -2px;
+      border-width: 0 0 4px 4px;
+    }
+
+    .corner.br {
+      right: -2px;
+      bottom: -2px;
+      border-width: 0 4px 4px 0;
     }
 
     .instruction {
       text-align: center;
       color: #ddd;
-      font-size: 15px;
-      margin: 18px 0;
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 14px 0;
     }
 
-    .status {
-      background: #222;
-      border-radius: 10px;
-      padding: 13px;
-      text-align: center;
-      margin-bottom: 15px;
-      min-height: 45px;
-    }
-
-    .result {
-      display: none;
-      background: #1b5e20;
-      padding: 16px;
-      border-radius: 10px;
-      text-align: center;
-      margin-top: 15px;
-    }
-
-    .imei {
-      font-size: 24px;
-      font-weight: bold;
-      letter-spacing: 1px;
-      word-break: break-all;
+    .buttons {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
     }
 
     button {
@@ -106,7 +191,11 @@
       font-size: 17px;
       font-weight: bold;
       cursor: pointer;
-      margin-top: 10px;
+      touch-action: manipulation;
+    }
+
+    button:active {
+      transform: scale(0.98);
     }
 
     .start {
@@ -114,87 +203,299 @@
       color: white;
     }
 
-    .close {
+    .stop {
       background: #d32f2f;
       color: white;
     }
 
-    .back {
+    .zoom-area {
+      display: none;
+      margin-top: 12px;
+      background: #1d1d1d;
+      padding: 12px;
+      border-radius: 12px;
+    }
+
+    .zoom-title {
+      text-align: center;
+      font-size: 14px;
+      color: #ddd;
+      margin-bottom: 8px;
+    }
+
+    .zoom-buttons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .zoom-btn {
+      background: #444;
+      color: white;
+      padding: 11px 8px;
+      font-size: 15px;
+    }
+
+    .zoom-btn.active {
+      background: #1976d2;
+    }
+
+    .result {
+      display: none;
+      background: #1b5e20;
+      padding: 18px;
+      border-radius: 12px;
+      text-align: center;
+      margin-top: 16px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+    }
+
+    .result-title {
+      font-size: 17px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .imei {
+      font-size: 25px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      word-break: break-all;
+      background: rgba(0,0,0,0.25);
+      padding: 12px;
+      border-radius: 8px;
+    }
+
+    .use-btn {
+      margin-top: 14px;
+      background: white;
+      color: #1b5e20;
+    }
+
+    .again-btn {
+      margin-top: 10px;
       background: #555;
       color: white;
     }
 
     .hidden {
-      display: none;
+      display: none !important;
     }
+
+    .small-info {
+      text-align: center;
+      color: #aaa;
+      font-size: 12px;
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+
   </style>
+
 </head>
 
+
 <body>
+
 
   <div class="header">
     📷 IMEI SCANNER
   </div>
 
+
   <div class="container">
 
     <div class="title">
-      Scan IMEI Barcode
+      Scan IMEI 1 Barcode
     </div>
 
-    <div id="status" class="status">
-      Camera start karne ke liye button dabayein.
+
+    <div
+      id="status"
+      class="status">
+
+      Camera start karne ke liye
+      button dabayein.
+
     </div>
+
 
     <div class="video-box">
-      <video id="video" autoplay muted playsinline></video>
-      <div class="scan-line"></div>
+
+      <video
+        id="video"
+        autoplay
+        muted
+        playsinline>
+      </video>
+
+
+      <div class="scan-frame">
+
+        <div class="corner tl"></div>
+        <div class="corner tr"></div>
+        <div class="corner bl"></div>
+        <div class="corner br"></div>
+
+        <div class="scan-line"></div>
+
+      </div>
+
     </div>
+
 
     <div class="instruction">
-      IMEI barcode ko green line ke andar rakhein.
+
+      📱 Phone ke label par jo
+      <b>IMEI 1</b> barcode hai,
+      use green frame ke andar rakhein.
+
+      <br>
+
+      Barcode ko camera ke paas
+      laakar clear focus hone dein.
+
     </div>
 
-    <button
-      id="startBtn"
-      class="start"
-      onclick="startScanner()">
-      📷 START CAMERA
-    </button>
 
-    <button
-      id="closeBtn"
-      class="close hidden"
-      onclick="stopScanner()">
-      ✕ STOP CAMERA
-    </button>
-
-    <div id="result" class="result">
-
-      <div>✅ IMEI SCANNED</div>
-
-      <div id="imeiValue" class="imei"></div>
+    <div class="buttons">
 
       <button
-        class="back"
-        onclick="sendIMEIBack()">
-        ✓ USE THIS IMEI
+        id="startBtn"
+        class="start"
+        onclick="startScanner()">
+
+        📷 START CAMERA
+
       </button>
+
+
+      <button
+        id="stopBtn"
+        class="stop hidden"
+        onclick="stopScanner()">
+
+        ✕ STOP CAMERA
+
+      </button>
+
+    </div>
+
+
+    <div
+      id="zoomArea"
+      class="zoom-area">
+
+      <div class="zoom-title">
+        🔍 Camera Zoom
+      </div>
+
+
+      <div class="zoom-buttons">
+
+        <button
+          id="zoom1"
+          class="zoom-btn"
+          onclick="setZoom(1)">
+
+          1×
+
+        </button>
+
+
+        <button
+          id="zoom2"
+          class="zoom-btn"
+          onclick="setZoom(2)">
+
+          2×
+
+        </button>
+
+
+        <button
+          id="zoom3"
+          class="zoom-btn"
+          onclick="setZoom(3)">
+
+          3×
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div
+      id="result"
+      class="result">
+
+      <div class="result-title">
+        ✅ IMEI 1 SCANNED
+      </div>
+
+
+      <div
+        id="imeiValue"
+        class="imei">
+      </div>
+
+
+      <button
+        class="use-btn"
+        onclick="sendIMEIBack()">
+
+        ✓ USE THIS IMEI
+
+      </button>
+
+
+      <button
+        class="again-btn"
+        onclick="scanAgain()">
+
+        🔄 SCAN AGAIN
+
+      </button>
+
+    </div>
+
+
+    <div class="small-info">
+
+      High-resolution camera •
+      Auto focus •
+      Smart zoom •
+      IMEI validation
 
     </div>
 
   </div>
 
 
+
 <script>
 
+
   let codeReader = null;
-  let currentIMEI = '';
+
   let controls = null;
+
+  let currentIMEI = '';
+
+  let videoTrack = null;
+
+  let maxZoom = 1;
+
+  let currentZoom = 1;
+
+  let scanning = false;
+
 
 
   /*
-   * Start scanner
+   * START SCANNER
    */
 
   async function startScanner() {
@@ -205,16 +506,30 @@
     const startBtn =
       document.getElementById('startBtn');
 
-    const closeBtn =
-      document.getElementById('closeBtn');
+    const stopBtn =
+      document.getElementById('stopBtn');
+
+    const result =
+      document.getElementById('result');
+
+    const zoomArea =
+      document.getElementById('zoomArea');
+
 
     try {
 
+      scanning = true;
+
+
+      result.style.display = 'none';
+
       status.textContent =
-        'Camera permission maang raha hai...';
+        '📷 Camera permission maang raha hai...';
+
 
       startBtn.classList.add('hidden');
-      closeBtn.classList.remove('hidden');
+
+      stopBtn.classList.remove('hidden');
 
 
       if (
@@ -224,6 +539,7 @@
         throw new Error(
           'Barcode scanner library load nahi hui.'
         );
+
       }
 
 
@@ -236,42 +552,58 @@
 
 
       /*
-       * Rear camera ko prefer karo
+       * High quality rear camera request
        */
 
       const constraints = {
-  video: {
-    facingMode: {
-      ideal: 'environment'
-    },
-    width: {
-      ideal: 1920
-    },
-    height: {
-      ideal: 1080
-    },
-    frameRate: {
-      ideal: 30
-    },
-    advanced: [
-      {
-        focusMode: 'continuous'
-      }
-    ]
-  },
-  audio: false
+
+        video: {
+
+          facingMode: {
+            ideal: 'environment'
+          },
+
+          width: {
+            ideal: 1920
+          },
+
+          height: {
+            ideal: 1080
+          },
+
+          frameRate: {
+            ideal: 30,
+            max: 30
+          }
+
+        },
+
+        audio: false
+
       };
 
 
       status.textContent =
-        '📷 Camera starting...';
+        '📷 High quality camera starting...';
 
+
+      /*
+       * Start ZXing camera
+       */
 
       controls =
         await codeReader.decodeFromConstraints(
+
           constraints,
+
           video,
+
           function(result, error) {
+
+            if (!scanning) {
+              return;
+            }
+
 
             if (!result) {
               return;
@@ -282,6 +614,12 @@
               result.getText();
 
 
+            console.log(
+              'Barcode detected:',
+              raw
+            );
+
+
             const imei =
               extractIMEI(raw);
 
@@ -289,11 +627,16 @@
             if (!imei) {
 
               status.textContent =
-                '⚠️ 15 digit IMEI nahi mila. Dobara scan karein.';
+                '⚠️ 15 digit IMEI nahi mila. IMEI 1 barcode scan karein.';
 
               return;
+
             }
 
+
+            /*
+             * Validate IMEI
+             */
 
             if (!isValidIMEI(imei)) {
 
@@ -301,6 +644,7 @@
                 '⚠️ IMEI invalid hai. Dobara scan karein.';
 
               return;
+
             }
 
 
@@ -310,9 +654,13 @@
 
             currentIMEI = imei;
 
+            scanning = false;
+
 
             try {
+
               navigator.vibrate(200);
+
             } catch (e) {}
 
 
@@ -327,34 +675,514 @@
 
 
             status.textContent =
-              '✅ IMEI successfully scanned.';
+              '✅ IMEI 1 successfully scanned.';
 
 
             stopCameraOnly();
 
           }
+
         );
 
 
+      /*
+       * Get actual camera track
+       */
+
+      await waitForVideoStream();
+
+
+      const stream =
+        video.srcObject;
+
+
+      if (stream) {
+
+        const tracks =
+          stream.getVideoTracks();
+
+
+        if (tracks.length > 0) {
+
+          videoTrack =
+            tracks[0];
+
+          tuneCamera(videoTrack);
+
+        }
+
+      }
+
+
+      /*
+       * Show zoom controls
+       */
+
+      setupZoomControls();
+
+
+      zoomArea.style.display = 'block';
+
+
       status.textContent =
-        'Camera ready — barcode scan karein.';
+        '✅ Camera ready — IMEI 1 barcode scan karein.';
+
 
     } catch (error) {
 
-      console.error(error);
+      console.error(
+        'Camera error:',
+        error
+      );
+
+
+      scanning = false;
+
 
       status.textContent =
-        '❌ Camera start nahi hua: ' +
-        (error.message || error);
+        getCameraErrorMessage(error);
+
 
       startBtn.classList.remove('hidden');
-      closeBtn.classList.add('hidden');
+
+      stopBtn.classList.add('hidden');
+
+      zoomArea.style.display = 'none';
+
     }
+
   }
 
 
+
   /*
-   * Extract 15 digit IMEI
+   * Wait until video stream exists
+   */
+
+  function waitForVideoStream() {
+
+    return new Promise(function(resolve) {
+
+      const video =
+        document.getElementById('video');
+
+
+      if (video.srcObject) {
+
+        resolve();
+
+        return;
+
+      }
+
+
+      let attempts = 0;
+
+
+      const timer =
+        setInterval(function() {
+
+          attempts++;
+
+
+          if (video.srcObject) {
+
+            clearInterval(timer);
+
+            resolve();
+
+            return;
+
+          }
+
+
+          if (attempts >= 30) {
+
+            clearInterval(timer);
+
+            resolve();
+
+          }
+
+        }, 100);
+
+    });
+
+  }
+
+
+
+  /*
+   * Tune camera according to
+   * actual phone capabilities
+   */
+
+  async function tuneCamera(track) {
+
+    try {
+
+      if (!track) {
+        return;
+      }
+
+
+      const capabilities =
+        track.getCapabilities
+          ? track.getCapabilities()
+          : {};
+
+
+      console.log(
+        'Camera capabilities:',
+        capabilities
+      );
+
+
+      const advanced = [];
+
+
+      /*
+       * Continuous autofocus
+       */
+
+      if (
+        capabilities.focusMode &&
+        capabilities.focusMode.includes('continuous')
+      ) {
+
+        advanced.push({
+          focusMode: 'continuous'
+        });
+
+      }
+
+
+      /*
+       * Prefer high resolution
+       */
+
+      const width =
+        capabilities.width;
+
+      const height =
+        capabilities.height;
+
+
+      if (
+        width &&
+        height
+      ) {
+
+        const targetWidth =
+          Math.min(
+            width.max || 1920,
+            1920
+          );
+
+
+        const targetHeight =
+          Math.min(
+            height.max || 1080,
+            1080
+          );
+
+
+        try {
+
+          await track.applyConstraints({
+
+            advanced: [
+
+              ...advanced,
+
+              {
+                width: targetWidth,
+                height: targetHeight
+              }
+
+            ]
+
+          });
+
+        } catch (resolutionError) {
+
+          console.log(
+            'High resolution adjustment skipped:',
+            resolutionError
+          );
+
+        }
+
+      } else if (advanced.length > 0) {
+
+        try {
+
+          await track.applyConstraints({
+
+            advanced: advanced
+
+          });
+
+        } catch (focusError) {
+
+          console.log(
+            'Focus adjustment skipped:',
+            focusError
+          );
+
+        }
+
+      }
+
+
+      /*
+       * Zoom capability
+       */
+
+      if (capabilities.zoom) {
+
+        maxZoom =
+          capabilities.zoom.max || 1;
+
+        const minZoom =
+          capabilities.zoom.min || 1;
+
+
+        /*
+         * Start at a moderate zoom
+         */
+
+        const preferredZoom =
+          Math.min(
+            Math.max(1.5, minZoom),
+            maxZoom
+          );
+
+
+        if (
+          preferredZoom > minZoom
+        ) {
+
+          try {
+
+            await track.applyConstraints({
+
+              advanced: [
+
+                {
+                  zoom: preferredZoom
+                }
+
+              ]
+
+            });
+
+
+            currentZoom =
+              preferredZoom;
+
+          } catch (zoomError) {
+
+            console.log(
+              'Initial zoom skipped:',
+              zoomError
+            );
+
+          }
+
+        }
+
+      }
+
+
+    } catch (error) {
+
+      console.log(
+        'Camera tuning skipped:',
+        error
+      );
+
+    }
+
+  }
+
+
+
+  /*
+   * Setup zoom buttons
+   */
+
+  function setupZoomControls() {
+
+    const zoom2 =
+      document.getElementById('zoom2');
+
+    const zoom3 =
+      document.getElementById('zoom3');
+
+
+    /*
+     * Disable unavailable zoom
+     */
+
+    if (maxZoom < 2) {
+
+      zoom2.disabled = true;
+
+      zoom2.style.opacity = '0.4';
+
+    } else {
+
+      zoom2.disabled = false;
+
+      zoom2.style.opacity = '1';
+
+    }
+
+
+    if (maxZoom < 3) {
+
+      zoom3.disabled = true;
+
+      zoom3.style.opacity = '0.4';
+
+    } else {
+
+      zoom3.disabled = false;
+
+      zoom3.style.opacity = '1';
+
+    }
+
+
+    updateZoomButtons();
+
+  }
+
+
+
+  /*
+   * Change zoom
+   */
+
+  async function setZoom(level) {
+
+    if (!videoTrack) {
+      return;
+    }
+
+
+    if (!maxZoom || maxZoom <= 1) {
+
+      return;
+
+    }
+
+
+    const capabilities =
+      videoTrack.getCapabilities
+        ? videoTrack.getCapabilities()
+        : {};
+
+
+    if (!capabilities.zoom) {
+      return;
+    }
+
+
+    const minZoom =
+      capabilities.zoom.min || 1;
+
+
+    const targetZoom =
+      Math.min(
+        Math.max(level, minZoom),
+        maxZoom
+      );
+
+
+    try {
+
+      await videoTrack.applyConstraints({
+
+        advanced: [
+
+          {
+            zoom: targetZoom
+          }
+
+        ]
+
+      });
+
+
+      currentZoom =
+        targetZoom;
+
+
+      updateZoomButtons();
+
+
+    } catch (error) {
+
+      console.log(
+        'Zoom failed:',
+        error
+      );
+
+    }
+
+  }
+
+
+
+  /*
+   * Update active zoom button
+   */
+
+  function updateZoomButtons() {
+
+    document
+      .getElementById('zoom1')
+      .classList.remove('active');
+
+
+    document
+      .getElementById('zoom2')
+      .classList.remove('active');
+
+
+    document
+      .getElementById('zoom3')
+      .classList.remove('active');
+
+
+    if (currentZoom < 1.5) {
+
+      document
+        .getElementById('zoom1')
+        .classList.add('active');
+
+    } else if (currentZoom < 2.5) {
+
+      document
+        .getElementById('zoom2')
+        .classList.add('active');
+
+    } else {
+
+      document
+        .getElementById('zoom3')
+        .classList.add('active');
+
+    }
+
+  }
+
+
+
+  /*
+   * Extract IMEI
    */
 
   function extractIMEI(text) {
@@ -364,26 +1192,60 @@
     }
 
 
-    const digits =
-      String(text).replace(/\D/g, '');
+    const raw =
+      String(text).trim();
 
 
-    if (digits.length === 15) {
-      return digits;
+    /*
+     * First try exact 15 digit value
+     */
+
+    const exact =
+      raw.match(/^\D*(\d{15})\D*$/);
+
+
+    if (exact) {
+
+      return exact[1];
+
     }
 
 
+    /*
+     * Try to find a 15 digit sequence
+     */
+
     const match =
-      digits.match(/\d{15}/);
+      raw.match(/\d{15}/);
 
 
     if (match) {
+
       return match[0];
+
+    }
+
+
+    /*
+     * Last fallback:
+     * remove spaces/dashes/etc.
+     */
+
+    const digits =
+      raw.replace(/\D/g, '');
+
+
+    if (digits.length === 15) {
+
+      return digits;
+
     }
 
 
     return null;
+
   }
+
 
 
   /*
@@ -393,44 +1255,64 @@
   function isValidIMEI(imei) {
 
     imei =
-      String(imei).replace(/\D/g, '');
+      String(imei || '')
+        .replace(/\D/g, '');
 
 
     if (imei.length !== 15) {
+
       return false;
+
     }
 
 
     let sum = 0;
 
 
-    for (let i = 0; i < 15; i++) {
+    for (
+      let i = 0;
+      i < 15;
+      i++
+    ) {
 
       let digit =
-        parseInt(imei.charAt(i), 10);
+        parseInt(
+          imei.charAt(i),
+          10
+        );
 
 
       if (i % 2 === 1) {
 
-        digit *= 2;
+        digit =
+          digit * 2;
 
 
         if (digit > 9) {
-          digit -= 9;
+
+          digit =
+            digit - 9;
+
         }
+
       }
 
 
       sum += digit;
+
     }
 
 
-    return sum % 10 === 0;
+    return (
+      sum % 10 === 0
+    );
+
   }
 
 
+
   /*
-   * Stop camera
+   * Stop only camera
    */
 
   function stopCameraOnly() {
@@ -438,16 +1320,42 @@
     try {
 
       if (controls) {
+
         controls.stop();
+
       }
 
     } catch (e) {}
 
+
     controls = null;
+
+
+    try {
+
+      if (videoTrack) {
+
+        videoTrack.stop();
+
+      }
+
+    } catch (e) {}
+
+
+    videoTrack = null;
+
   }
 
 
+
+  /*
+   * Stop scanner completely
+   */
+
   function stopScanner() {
+
+    scanning = false;
+
 
     stopCameraOnly();
 
@@ -455,12 +1363,23 @@
     if (codeReader) {
 
       try {
+
         codeReader.reset();
+
       } catch (e) {}
+
     }
 
 
     codeReader = null;
+
+
+    currentIMEI = '';
+
+
+    maxZoom = 1;
+
+    currentZoom = 1;
 
 
     document
@@ -469,8 +1388,18 @@
 
 
     document
-      .getElementById('closeBtn')
+      .getElementById('stopBtn')
       .classList.add('hidden');
+
+
+    document
+      .getElementById('zoomArea')
+      .style.display = 'none';
+
+
+    document
+      .getElementById('result')
+      .style.display = 'none';
 
 
     document
@@ -479,48 +1408,161 @@
       'Camera band ho gaya.';
 
 
+    const video =
+      document.getElementById('video');
+
+
+    try {
+
+      video.srcObject = null;
+
+    } catch (e) {}
+
+  }
+
+
+
+  /*
+   * Scan again
+   */
+
+  function scanAgain() {
+
     document
       .getElementById('result')
       .style.display = 'none';
 
 
     currentIMEI = '';
+
+
+    startScanner();
+
   }
 
 
+
   /*
-   * Send scanned IMEI back to Invoice app
+   * Camera error message
+   */
+
+  function getCameraErrorMessage(error) {
+
+    if (!error) {
+
+      return '❌ Camera start nahi hua.';
+
+    }
+
+
+    const name =
+      error.name || '';
+
+
+    if (
+      name === 'NotAllowedError' ||
+      name === 'PermissionDeniedError'
+    ) {
+
+      return (
+        '❌ Camera permission denied. ' +
+        'Chrome mein Camera permission Allow karein.'
+      );
+
+    }
+
+
+    if (
+      name === 'NotFoundError' ||
+      name === 'DevicesNotFoundError'
+    ) {
+
+      return (
+        '❌ Camera nahi mila.'
+      );
+
+    }
+
+
+    if (
+      name === 'NotReadableError' ||
+      name === 'TrackStartError'
+    ) {
+
+      return (
+        '❌ Camera kisi doosri app mein use ho raha hai. ' +
+        'Doosri camera app band karein.'
+      );
+
+    }
+
+
+    if (
+      name === 'OverconstrainedError'
+    ) {
+
+      return (
+        '❌ Camera ki requested quality available nahi hai. ' +
+        'Dobara START CAMERA dabayein.'
+      );
+
+    }
+
+
+    return (
+      '❌ Camera start nahi hua: ' +
+      (error.message || name)
+    );
+
+  }
+
+
+
+  /*
+   * Send IMEI back to Invoice app
    */
 
   function sendIMEIBack() {
 
     if (!currentIMEI) {
+
       return;
+
     }
 
 
     try {
+
       navigator.vibrate(100);
+
     } catch (e) {}
 
 
     const params =
-      new URLSearchParams(window.location.search);
+      new URLSearchParams(
+        window.location.search
+      );
 
 
     const returnUrl =
       params.get('return');
 
 
+    /*
+     * If opened without return URL,
+     * simply show the scanned IMEI.
+     */
+
     if (!returnUrl) {
 
       document
         .getElementById('status')
         .textContent =
-        '✅ IMEI: ' + currentIMEI +
-        ' — Return URL missing.';
+        '✅ IMEI: ' +
+        currentIMEI;
 
       return;
+
     }
 
 
@@ -538,10 +1580,15 @@
       returnUrl +
       separator +
       'imei=' +
-      encodeURIComponent(currentIMEI);
+      encodeURIComponent(
+        currentIMEI
+      );
+
   }
+
 
 </script>
 
 </body>
+
 </html>
