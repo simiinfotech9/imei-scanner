@@ -21,198 +21,374 @@
       box-sizing: border-box;
     }
 
+
     html,
     body {
       margin: 0;
       padding: 0;
       width: 100%;
-      min-height: 100%;
+      height: 100%;
+      overflow: hidden;
       background: #111;
       color: white;
       font-family: Arial, sans-serif;
     }
 
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+
+    /* =========================
+       HEADER
+       ========================= */
+
     .header {
+      flex: 0 0 auto;
+
       background: #1976d2;
-      padding: 18px 10px;
+
+      padding: 11px 8px;
+
       text-align: center;
-      font-size: 22px;
+
+      font-size: 20px;
+
       font-weight: bold;
     }
+
+
+    /* =========================
+       MAIN
+       ========================= */
 
     .container {
       width: 100%;
       max-width: 650px;
-      margin: auto;
-      padding: 16px;
-    }
 
-    .title {
-      text-align: center;
-      font-size: 21px;
-      font-weight: bold;
-      margin: 8px 0 16px;
-    }
+      margin: 0 auto;
 
-    .status {
-      background: #222;
-      border-radius: 12px;
-      padding: 14px;
-      text-align: center;
-      margin-bottom: 14px;
-      min-height: 48px;
+      padding: 8px 12px 10px;
+
+      flex: 1;
+
+      min-height: 0;
 
       display: flex;
-      align-items: center;
-      justify-content: center;
 
-      font-size: 15px;
-      line-height: 1.4;
+      flex-direction: column;
     }
 
+
+    .title {
+      flex: 0 0 auto;
+
+      text-align: center;
+
+      font-size: 18px;
+
+      font-weight: bold;
+
+      margin: 3px 0 7px;
+    }
+
+
+    /* =========================
+       STATUS
+       ========================= */
+
+    .status {
+      flex: 0 0 auto;
+
+      background: #222;
+
+      border-radius: 9px;
+
+      padding: 8px;
+
+      text-align: center;
+
+      min-height: 38px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      font-size: 13px;
+
+      line-height: 1.25;
+
+      margin-bottom: 7px;
+    }
+
+
+    /* =========================
+       CAMERA
+       ========================= */
+
     #scanner {
+
       position: relative;
+
       width: 100%;
-      height: 420px;
+
+      height: 235px;
+
+      flex: 0 0 235px;
 
       background: #000;
 
-      border-radius: 14px;
+      border-radius: 12px;
 
       overflow: hidden;
 
       border: 2px solid #333;
     }
 
+
     #scanner video {
-      width: 100%;
-      height: 100%;
+
+      width: 100% !important;
+
+      height: 100% !important;
 
       object-fit: cover;
     }
 
+
     #scanner canvas {
+
       position: absolute !important;
 
-      left: 0 !important;
       top: 0 !important;
 
+      left: 0 !important;
+
       width: 100% !important;
+
       height: 100% !important;
 
       pointer-events: none;
     }
 
-    /*
-     * IMEI 1 barcode ke liye focused frame
-     */
+
+    /* =========================
+       GREEN SCAN FRAME
+       ========================= */
 
     .scan-frame {
+
       position: absolute;
 
-      left: 6%;
-      right: 6%;
+      left: 7%;
 
-      top: 30%;
+      right: 7%;
 
-      height: 27%;
+      top: 28%;
+
+      height: 44%;
 
       border: 3px solid #00ff55;
 
-      border-radius: 12px;
+      border-radius: 10px;
 
       pointer-events: none;
 
       box-shadow:
-        0 0 12px rgba(0,255,85,0.7);
+        0 0 10px rgba(0,255,85,0.65);
     }
 
+
     .scan-line {
+
       position: absolute;
 
       left: 3%;
+
       right: 3%;
 
       top: 50%;
 
-      height: 3px;
+      height: 2px;
 
       background: #00ff55;
 
       box-shadow:
-        0 0 12px #00ff55;
+        0 0 10px #00ff55;
     }
 
-    .instruction {
+
+    /* =========================
+       ZOOM CONTROLS
+       ========================= */
+
+    .zoom-row {
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      gap: 10px;
+
+      margin-top: 6px;
+    }
+
+
+    .zoom-btn {
+
+      width: 58px;
+
+      height: 38px;
+
+      margin: 0;
+
+      padding: 0;
+
+      border-radius: 9px;
+
+      background: #333;
+
+      color: white;
+
+      font-size: 22px;
+
+      font-weight: bold;
+
+      border: 1px solid #555;
+    }
+
+
+    .zoom-value {
+
+      min-width: 70px;
+
       text-align: center;
 
       color: #ddd;
 
-      font-size: 14px;
+      font-size: 13px;
 
-      line-height: 1.5;
-
-      margin: 14px 0;
+      font-weight: bold;
     }
 
+
+    /* =========================
+       INSTRUCTION
+       ========================= */
+
+    .instruction {
+
+      flex: 0 0 auto;
+
+      text-align: center;
+
+      color: #ccc;
+
+      font-size: 12px;
+
+      line-height: 1.25;
+
+      margin: 6px 0;
+    }
+
+
+    /* =========================
+       BUTTONS
+       ========================= */
+
     button {
-      width: 100%;
 
       border: none;
 
-      border-radius: 10px;
+      border-radius: 9px;
 
-      padding: 15px;
-
-      font-size: 17px;
+      font-size: 16px;
 
       font-weight: bold;
 
       cursor: pointer;
 
-      margin-top: 10px;
-
       touch-action: manipulation;
     }
 
+
     button:active {
-      transform: scale(0.98);
+
+      transform: scale(0.97);
     }
+
+
+    .main-btn {
+
+      width: 100%;
+
+      height: 44px;
+
+      flex: 0 0 44px;
+
+      margin-top: 3px;
+
+      font-size: 16px;
+    }
+
 
     .start {
+
       background: #16d95a;
+
       color: white;
     }
+
 
     .stop {
+
       background: #d32f2f;
+
       color: white;
     }
 
+
+    /* =========================
+       RESULT
+       ========================= */
+
     .result {
+
       display: none;
+
+      flex: 0 0 auto;
 
       background: #1b5e20;
 
-      padding: 18px;
+      padding: 10px;
 
-      border-radius: 12px;
+      border-radius: 10px;
 
       text-align: center;
 
-      margin-top: 16px;
+      margin-top: 7px;
     }
 
+
     .result-title {
-      font-size: 17px;
+
+      font-size: 15px;
 
       font-weight: bold;
 
-      margin-bottom: 10px;
+      margin-bottom: 5px;
     }
 
+
     .imei {
-      font-size: 25px;
+
+      font-size: 22px;
 
       font-weight: bold;
 
@@ -222,48 +398,71 @@
 
       background: rgba(0,0,0,0.25);
 
-      padding: 12px;
+      padding: 8px;
 
-      border-radius: 8px;
+      border-radius: 7px;
     }
 
+
     .use-btn {
+
+      width: 100%;
+
+      height: 40px;
+
+      margin-top: 7px;
+
       background: white;
 
       color: #1b5e20;
     }
 
+
     .again-btn {
+
+      width: 100%;
+
+      height: 40px;
+
+      margin-top: 6px;
+
       background: #555;
 
       color: white;
     }
 
+
     .hidden {
+
       display: none !important;
     }
 
-    .small-info {
-      text-align: center;
-
-      color: #aaa;
-
-      font-size: 12px;
-
-      margin-top: 12px;
-    }
 
     .scan-info {
+
       text-align: center;
 
       color: #aaa;
 
-      font-size: 12px;
+      font-size: 11px;
 
-      min-height: 18px;
+      min-height: 14px;
 
-      margin-top: 8px;
+      margin-top: 3px;
     }
+
+
+    .small-info {
+
+      text-align: center;
+
+      color: #777;
+
+      font-size: 10px;
+
+      margin-top: 4px;
+    }
+
 
   </style>
 
@@ -295,6 +494,8 @@
     </div>
 
 
+    <!-- CAMERA -->
+
     <div id="scanner">
 
       <div class="scan-frame">
@@ -306,17 +507,48 @@
     </div>
 
 
+    <!-- ZOOM -->
+
+    <div class="zoom-row">
+
+      <button
+        id="zoomOutBtn"
+        class="zoom-btn"
+        onclick="changeZoom(-0.5)">
+
+        −
+
+      </button>
+
+
+      <div
+        id="zoomValue"
+        class="zoom-value">
+
+        Zoom 1.0×
+
+      </div>
+
+
+      <button
+        id="zoomInBtn"
+        class="zoom-btn"
+        onclick="changeZoom(0.5)">
+
+        +
+
+      </button>
+
+    </div>
+
+
     <div class="instruction">
 
-      📱 <b>IMEI 1</b> barcode ko green frame ke andar rakhein.
+      📱 IMEI 1 barcode ko green frame mein rakhein
 
       <br>
 
-      Barcode kisi bhi type ka ho sakta hai.
-
-      <br>
-
-      Sirf valid IMEI 1 detect hone par result milega.
+      <b>+ / − se camera zoom karein</b>
 
     </div>
 
@@ -324,12 +556,17 @@
     <div
       id="scanInfo"
       class="scan-info">
+
+      🔎 Barcode searching...
+
     </div>
 
 
+    <!-- START -->
+
     <button
       id="startBtn"
-      class="start"
+      class="main-btn start"
       onclick="startScanner()">
 
       📷 START CAMERA
@@ -337,15 +574,19 @@
     </button>
 
 
+    <!-- STOP -->
+
     <button
       id="stopBtn"
-      class="stop hidden"
+      class="main-btn stop hidden"
       onclick="stopScanner()">
 
       ✕ STOP CAMERA
 
     </button>
 
+
+    <!-- RESULT -->
 
     <div
       id="result"
@@ -362,6 +603,7 @@
       <div
         id="imeiValue"
         class="imei">
+
       </div>
 
 
@@ -388,7 +630,7 @@
 
     <div class="small-info">
 
-      Any Barcode Format • IMEI Validation
+      Any Barcode Format • IMEI Scanner
 
     </div>
 
@@ -406,22 +648,28 @@
 
   let currentIMEI = '';
 
-
-  /*
-   * Same IMEI ko multiple times
-   * detect karna zaroori hai.
-   */
-
   let candidateIMEI = '';
 
   let candidateCount = 0;
 
 
-  /*
-   * =====================================================
-   * START SCANNER
-   * =====================================================
-   */
+  /* =========================
+     ZOOM
+     ========================= */
+
+  let currentZoom = 1;
+
+  let minZoom = 1;
+
+  let maxZoom = 1;
+
+  let zoomSupported = false;
+
+
+
+  /* =====================================================
+     START SCANNER
+     ===================================================== */
 
   function startScanner() {
 
@@ -429,18 +677,14 @@
     const status =
       document.getElementById('status');
 
-
     const startBtn =
       document.getElementById('startBtn');
-
 
     const stopBtn =
       document.getElementById('stopBtn');
 
-
     const result =
       document.getElementById('result');
-
 
     const scanInfo =
       document.getElementById('scanInfo');
@@ -470,15 +714,24 @@
 
       candidateCount = 0;
 
+      currentZoom = 1;
+
 
       result.style.display = 'none';
 
-      scanInfo.textContent = '';
+
+      startBtn.classList.add(
+        'hidden'
+      );
 
 
-      startBtn.classList.add('hidden');
+      stopBtn.classList.remove(
+        'hidden'
+      );
 
-      stopBtn.classList.remove('hidden');
+
+      scanInfo.textContent =
+        '🔎 Barcode searching...';
 
 
       status.textContent =
@@ -486,14 +739,9 @@
 
 
 
-      /*
-       * =================================================
-       * CAMERA
-       *
-       * Ye wahi camera setup hai jo
-       * tumhare naye phone par working hai.
-       * =================================================
-       */
+      /* ===============================================
+         CAMERA
+         =============================================== */
 
       const config = {
 
@@ -505,7 +753,9 @@
           type: 'LiveStream',
 
           target:
-            document.getElementById('scanner'),
+            document.getElementById(
+              'scanner'
+            ),
 
 
           constraints: {
@@ -529,14 +779,6 @@
           },
 
 
-          /*
-           * Scanner ko central area par focus
-           * karne ke liye.
-           *
-           * IMPORTANT:
-           * Barcode FORMAT restrict nahi ho raha.
-           */
-
           area: {
 
             top: '28%',
@@ -552,10 +794,6 @@
         },
 
 
-        /*
-         * Barcode locator
-         */
-
         locator: {
 
           patchSize: 'medium',
@@ -564,10 +802,6 @@
 
         },
 
-
-        /*
-         * Phone ke available workers
-         */
 
         numOfWorkers:
           navigator.hardwareConcurrency
@@ -580,16 +814,6 @@
 
         frequency: 10,
 
-
-        /*
-         * =================================================
-         * IMPORTANT
-         *
-         * Koi ek barcode format assume nahi kiya.
-         *
-         * Multiple 1D formats enabled.
-         * =================================================
-         */
 
         decoder: {
 
@@ -663,10 +887,6 @@
 
 
 
-      /*
-       * START QUAGGA
-       */
-
       Quagga.init(
 
         config,
@@ -715,11 +935,22 @@
 
 
           status.textContent =
-            '✅ Camera ready — IMEI 1 barcode green frame mein rakhein.';
+            '✅ Camera ready — IMEI 1 scan karein.';
 
 
           scanInfo.textContent =
             '🔎 Barcode searching...';
+
+
+          /*
+           * Camera start hone ke thodi der baad
+           * zoom capabilities check karo.
+           */
+
+          setTimeout(
+            setupZoom,
+            500
+          );
 
 
         }
@@ -757,6 +988,359 @@
         );
 
     }
+
+  }
+
+
+
+  /* =====================================================
+     SETUP ZOOM
+     ===================================================== */
+
+  function setupZoom() {
+
+
+    try {
+
+
+      const scanner =
+        document.getElementById(
+          'scanner'
+        );
+
+
+      const video =
+        scanner.querySelector(
+          'video'
+        );
+
+
+      if (!video) {
+
+        updateZoomText(
+          'Zoom 1.0×'
+        );
+
+        return;
+
+      }
+
+
+      if (!video.srcObject) {
+
+        updateZoomText(
+          'Zoom 1.0×'
+        );
+
+        return;
+
+      }
+
+
+      const tracks =
+        video.srcObject.getVideoTracks();
+
+
+      if (
+        !tracks ||
+        !tracks.length
+      ) {
+
+        updateZoomText(
+          'Zoom 1.0×'
+        );
+
+        return;
+
+      }
+
+
+      const track =
+        tracks[0];
+
+
+      const capabilities =
+        track.getCapabilities
+          ? track.getCapabilities()
+          : null;
+
+
+      if (
+        capabilities &&
+        capabilities.zoom
+      {
+
+
+        zoomSupported = true;
+
+
+        minZoom =
+          Number(
+            capabilities.zoom.min || 1
+          );
+
+
+        maxZoom =
+          Number(
+            capabilities.zoom.max || 1
+          );
+
+
+        currentZoom =
+          Math.max(
+            minZoom,
+            Math.min(
+              1,
+              maxZoom
+            )
+          );
+
+
+        updateZoomText();
+
+
+      } else {
+
+
+        zoomSupported = false;
+
+        minZoom = 1;
+
+        maxZoom = 1;
+
+        currentZoom = 1;
+
+
+        updateZoomText(
+          'Zoom unavailable'
+        );
+
+      }
+
+
+    } catch (error) {
+
+
+      console.log(
+        'Zoom setup:',
+        error
+      );
+
+
+      zoomSupported = false;
+
+      updateZoomText(
+        'Zoom 1.0×'
+      );
+
+    }
+
+  }
+
+
+
+  /* =====================================================
+     CHANGE ZOOM
+     ===================================================== */
+
+  async function changeZoom(amount) {
+
+
+    if (!scannerRunning) {
+
+      return;
+
+    }
+
+
+    try {
+
+
+      /*
+       * Agar phone hardware zoom support nahi karta
+       */
+
+      if (!zoomSupported) {
+
+
+        document
+          .getElementById(
+            'scanInfo'
+          )
+          .textContent =
+          'ℹ️ Is phone/browser mein camera zoom available nahi hai.';
+
+
+        setTimeout(
+          function() {
+
+            document
+              .getElementById(
+                'scanInfo'
+              )
+              .textContent =
+              '🔎 Barcode searching...';
+
+          },
+          1800
+        );
+
+
+        return;
+
+      }
+
+
+
+      let newZoom =
+        currentZoom + amount;
+
+
+      newZoom =
+        Math.max(
+          minZoom,
+          Math.min(
+            maxZoom,
+            newZoom
+          )
+        );
+
+
+      newZoom =
+        Math.round(
+          newZoom * 10
+        ) / 10;
+
+
+
+      const scanner =
+        document.getElementById(
+          'scanner'
+        );
+
+
+      const video =
+        scanner.querySelector(
+          'video'
+        );
+
+
+      if (
+        !video ||
+        !video.srcObject
+      ) {
+
+        return;
+
+      }
+
+
+      const tracks =
+        video.srcObject.getVideoTracks();
+
+
+      if (
+        !tracks.length
+      ) {
+
+        return;
+
+      }
+
+
+      const track =
+        tracks[0];
+
+
+      await track.applyConstraints({
+
+        advanced: [
+
+          {
+            zoom: newZoom
+          }
+
+        ]
+
+      });
+
+
+      currentZoom =
+        newZoom;
+
+
+      updateZoomText();
+
+
+    } catch (error) {
+
+
+      console.log(
+        'Zoom error:',
+        error
+      );
+
+
+      document
+        .getElementById(
+          'scanInfo'
+        )
+        .textContent =
+        'ℹ️ Zoom is phone camera par available nahi hai.';
+
+
+      setTimeout(
+        function() {
+
+          document
+            .getElementById(
+              'scanInfo'
+            )
+            .textContent =
+            '🔎 Barcode searching...';
+
+        },
+        1800
+      );
+
+    }
+
+  }
+
+
+
+  /* =====================================================
+     ZOOM TEXT
+     ===================================================== */
+
+  function updateZoomText(customText) {
+
+
+    const element =
+      document.getElementById(
+        'zoomValue'
+      );
+
+
+    if (!element) {
+      return;
+    }
+
+
+    if (customText) {
+
+      element.textContent =
+        customText;
+
+      return;
+
+    }
+
+
+    element.textContent =
+      'Zoom ' +
+      currentZoom.toFixed(1) +
+      '×';
 
   }
 
@@ -803,10 +1387,7 @@
 
 
       /*
-       * Abhi kisi bhi barcode ko directly
-       * accept nahi karenge.
-       *
-       * Pehle IMEI candidate niklega.
+       * IMEI candidate
        */
 
       const imei =
@@ -814,17 +1395,15 @@
 
 
 
-      /*
-       * 15 digit valid IMEI nahi hai
-       */
-
       if (!imei) {
 
 
         document
-          .getElementById('scanInfo')
+          .getElementById(
+            'scanInfo'
+          )
           .textContent =
-          '🔎 Barcode mil raha hai... IMEI 1 barcode dhoondh raha hoon.';
+          '🔎 Barcode mil raha hai...';
 
 
         return;
@@ -834,7 +1413,7 @@
 
 
       /*
-       * Same IMEI ko confirm karna hai.
+       * Same IMEI ko confirm karna
        */
 
       if (
@@ -854,17 +1433,15 @@
 
 
       document
-        .getElementById('scanInfo')
+        .getElementById(
+          'scanInfo'
+        )
         .textContent =
-        '🔎 IMEI detected — confirming... ' +
+        '🔎 IMEI confirm ho raha hai... ' +
         candidateCount +
         '/2';
 
 
-
-      /*
-       * Do consecutive detections
-       */
 
       if (
         candidateCount >= 2
@@ -896,18 +1473,12 @@
       String(text);
 
 
-    /*
-     * Remove spaces / symbols
-     */
-
     const digits =
-      value.replace(/\D/g, '');
+      value.replace(
+        /\D/g,
+        ''
+      );
 
-
-
-    /*
-     * Exactly 15 digits
-     */
 
     if (
       digits.length === 15
@@ -923,12 +1494,6 @@
 
     }
 
-
-
-    /*
-     * Extra characters/digits aaye
-     * to possible 15 digit blocks check karo.
-     */
 
     if (
       digits.length > 15
@@ -977,7 +1542,10 @@
 
     imei =
       String(imei || '')
-        .replace(/\D/g, '');
+        .replace(
+          /\D/g,
+          ''
+        );
 
 
     if (
@@ -1061,26 +1629,35 @@
     } catch (e) {}
 
 
+
     document
-      .getElementById('imeiValue')
+      .getElementById(
+        'imeiValue'
+      )
       .textContent =
       imei;
 
 
     document
-      .getElementById('result')
+      .getElementById(
+        'result'
+      )
       .style
       .display = 'block';
 
 
     document
-      .getElementById('status')
+      .getElementById(
+        'status'
+      )
       .textContent =
       '✅ IMEI 1 successfully scanned.';
 
 
     document
-      .getElementById('scanInfo')
+      .getElementById(
+        'scanInfo'
+      )
       .textContent =
       '✅ IMEI 1 confirmed';
 
@@ -1115,7 +1692,9 @@
 
 
     const scanner =
-      document.getElementById('scanner');
+      document.getElementById(
+        'scanner'
+      );
 
 
     const videos =
@@ -1179,32 +1758,51 @@
 
 
     document
-      .getElementById('startBtn')
+      .getElementById(
+        'startBtn'
+      )
       .classList
-      .remove('hidden');
+      .remove(
+        'hidden'
+      );
 
 
     document
-      .getElementById('stopBtn')
+      .getElementById(
+        'stopBtn'
+      )
       .classList
-      .add('hidden');
+      .add(
+        'hidden'
+      );
 
 
     document
-      .getElementById('result')
+      .getElementById(
+        'result'
+      )
       .style
       .display = 'none';
 
 
     document
-      .getElementById('scanInfo')
+      .getElementById(
+        'scanInfo'
+      )
       .textContent = '';
 
 
     document
-      .getElementById('status')
+      .getElementById(
+        'status'
+      )
       .textContent =
       'Camera band ho gaya.';
+
+
+    updateZoomText(
+      'Zoom 1.0×'
+    );
 
   }
 
@@ -1231,13 +1829,17 @@
 
 
     document
-      .getElementById('result')
+      .getElementById(
+        'result'
+      )
       .style
       .display = 'none';
 
 
     document
-      .getElementById('scanInfo')
+      .getElementById(
+        'scanInfo'
+      )
       .textContent = '';
 
 
@@ -1284,7 +1886,9 @@
 
 
       document
-        .getElementById('status')
+        .getElementById(
+          'status'
+        )
         .textContent =
         '✅ IMEI: ' +
         currentIMEI;
@@ -1344,4 +1948,5 @@
 </script>
 
 </body>
+
 </html>
