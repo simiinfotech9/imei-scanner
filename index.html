@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
   <meta charset="UTF-8">
@@ -9,10 +10,10 @@
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
   >
 
-  <title>Barcode Scanner Test</title>
+  <title>IMEI Scanner</title>
 
-  <!-- QUAGGA2 -->
   <script src="https://unpkg.com/@ericblade/quagga2@1.12.1/dist/quagga.js"></script>
+
 
   <style>
 
@@ -73,35 +74,48 @@
       position: relative;
       width: 100%;
       height: 420px;
+
       background: #000;
+
       border-radius: 14px;
+
       overflow: hidden;
+
       border: 2px solid #333;
     }
 
     #scanner video {
       width: 100%;
       height: 100%;
+
       object-fit: cover;
     }
 
     #scanner canvas {
       position: absolute !important;
-      top: 0;
-      left: 0;
+
+      left: 0 !important;
+      top: 0 !important;
+
       width: 100% !important;
       height: 100% !important;
+
+      pointer-events: none;
     }
+
+    /*
+     * IMEI 1 barcode ke liye focused frame
+     */
 
     .scan-frame {
       position: absolute;
 
-      left: 5%;
-      right: 5%;
+      left: 6%;
+      right: 6%;
 
-      top: 28%;
+      top: 30%;
 
-      height: 44%;
+      height: 27%;
 
       border: 3px solid #00ff55;
 
@@ -110,7 +124,7 @@
       pointer-events: none;
 
       box-shadow:
-        0 0 12px rgba(0,255,85,0.6);
+        0 0 12px rgba(0,255,85,0.7);
     }
 
     .scan-line {
@@ -131,21 +145,33 @@
 
     .instruction {
       text-align: center;
+
       color: #ddd;
+
       font-size: 14px;
+
       line-height: 1.5;
+
       margin: 14px 0;
     }
 
     button {
       width: 100%;
+
       border: none;
+
       border-radius: 10px;
+
       padding: 15px;
+
       font-size: 17px;
+
       font-weight: bold;
+
       cursor: pointer;
+
       margin-top: 10px;
+
       touch-action: manipulation;
     }
 
@@ -179,12 +205,14 @@
 
     .result-title {
       font-size: 17px;
+
       font-weight: bold;
+
       margin-bottom: 10px;
     }
 
-    .barcode-value {
-      font-size: 24px;
+    .imei {
+      font-size: 25px;
 
       font-weight: bold;
 
@@ -199,8 +227,15 @@
       border-radius: 8px;
     }
 
+    .use-btn {
+      background: white;
+
+      color: #1b5e20;
+    }
+
     .again-btn {
       background: #555;
+
       color: white;
     }
 
@@ -210,9 +245,24 @@
 
     .small-info {
       text-align: center;
+
       color: #aaa;
+
       font-size: 12px;
+
       margin-top: 12px;
+    }
+
+    .scan-info {
+      text-align: center;
+
+      color: #aaa;
+
+      font-size: 12px;
+
+      min-height: 18px;
+
+      margin-top: 8px;
     }
 
   </style>
@@ -224,7 +274,7 @@
 
 
   <div class="header">
-    📷 BARCODE SCANNER
+    📷 IMEI SCANNER
   </div>
 
 
@@ -232,7 +282,7 @@
 
 
     <div class="title">
-      Scan Any Barcode
+      Scan IMEI 1 Barcode
     </div>
 
 
@@ -258,16 +308,22 @@
 
     <div class="instruction">
 
-      📱 Barcode ko green frame ke andar rakhein.
+      📱 <b>IMEI 1</b> barcode ko green frame ke andar rakhein.
 
       <br>
 
-      Barcode ko seedha aur clear rakhein.
+      Barcode kisi bhi type ka ho sakta hai.
 
       <br>
 
-      <b>Abhi sirf barcode reading test hai.</b>
+      Sirf valid IMEI 1 detect hone par result milega.
 
+    </div>
+
+
+    <div
+      id="scanInfo"
+      class="scan-info">
     </div>
 
 
@@ -295,17 +351,27 @@
       id="result"
       class="result">
 
+
       <div class="result-title">
 
-        ✅ BARCODE SCANNED
+        ✅ IMEI 1 SCANNED
 
       </div>
 
 
       <div
-        id="barcodeValue"
-        class="barcode-value">
+        id="imeiValue"
+        class="imei">
       </div>
+
+
+      <button
+        class="use-btn"
+        onclick="sendIMEIBack()">
+
+        ✓ USE THIS IMEI
+
+      </button>
 
 
       <button
@@ -316,12 +382,13 @@
 
       </button>
 
+
     </div>
 
 
     <div class="small-info">
 
-      Barcode Reading Test
+      Any Barcode Format • IMEI Validation
 
     </div>
 
@@ -337,13 +404,24 @@
 
   let scannerRunning = false;
 
-  let currentValue = '';
+  let currentIMEI = '';
 
 
+  /*
+   * Same IMEI ko multiple times
+   * detect karna zaroori hai.
+   */
 
-  /* =====================================================
-     START
-     ===================================================== */
+  let candidateIMEI = '';
+
+  let candidateCount = 0;
+
+
+  /*
+   * =====================================================
+   * START SCANNER
+   * =====================================================
+   */
 
   function startScanner() {
 
@@ -364,6 +442,10 @@
       document.getElementById('result');
 
 
+    const scanInfo =
+      document.getElementById('scanInfo');
+
+
     try {
 
 
@@ -382,10 +464,16 @@
 
       scannerRunning = false;
 
-      currentValue = '';
+      currentIMEI = '';
+
+      candidateIMEI = '';
+
+      candidateCount = 0;
 
 
       result.style.display = 'none';
+
+      scanInfo.textContent = '';
 
 
       startBtn.classList.add('hidden');
@@ -400,21 +488,15 @@
 
       /*
        * =================================================
-       * QUAGGA CONFIG
+       * CAMERA
+       *
+       * Ye wahi camera setup hai jo
+       * tumhare naye phone par working hai.
        * =================================================
-       *
-       * Camera:
-       * Rear / Environment
-       *
-       * Readers:
-       * Multiple common barcode types
-       *
-       * No IMEI restriction
-       *
-       * No 15 digit restriction
        */
 
       const config = {
+
 
         inputStream: {
 
@@ -424,6 +506,7 @@
 
           target:
             document.getElementById('scanner'),
+
 
           constraints: {
 
@@ -445,20 +528,33 @@
 
           },
 
+
+          /*
+           * Scanner ko central area par focus
+           * karne ke liye.
+           *
+           * IMPORTANT:
+           * Barcode FORMAT restrict nahi ho raha.
+           */
+
           area: {
 
-            top: '20%',
+            top: '28%',
 
-            right: '5%',
+            right: '6%',
 
-            left: '5%',
+            left: '6%',
 
-            bottom: '20%'
+            bottom: '45%'
 
           }
 
         },
 
+
+        /*
+         * Barcode locator
+         */
 
         locator: {
 
@@ -468,6 +564,10 @@
 
         },
 
+
+        /*
+         * Phone ke available workers
+         */
 
         numOfWorkers:
           navigator.hardwareConcurrency
@@ -480,6 +580,16 @@
 
         frequency: 10,
 
+
+        /*
+         * =================================================
+         * IMPORTANT
+         *
+         * Koi ek barcode format assume nahi kiya.
+         *
+         * Multiple 1D formats enabled.
+         * =================================================
+         */
 
         decoder: {
 
@@ -553,24 +663,33 @@
 
 
 
+      /*
+       * START QUAGGA
+       */
+
       Quagga.init(
+
         config,
+
         function(error) {
 
 
           if (error) {
 
+
             console.error(
-              'QUAGGA INIT ERROR:',
+              'QUAGGA ERROR:',
               error
             );
 
 
             scanning = false;
 
+
             startBtn.classList.remove(
               'hidden'
             );
+
 
             stopBtn.classList.add(
               'hidden'
@@ -584,15 +703,11 @@
                 error
               );
 
+
             return;
 
           }
 
-
-
-          /*
-           * Camera successfully started
-           */
 
           Quagga.start();
 
@@ -600,15 +715,15 @@
 
 
           status.textContent =
-            '✅ Camera ready — barcode scan karein.';
+            '✅ Camera ready — IMEI 1 barcode green frame mein rakhein.';
 
 
-          console.log(
-            'Quagga camera started.'
-          );
+          scanInfo.textContent =
+            '🔎 Barcode searching...';
 
 
         }
+
       );
 
 
@@ -652,6 +767,7 @@
      ===================================================== */
 
   Quagga.onDetected(
+
     function(result) {
 
 
@@ -670,68 +786,308 @@
       }
 
 
-      const code =
+      const raw =
         result.codeResult.code;
 
 
-      if (!code) {
+      if (!raw) {
         return;
       }
 
 
       console.log(
-        'BARCODE DETECTED:',
-        code
+        'RAW BARCODE:',
+        raw
       );
 
 
+
       /*
-       * FIRST SUCCESSFUL READ
+       * Abhi kisi bhi barcode ko directly
+       * accept nahi karenge.
        *
-       * No validation.
-       * No 15 digit check.
-       * No IMEI check.
-       *
-       * Jo mila wahi dikhao.
+       * Pehle IMEI candidate niklega.
        */
 
-      currentValue =
-        String(code);
-
-
-      scanning = false;
+      const imei =
+        extractIMEI(raw);
 
 
 
-      try {
-        navigator.vibrate(200);
-      } catch (e) {}
+      /*
+       * 15 digit valid IMEI nahi hai
+       */
+
+      if (!imei) {
+
+
+        document
+          .getElementById('scanInfo')
+          .textContent =
+          '🔎 Barcode mil raha hai... IMEI 1 barcode dhoondh raha hoon.';
+
+
+        return;
+
+      }
+
+
+
+      /*
+       * Same IMEI ko confirm karna hai.
+       */
+
+      if (
+        candidateIMEI === imei
+      ) {
+
+        candidateCount++;
+
+      } else {
+
+        candidateIMEI = imei;
+
+        candidateCount = 1;
+
+      }
 
 
 
       document
-        .getElementById('barcodeValue')
+        .getElementById('scanInfo')
         .textContent =
-        currentValue;
+        '🔎 IMEI detected — confirming... ' +
+        candidateCount +
+        '/2';
 
 
-      document
-        .getElementById('result')
-        .style
-        .display = 'block';
 
+      /*
+       * Do consecutive detections
+       */
 
-      document
-        .getElementById('status')
-        .textContent =
-        '✅ Barcode successfully read.';
+      if (
+        candidateCount >= 2
+      ) {
 
+        acceptIMEI(imei);
 
-      stopCameraOnly();
-
+      }
 
     }
+
   );
+
+
+
+  /* =====================================================
+     EXTRACT IMEI
+     ===================================================== */
+
+  function extractIMEI(text) {
+
+
+    if (!text) {
+      return null;
+    }
+
+
+    const value =
+      String(text);
+
+
+    /*
+     * Remove spaces / symbols
+     */
+
+    const digits =
+      value.replace(/\D/g, '');
+
+
+
+    /*
+     * Exactly 15 digits
+     */
+
+    if (
+      digits.length === 15
+    ) {
+
+      if (
+        isValidIMEI(digits)
+      ) {
+
+        return digits;
+
+      }
+
+    }
+
+
+
+    /*
+     * Extra characters/digits aaye
+     * to possible 15 digit blocks check karo.
+     */
+
+    if (
+      digits.length > 15
+    ) {
+
+
+      for (
+        let i = 0;
+        i <= digits.length - 15;
+        i++
+      ) {
+
+
+        const candidate =
+          digits.substring(
+            i,
+            i + 15
+          );
+
+
+        if (
+          isValidIMEI(candidate)
+        ) {
+
+          return candidate;
+
+        }
+
+      }
+
+    }
+
+
+    return null;
+
+  }
+
+
+
+  /* =====================================================
+     IMEI VALIDATION
+     ===================================================== */
+
+  function isValidIMEI(imei) {
+
+
+    imei =
+      String(imei || '')
+        .replace(/\D/g, '');
+
+
+    if (
+      imei.length !== 15
+    ) {
+
+      return false;
+
+    }
+
+
+    let sum = 0;
+
+
+    for (
+      let i = 0;
+      i < 15;
+      i++
+    ) {
+
+
+      let digit =
+        parseInt(
+          imei.charAt(i),
+          10
+        );
+
+
+      if (
+        i % 2 === 1
+      ) {
+
+        digit *= 2;
+
+
+        if (
+          digit > 9
+        ) {
+
+          digit -= 9;
+
+        }
+
+      }
+
+
+      sum += digit;
+
+    }
+
+
+    return (
+      sum % 10 === 0
+    );
+
+  }
+
+
+
+  /* =====================================================
+     ACCEPT IMEI
+     ===================================================== */
+
+  function acceptIMEI(imei) {
+
+
+    if (!scanning) {
+      return;
+    }
+
+
+    currentIMEI = imei;
+
+    scanning = false;
+
+
+    try {
+
+      navigator.vibrate(250);
+
+    } catch (e) {}
+
+
+    document
+      .getElementById('imeiValue')
+      .textContent =
+      imei;
+
+
+    document
+      .getElementById('result')
+      .style
+      .display = 'block';
+
+
+    document
+      .getElementById('status')
+      .textContent =
+      '✅ IMEI 1 successfully scanned.';
+
+
+    document
+      .getElementById('scanInfo')
+      .textContent =
+      '✅ IMEI 1 confirmed';
+
+
+    stopCameraOnly();
+
+  }
 
 
 
@@ -744,7 +1100,9 @@
 
     try {
 
-      if (scannerRunning) {
+      if (
+        scannerRunning
+      ) {
 
         Quagga.stop();
 
@@ -755,10 +1113,6 @@
 
     scannerRunning = false;
 
-
-    /*
-     * Remove camera video if possible
-     */
 
     const scanner =
       document.getElementById('scanner');
@@ -773,9 +1127,14 @@
     videos.forEach(
       function(video) {
 
+
         try {
 
-          if (video.srcObject) {
+
+          if (
+            video.srcObject
+          ) {
+
 
             video.srcObject
               .getTracks()
@@ -788,6 +1147,7 @@
               );
 
           }
+
 
         } catch (e) {}
 
@@ -811,7 +1171,11 @@
     stopCameraOnly();
 
 
-    currentValue = '';
+    currentIMEI = '';
+
+    candidateIMEI = '';
+
+    candidateCount = 0;
 
 
     document
@@ -830,6 +1194,11 @@
       .getElementById('result')
       .style
       .display = 'none';
+
+
+    document
+      .getElementById('scanInfo')
+      .textContent = '';
 
 
     document
@@ -854,7 +1223,11 @@
     stopCameraOnly();
 
 
-    currentValue = '';
+    currentIMEI = '';
+
+    candidateIMEI = '';
+
+    candidateCount = 0;
 
 
     document
@@ -863,7 +1236,78 @@
       .display = 'none';
 
 
+    document
+      .getElementById('scanInfo')
+      .textContent = '';
+
+
     startScanner();
+
+  }
+
+
+
+  /* =====================================================
+     SEND IMEI BACK
+     ===================================================== */
+
+  function sendIMEIBack() {
+
+
+    if (!currentIMEI) {
+      return;
+    }
+
+
+    try {
+
+      navigator.vibrate(100);
+
+    } catch (e) {}
+
+
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
+
+
+    const returnUrl =
+      params.get('return');
+
+
+    /*
+     * Direct scanner testing
+     */
+
+    if (!returnUrl) {
+
+
+      document
+        .getElementById('status')
+        .textContent =
+        '✅ IMEI: ' +
+        currentIMEI;
+
+
+      return;
+
+    }
+
+
+    const separator =
+      returnUrl.includes('?')
+        ? '&'
+        : '?';
+
+
+    window.location.href =
+      returnUrl +
+      separator +
+      'imei=' +
+      encodeURIComponent(
+        currentIMEI
+      );
 
   }
 
@@ -898,7 +1342,6 @@
 
 
 </script>
-
 
 </body>
 </html>
