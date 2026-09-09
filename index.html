@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -8,10 +9,10 @@
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
   >
 
-  <title>IMEI Scanner</title>
+  <title>Barcode Scanner Test</title>
 
-  <!-- ONLY ZXing Browser -->
-  <script src="https://unpkg.com/@zxing/browser@0.2.1"></script>
+  <!-- QUAGGA2 -->
+  <script src="https://unpkg.com/@ericblade/quagga2@1.12.1/dist/quagga.js"></script>
 
   <style>
 
@@ -30,10 +31,6 @@
       font-family: Arial, sans-serif;
     }
 
-    body {
-      min-height: 100vh;
-    }
-
     .header {
       background: #1976d2;
       padding: 18px 10px;
@@ -45,7 +42,7 @@
     .container {
       width: 100%;
       max-width: 650px;
-      margin: 0 auto;
+      margin: auto;
       padding: 16px;
     }
 
@@ -68,30 +65,32 @@
       align-items: center;
       justify-content: center;
 
-      line-height: 1.4;
       font-size: 15px;
+      line-height: 1.4;
     }
 
-    .video-box {
+    #scanner {
       position: relative;
       width: 100%;
+      height: 420px;
       background: #000;
       border-radius: 14px;
       overflow: hidden;
       border: 2px solid #333;
     }
 
-    video {
+    #scanner video {
       width: 100%;
-      height: auto;
-      min-height: 300px;
-      max-height: 75vh;
-
-      display: block;
-
-      background: #000;
-
+      height: 100%;
       object-fit: cover;
+    }
+
+    #scanner canvas {
+      position: absolute !important;
+      top: 0;
+      left: 0;
+      width: 100% !important;
+      height: 100% !important;
     }
 
     .scan-frame {
@@ -100,9 +99,9 @@
       left: 5%;
       right: 5%;
 
-      top: 27%;
+      top: 28%;
 
-      height: 46%;
+      height: 44%;
 
       border: 3px solid #00ff55;
 
@@ -111,7 +110,7 @@
       pointer-events: none;
 
       box-shadow:
-        0 0 12px rgba(0, 255, 85, 0.6);
+        0 0 12px rgba(0,255,85,0.6);
     }
 
     .scan-line {
@@ -132,33 +131,21 @@
 
     .instruction {
       text-align: center;
-
       color: #ddd;
-
       font-size: 14px;
-
       line-height: 1.5;
-
       margin: 14px 0;
     }
 
     button {
       width: 100%;
-
       border: none;
-
       border-radius: 10px;
-
       padding: 15px;
-
       font-size: 17px;
-
       font-weight: bold;
-
       cursor: pointer;
-
       margin-top: 10px;
-
       touch-action: manipulation;
     }
 
@@ -192,14 +179,12 @@
 
     .result-title {
       font-size: 17px;
-
       font-weight: bold;
-
       margin-bottom: 10px;
     }
 
-    .imei {
-      font-size: 25px;
+    .barcode-value {
+      font-size: 24px;
 
       font-weight: bold;
 
@@ -207,16 +192,11 @@
 
       word-break: break-all;
 
-      background: rgba(0, 0, 0, 0.25);
+      background: rgba(0,0,0,0.25);
 
       padding: 12px;
 
       border-radius: 8px;
-    }
-
-    .use-btn {
-      background: white;
-      color: #1b5e20;
     }
 
     .again-btn {
@@ -230,24 +210,9 @@
 
     .small-info {
       text-align: center;
-
       color: #aaa;
-
       font-size: 12px;
-
       margin-top: 12px;
-    }
-
-    .scan-info {
-      text-align: center;
-
-      color: #aaa;
-
-      font-size: 12px;
-
-      min-height: 18px;
-
-      margin-top: 8px;
     }
 
   </style>
@@ -257,32 +222,30 @@
 
 <body>
 
+
   <div class="header">
-    📷 IMEI SCANNER
+    📷 BARCODE SCANNER
   </div>
 
 
   <div class="container">
 
+
     <div class="title">
-      Scan IMEI 1 Barcode
+      Scan Any Barcode
     </div>
 
 
-    <div id="status" class="status">
+    <div
+      id="status"
+      class="status">
+
       Camera start karne ke liye button dabayein.
+
     </div>
 
 
-    <div class="video-box">
-
-      <video
-        id="video"
-        autoplay
-        muted
-        playsinline>
-      </video>
-
+    <div id="scanner">
 
       <div class="scan-frame">
 
@@ -295,22 +258,16 @@
 
     <div class="instruction">
 
-      📱 <b>IMEI 1</b> barcode ko green frame ke andar rakhein.
+      📱 Barcode ko green frame ke andar rakhein.
 
       <br>
 
-      Barcode kisi bhi type ka ho sakta hai.
+      Barcode ko seedha aur clear rakhein.
 
       <br>
 
-      Barcode ko frame mein bada, seedha aur clear rakhein.
+      <b>Abhi sirf barcode reading test hai.</b>
 
-    </div>
-
-
-    <div
-      id="scanInfo"
-      class="scan-info">
     </div>
 
 
@@ -339,23 +296,16 @@
       class="result">
 
       <div class="result-title">
-        ✅ IMEI 1 SCANNED
+
+        ✅ BARCODE SCANNED
+
       </div>
 
 
       <div
-        id="imeiValue"
-        class="imei">
+        id="barcodeValue"
+        class="barcode-value">
       </div>
-
-
-      <button
-        class="use-btn"
-        onclick="sendIMEIBack()">
-
-        ✓ USE THIS IMEI
-
-      </button>
 
 
       <button
@@ -371,9 +321,10 @@
 
     <div class="small-info">
 
-      All Barcode Formats • IMEI Validation
+      Barcode Reading Test
 
     </div>
+
 
   </div>
 
@@ -381,48 +332,60 @@
 
 <script>
 
-  let codeReader = null;
-
-  let controls = null;
 
   let scanning = false;
 
-  let currentIMEI = '';
+  let scannerRunning = false;
+
+  let currentValue = '';
 
 
 
   /* =====================================================
-     START SCANNER
+     START
      ===================================================== */
 
-  async function startScanner() {
+  function startScanner() {
+
 
     const status =
       document.getElementById('status');
 
+
     const startBtn =
       document.getElementById('startBtn');
+
 
     const stopBtn =
       document.getElementById('stopBtn');
 
+
     const result =
       document.getElementById('result');
-
-    const scanInfo =
-      document.getElementById('scanInfo');
 
 
     try {
 
+
+      if (
+        typeof Quagga === 'undefined'
+      ) {
+
+        throw new Error(
+          'Barcode scanner library load nahi hui.'
+        );
+
+      }
+
+
       scanning = true;
 
-      currentIMEI = '';
+      scannerRunning = false;
+
+      currentValue = '';
 
 
       result.style.display = 'none';
-
-      scanInfo.textContent = '';
 
 
       startBtn.classList.add('hidden');
@@ -435,156 +398,225 @@
 
 
 
-      /* ===============================================
-         CAMERA SUPPORT CHECK
-         =============================================== */
+      /*
+       * =================================================
+       * QUAGGA CONFIG
+       * =================================================
+       *
+       * Camera:
+       * Rear / Environment
+       *
+       * Readers:
+       * Multiple common barcode types
+       *
+       * No IMEI restriction
+       *
+       * No 15 digit restriction
+       */
 
-      if (
-        !navigator.mediaDevices ||
-        !navigator.mediaDevices.getUserMedia
-      ) {
+      const config = {
 
-        throw new Error(
-          'Browser camera support nahi karta.'
-        );
+        inputStream: {
 
-      }
+          name: 'Live',
 
+          type: 'LiveStream',
 
+          target:
+            document.getElementById('scanner'),
 
-      /* ===============================================
-         CAMERA SETTINGS
-         
-         SAME WORKING SETTINGS
-         =============================================== */
+          constraints: {
 
-      const constraints = {
+            facingMode: {
+              ideal: 'environment'
+            },
 
-        video: {
+            width: {
+              ideal: 1920
+            },
 
-          facingMode: {
-            ideal: 'environment'
+            height: {
+              ideal: 1080
+            },
+
+            frameRate: {
+              ideal: 30
+            }
+
           },
 
-          width: {
-            ideal: 1920
-          },
+          area: {
 
-          height: {
-            ideal: 1080
-          },
+            top: '20%',
 
-          frameRate: {
-            ideal: 30
+            right: '5%',
+
+            left: '5%',
+
+            bottom: '20%'
+
           }
 
         },
 
-        audio: false
+
+        locator: {
+
+          patchSize: 'medium',
+
+          halfSample: false
+
+        },
+
+
+        numOfWorkers:
+          navigator.hardwareConcurrency
+            ? Math.min(
+                4,
+                navigator.hardwareConcurrency
+              )
+            : 2,
+
+
+        frequency: 10,
+
+
+        decoder: {
+
+          readers: [
+
+            {
+              format: 'code_128_reader',
+              config: {}
+            },
+
+            {
+              format: 'code_39_reader',
+              config: {}
+            },
+
+            {
+              format: 'code_39_vin_reader',
+              config: {}
+            },
+
+            {
+              format: 'code_93_reader',
+              config: {}
+            },
+
+            {
+              format: 'ean_reader',
+              config: {}
+            },
+
+            {
+              format: 'ean_8_reader',
+              config: {}
+            },
+
+            {
+              format: 'upc_reader',
+              config: {}
+            },
+
+            {
+              format: 'upc_e_reader',
+              config: {}
+            },
+
+            {
+              format: 'codabar_reader',
+              config: {}
+            },
+
+            {
+              format: 'i2of5_reader',
+              config: {}
+            },
+
+            {
+              format: '2of5_reader',
+              config: {}
+            }
+
+          ]
+
+        },
+
+
+        locate: true,
+
+        debug: false
 
       };
 
 
 
-      /* ===============================================
-         ZXING CHECK
-         =============================================== */
-
-      if (
-        typeof ZXingBrowser === 'undefined'
-      ) {
-
-        throw new Error(
-          'Barcode scanner library load nahi hui.'
-        );
-
-      }
+      Quagga.init(
+        config,
+        function(error) {
 
 
+          if (error) {
 
-      /* ===============================================
-         MULTI-FORMAT READER
-         
-         IMPORTANT:
-         NO FORMAT RESTRICTION.
-         
-         Code 128 nahi.
-         Code 39 nahi.
-         EAN nahi.
-         ITF nahi.
-         
-         ZXing apne supported formats
-         khud try karega.
-         =============================================== */
-
-      codeReader =
-        new ZXingBrowser.BrowserMultiFormatReader();
-
-
-
-      scanInfo.textContent =
-        '🔎 All supported barcode formats active';
-
-
-
-      /* ===============================================
-         START CAMERA + SCANNER
-         =============================================== */
-
-      controls =
-        await codeReader.decodeFromConstraints(
-
-          constraints,
-
-          document.getElementById('video'),
-
-          function(result, error) {
-
-            if (!scanning) {
-              return;
-            }
-
-
-            if (!result) {
-              return;
-            }
-
-
-
-            const raw =
-              result.getText();
-
-
-
-            console.log(
-              'BARCODE DETECTED:',
-              raw
+            console.error(
+              'QUAGGA INIT ERROR:',
+              error
             );
 
 
+            scanning = false;
 
-            processBarcode(raw);
+            startBtn.classList.remove(
+              'hidden'
+            );
+
+            stopBtn.classList.add(
+              'hidden'
+            );
+
+
+            status.textContent =
+              '❌ Camera start nahi hua: ' +
+              (
+                error.message ||
+                error
+              );
+
+            return;
 
           }
 
-        );
 
 
+          /*
+           * Camera successfully started
+           */
 
-      if (!scanning) {
-        return;
-      }
+          Quagga.start();
+
+          scannerRunning = true;
 
 
+          status.textContent =
+            '✅ Camera ready — barcode scan karein.';
 
-      status.textContent =
-        '✅ Camera ready — IMEI 1 barcode scan karein.';
+
+          console.log(
+            'Quagga camera started.'
+          );
+
+
+        }
+      );
 
 
     } catch (error) {
 
+
       console.error(
-        'SCANNER ERROR:',
+        'START ERROR:',
         error
       );
 
@@ -592,16 +624,22 @@
       scanning = false;
 
 
-      startBtn.classList.remove('hidden');
+      startBtn.classList.remove(
+        'hidden'
+      );
 
-      stopBtn.classList.add('hidden');
 
-
-      scanInfo.textContent = '';
+      stopBtn.classList.add(
+        'hidden'
+      );
 
 
       status.textContent =
-        cameraError(error);
+        '❌ ' +
+        (
+          error.message ||
+          error
+        );
 
     }
 
@@ -610,288 +648,150 @@
 
 
   /* =====================================================
-     PROCESS BARCODE
+     BARCODE DETECTED
      ===================================================== */
 
-  function processBarcode(raw) {
-
-    if (!scanning) {
-      return;
-    }
+  Quagga.onDetected(
+    function(result) {
 
 
-    if (!raw) {
-      return;
-    }
+      if (!scanning) {
+        return;
+      }
+
+
+      if (!result) {
+        return;
+      }
+
+
+      if (!result.codeResult) {
+        return;
+      }
+
+
+      const code =
+        result.codeResult.code;
+
+
+      if (!code) {
+        return;
+      }
+
+
+      console.log(
+        'BARCODE DETECTED:',
+        code
+      );
+
+
+      /*
+       * FIRST SUCCESSFUL READ
+       *
+       * No validation.
+       * No 15 digit check.
+       * No IMEI check.
+       *
+       * Jo mila wahi dikhao.
+       */
+
+      currentValue =
+        String(code);
+
+
+      scanning = false;
 
 
 
-    const imei =
-      extractIMEI(raw);
+      try {
+        navigator.vibrate(200);
+      } catch (e) {}
 
 
-
-    /*
-     * Barcode detect hua,
-     * lekin usmein 15 digit IMEI nahi mila.
-     */
-
-    if (!imei) {
 
       document
-        .getElementById('scanInfo')
+        .getElementById('barcodeValue')
         .textContent =
-        '⚠️ Barcode detected — IMEI 1 barcode scan karein.';
+        currentValue;
 
-      return;
-
-    }
-
-
-
-    /*
-     * IMEI validation
-     */
-
-    if (!isValidIMEI(imei)) {
 
       document
-        .getElementById('scanInfo')
-        .textContent =
-        '⚠️ 15 digit number mila, lekin valid IMEI nahi hai.';
+        .getElementById('result')
+        .style
+        .display = 'block';
 
-      return;
+
+      document
+        .getElementById('status')
+        .textContent =
+        '✅ Barcode successfully read.';
+
+
+      stopCameraOnly();
+
 
     }
+  );
 
 
 
-    /*
-     * SUCCESS
-     */
+  /* =====================================================
+     STOP CAMERA
+     ===================================================== */
 
-    currentIMEI = imei;
-
-    scanning = false;
-
+  function stopCameraOnly() {
 
 
     try {
 
-      navigator.vibrate(250);
+      if (scannerRunning) {
+
+        Quagga.stop();
+
+      }
 
     } catch (e) {}
 
 
-
-    document
-      .getElementById('imeiValue')
-      .textContent = imei;
-
-
-
-    document
-      .getElementById('result')
-      .style
-      .display = 'block';
-
-
-
-    document
-      .getElementById('status')
-      .textContent =
-      '✅ IMEI 1 successfully scanned.';
-
-
-
-    document
-      .getElementById('scanInfo')
-      .textContent =
-      '✅ IMEI 1 detected';
-
-
-
-    stopCameraOnly();
-
-  }
-
-
-
-  /* =====================================================
-     EXTRACT IMEI
-     ===================================================== */
-
-  function extractIMEI(text) {
-
-    if (!text) {
-      return null;
-    }
-
-
-
-    const value =
-      String(text).trim();
-
+    scannerRunning = false;
 
 
     /*
-     * Case 1:
-     * Exactly 15 consecutive digits
+     * Remove camera video if possible
      */
 
-    const directMatch =
-      value.match(/\d{15}/);
+    const scanner =
+      document.getElementById('scanner');
 
 
-
-    if (directMatch) {
-
-      const candidate =
-        directMatch[0];
-
-
-      if (
-        isValidIMEI(candidate)
-      ) {
-
-        return candidate;
-
-      }
-
-    }
+    const videos =
+      scanner.querySelectorAll(
+        'video'
+      );
 
 
+    videos.forEach(
+      function(video) {
 
-    /*
-     * Case 2:
-     * Barcode may contain spaces/symbols.
-     */
+        try {
 
-    const digits =
-      value.replace(/\D/g, '');
+          if (video.srcObject) {
 
+            video.srcObject
+              .getTracks()
+              .forEach(
+                function(track) {
 
+                  track.stop();
 
-    if (digits.length === 15) {
+                }
+              );
 
-      if (
-        isValidIMEI(digits)
-      ) {
+          }
 
-        return digits;
+        } catch (e) {}
 
       }
-
-    }
-
-
-
-    /*
-     * Case 3:
-     * Barcode reader may return
-     * extra characters/digits.
-     *
-     * Find any valid 15-digit IMEI.
-     */
-
-    if (digits.length > 15) {
-
-      for (
-        let i = 0;
-        i <= digits.length - 15;
-        i++
-      ) {
-
-        const candidate =
-          digits.substring(
-            i,
-            i + 15
-          );
-
-
-        if (
-          isValidIMEI(candidate)
-        ) {
-
-          return candidate;
-
-        }
-
-      }
-
-    }
-
-
-
-    return null;
-
-  }
-
-
-
-  /* =====================================================
-     IMEI Luhn VALIDATION
-     ===================================================== */
-
-  function isValidIMEI(imei) {
-
-    imei =
-      String(imei || '')
-        .replace(/\D/g, '');
-
-
-
-    if (imei.length !== 15) {
-
-      return false;
-
-    }
-
-
-
-    let sum = 0;
-
-
-
-    for (
-      let i = 0;
-      i < 15;
-      i++
-    ) {
-
-      let digit =
-        parseInt(
-          imei.charAt(i),
-          10
-        );
-
-
-
-      if (i % 2 === 1) {
-
-        digit =
-          digit * 2;
-
-
-        if (digit > 9) {
-
-          digit =
-            digit - 9;
-
-        }
-
-      }
-
-
-
-      sum += digit;
-
-    }
-
-
-
-    return (
-      sum % 10 === 0
     );
 
   }
@@ -899,59 +799,11 @@
 
 
   /* =====================================================
-     STOP CAMERA ONLY
-     ===================================================== */
-
-  function stopCameraOnly() {
-
-    try {
-
-      if (controls) {
-
-        controls.stop();
-
-      }
-
-    } catch (e) {}
-
-
-    controls = null;
-
-
-
-    const video =
-      document.getElementById('video');
-
-
-
-    try {
-
-      if (video.srcObject) {
-
-        video.srcObject
-          .getTracks()
-          .forEach(function(track) {
-
-            track.stop();
-
-          });
-
-      }
-
-
-      video.srcObject = null;
-
-    } catch (e) {}
-
-  }
-
-
-
-  /* =====================================================
-     STOP SCANNER
+     STOP BUTTON
      ===================================================== */
 
   function stopScanner() {
+
 
     scanning = false;
 
@@ -959,22 +811,7 @@
     stopCameraOnly();
 
 
-
-    if (codeReader) {
-
-      try {
-
-        codeReader.reset();
-
-      } catch (e) {}
-
-    }
-
-
-    codeReader = null;
-
-    currentIMEI = '';
-
+    currentValue = '';
 
 
     document
@@ -996,11 +833,6 @@
 
 
     document
-      .getElementById('scanInfo')
-      .textContent = '';
-
-
-    document
       .getElementById('status')
       .textContent =
       'Camera band ho gaya.';
@@ -1015,41 +847,20 @@
 
   function scanAgain() {
 
+
     scanning = false;
 
 
     stopCameraOnly();
 
 
-
-    if (codeReader) {
-
-      try {
-
-        codeReader.reset();
-
-      } catch (e) {}
-
-    }
-
-
-    codeReader = null;
-
-    currentIMEI = '';
-
+    currentValue = '';
 
 
     document
       .getElementById('result')
       .style
       .display = 'none';
-
-
-
-    document
-      .getElementById('scanInfo')
-      .textContent = '';
-
 
 
     startScanner();
@@ -1059,164 +870,7 @@
 
 
   /* =====================================================
-     CAMERA ERROR
-     ===================================================== */
-
-  function cameraError(error) {
-
-    if (!error) {
-
-      return '❌ Camera start nahi hua.';
-
-    }
-
-
-
-    const name =
-      error.name || '';
-
-
-
-    const message =
-      error.message || '';
-
-
-
-    if (
-      name === 'NotAllowedError' ||
-      name === 'PermissionDeniedError'
-    ) {
-
-      return (
-        '❌ Camera permission denied. ' +
-        'Chrome mein Camera permission Allow karein.'
-      );
-
-    }
-
-
-
-    if (
-      name === 'NotFoundError'
-    ) {
-
-      return (
-        '❌ Camera nahi mila.'
-      );
-
-    }
-
-
-
-    if (
-      name === 'NotReadableError'
-    ) {
-
-      return (
-        '❌ Camera kisi doosri app mein use ho raha hai. Camera app band karein.'
-      );
-
-    }
-
-
-
-    if (
-      name === 'OverconstrainedError'
-    ) {
-
-      return (
-        '❌ Camera resolution support nahi hui.'
-      );
-
-    }
-
-
-
-    return (
-      '❌ Camera error: ' +
-      name +
-      (
-        message
-          ? ' — ' + message
-          : ''
-      )
-    );
-
-  }
-
-
-
-  /* =====================================================
-     SEND IMEI BACK TO APPS SCRIPT
-     ===================================================== */
-
-  function sendIMEIBack() {
-
-    if (!currentIMEI) {
-      return;
-    }
-
-
-
-    try {
-
-      navigator.vibrate(100);
-
-    } catch (e) {}
-
-
-
-    const params =
-      new URLSearchParams(
-        window.location.search
-      );
-
-
-
-    const returnUrl =
-      params.get('return');
-
-
-
-    /*
-     * Direct scanner testing ke liye
-     */
-
-    if (!returnUrl) {
-
-      document
-        .getElementById('status')
-        .textContent =
-        '✅ IMEI: ' +
-        currentIMEI;
-
-      return;
-
-    }
-
-
-
-    const separator =
-      returnUrl.includes('?')
-        ? '&'
-        : '?';
-
-
-
-    window.location.href =
-      returnUrl +
-      separator +
-      'imei=' +
-      encodeURIComponent(
-        currentIMEI
-      );
-
-  }
-
-
-
-  /* =====================================================
-     SAFETY
+     PAGE CLOSE
      ===================================================== */
 
   window.addEventListener(
@@ -1242,7 +896,9 @@
     }
   );
 
+
 </script>
+
 
 </body>
 </html>
