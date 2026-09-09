@@ -10,7 +10,13 @@
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
   >
 
-  <title>Barcode Scanner</title>
+  <title>SCAN TEST v4.0</title>
+
+  <!--
+    SCAN TEST v4.0
+    ANY BARCODE
+    2026-09-09
+  -->
 
   <script src="https://unpkg.com/@ericblade/quagga2@1.12.1/dist/quagga.js"></script>
 
@@ -51,9 +57,9 @@
     }
 
 
-    /* =========================
+    /* =========================================
        HEADER
-       ========================= */
+       ========================================= */
 
     .header {
 
@@ -61,20 +67,47 @@
 
       background: #1976d2;
 
-      padding: 10px 8px;
+      padding: 8px 6px;
 
       text-align: center;
 
-      font-size: 20px;
+      font-size: 19px;
 
       font-weight: bold;
 
     }
 
 
-    /* =========================
-       MAIN CONTAINER
-       ========================= */
+    /* =========================================
+       VERSION BADGE
+       ========================================= */
+
+    .version {
+
+      flex: 0 0 auto;
+
+      background: #263238;
+
+      color: #00ff55;
+
+      text-align: center;
+
+      padding: 5px 4px;
+
+      font-size: 12px;
+
+      font-weight: bold;
+
+      letter-spacing: 0.5px;
+
+      border-bottom: 1px solid #444;
+
+    }
+
+
+    /* =========================================
+       MAIN
+       ========================================= */
 
     .container {
 
@@ -84,7 +117,7 @@
 
       margin: 0 auto;
 
-      padding: 7px 10px;
+      padding: 6px 10px;
 
       flex: 1;
 
@@ -97,9 +130,9 @@
     }
 
 
-    /* =========================
+    /* =========================================
        TITLE
-       ========================= */
+       ========================================= */
 
     .title {
 
@@ -107,18 +140,18 @@
 
       text-align: center;
 
-      font-size: 18px;
+      font-size: 17px;
 
       font-weight: bold;
 
-      margin: 2px 0 6px;
+      margin: 2px 0 5px;
 
     }
 
 
-    /* =========================
+    /* =========================================
        STATUS
-       ========================= */
+       ========================================= */
 
     .status {
 
@@ -132,7 +165,7 @@
 
       text-align: center;
 
-      min-height: 35px;
+      min-height: 36px;
 
       display: flex;
 
@@ -149,9 +182,9 @@
     }
 
 
-    /* =========================
+    /* =========================================
        CAMERA
-       ========================= */
+       ========================================= */
 
     #scanner {
 
@@ -159,9 +192,9 @@
 
       width: 100%;
 
-      height: 210px;
+      height: 220px;
 
-      flex: 0 0 210px;
+      flex: 0 0 220px;
 
       background: #000;
 
@@ -174,15 +207,24 @@
     }
 
 
+    /*
+      IMPORTANT:
+
+      Camera element ko normal block rakha hai.
+
+      Flex / transform / unusual positioning
+      camera start ke time use nahi kar rahe.
+    */
+
     #scanner video {
 
       width: 100% !important;
 
       height: 100% !important;
 
-      object-fit: cover;
-
       display: block;
+
+      object-fit: cover;
 
     }
 
@@ -204,17 +246,17 @@
     }
 
 
-    /* =========================
-       GREEN FRAME
-       ========================= */
+    /* =========================================
+       SCAN FRAME
+       ========================================= */
 
     .scan-frame {
 
       position: absolute;
 
-      left: 6%;
+      left: 7%;
 
-      right: 6%;
+      right: 7%;
 
       top: 27%;
 
@@ -228,6 +270,8 @@
 
       box-shadow:
         0 0 10px rgba(0,255,85,0.7);
+
+      z-index: 10;
 
     }
 
@@ -252,15 +296,15 @@
     }
 
 
-    /* =========================
+    /* =========================================
        ZOOM
-       ========================= */
+       ========================================= */
 
     .zoom-row {
 
       flex: 0 0 auto;
 
-      height: 39px;
+      height: 38px;
 
       display: flex;
 
@@ -268,7 +312,7 @@
 
       justify-content: center;
 
-      gap: 9px;
+      gap: 10px;
 
       margin-top: 5px;
 
@@ -279,7 +323,7 @@
 
       width: 58px;
 
-      height: 36px;
+      height: 34px;
 
       padding: 0;
 
@@ -293,7 +337,7 @@
 
       color: white;
 
-      font-size: 23px;
+      font-size: 22px;
 
       font-weight: bold;
 
@@ -315,9 +359,9 @@
     }
 
 
-    /* =========================
+    /* =========================================
        INSTRUCTION
-       ========================= */
+       ========================================= */
 
     .instruction {
 
@@ -329,16 +373,16 @@
 
       font-size: 11px;
 
-      line-height: 1.2;
+      line-height: 1.25;
 
-      margin: 4px 0;
+      margin: 3px 0;
 
     }
 
 
-    /* =========================
+    /* =========================================
        SCAN INFO
-       ========================= */
+       ========================================= */
 
     .scan-info {
 
@@ -350,16 +394,16 @@
 
       font-size: 11px;
 
-      min-height: 14px;
+      min-height: 15px;
 
       margin: 2px 0;
 
     }
 
 
-    /* =========================
+    /* =========================================
        BUTTONS
-       ========================= */
+       ========================================= */
 
     button {
 
@@ -385,9 +429,9 @@
 
       width: 100%;
 
-      height: 43px;
+      height: 42px;
 
-      flex: 0 0 43px;
+      flex: 0 0 42px;
 
       border-radius: 9px;
 
@@ -416,9 +460,9 @@
     }
 
 
-    /* =========================
+    /* =========================================
        RESULT
-       ========================= */
+       ========================================= */
 
     .result {
 
@@ -428,7 +472,7 @@
 
       background: #1b5e20;
 
-      padding: 9px;
+      padding: 8px;
 
       border-radius: 10px;
 
@@ -518,6 +562,10 @@
     }
 
 
+    /* =========================================
+       FOOTER
+       ========================================= */
+
     .small-info {
 
       flex: 0 0 auto;
@@ -533,24 +581,36 @@
     }
 
 
-    /* =========================
-       SMALL PHONES
-       ========================= */
+    /* =========================================
+       SMALL SCREEN
+       ========================================= */
 
     @media (max-height: 700px) {
 
+
       .header {
 
-        padding: 8px;
+        padding: 6px;
 
-        font-size: 18px;
+        font-size: 17px;
 
       }
 
 
-      .container {
+      .version {
 
-        padding-top: 5px;
+        padding: 4px;
+
+        font-size: 11px;
+
+      }
+
+
+      #scanner {
+
+        height: 185px;
+
+        flex-basis: 185px;
 
       }
 
@@ -558,31 +618,6 @@
       .title {
 
         font-size: 16px;
-
-        margin-bottom: 4px;
-
-      }
-
-
-      #scanner {
-
-        height: 180px;
-
-        flex-basis: 180px;
-
-      }
-
-
-      .zoom-row {
-
-        height: 34px;
-
-      }
-
-
-      .zoom-btn {
-
-        height: 32px;
 
       }
 
@@ -605,13 +640,6 @@
       }
 
 
-      .result {
-
-        padding: 7px;
-
-      }
-
-
       .barcode-value {
 
         font-size: 19px;
@@ -628,9 +656,24 @@
 <body>
 
 
+  <!-- =========================================
+       HEADER
+       ========================================= -->
+
   <div class="header">
 
     📷 BARCODE SCANNER
+
+  </div>
+
+
+  <!-- =========================================
+       VERSION
+       ========================================= -->
+
+  <div class="version">
+
+    🟢 SCAN TEST v4.0 • ANY BARCODE • 09-09-2026
 
   </div>
 
@@ -640,7 +683,7 @@
 
     <div class="title">
 
-      Scan Barcode
+      Scan Any Barcode
 
     </div>
 
@@ -654,7 +697,9 @@
     </div>
 
 
-    <!-- CAMERA -->
+    <!-- =========================================
+         CAMERA
+         ========================================= -->
 
     <div id="scanner">
 
@@ -669,7 +714,9 @@
     </div>
 
 
-    <!-- ZOOM -->
+    <!-- =========================================
+         ZOOM
+         ========================================= -->
 
     <div class="zoom-row">
 
@@ -706,11 +753,11 @@
 
     <div class="instruction">
 
-      Barcode ko green frame mein rakhein.
+      Barcode green frame mein rakhein.
 
       <br>
 
-      Number ya alphabet — kuch bhi scan kar sakte hain.
+      Number + Alphabet dono allowed.
 
     </div>
 
@@ -724,7 +771,9 @@
     </div>
 
 
-    <!-- START -->
+    <!-- =========================================
+         START
+         ========================================= -->
 
     <button
       id="startBtn"
@@ -736,7 +785,9 @@
     </button>
 
 
-    <!-- STOP -->
+    <!-- =========================================
+         STOP
+         ========================================= -->
 
     <button
       id="stopBtn"
@@ -748,7 +799,9 @@
     </button>
 
 
-    <!-- RESULT -->
+    <!-- =========================================
+         RESULT
+         ========================================= -->
 
     <div
       id="result"
@@ -792,7 +845,7 @@
 
     <div class="small-info">
 
-      Any Barcode • Any Text • Any Serial
+      SCAN TEST v4.0 • Any Barcode Value
 
     </div>
 
@@ -804,6 +857,40 @@
 <script>
 
 
+  /*
+   * =====================================================
+   * VERSION
+   * =====================================================
+   */
+
+  const SCANNER_VERSION =
+    'SCAN TEST v4.0';
+
+
+  console.log(
+    '===================================='
+  );
+
+  console.log(
+    SCANNER_VERSION
+  );
+
+  console.log(
+    'ANY BARCODE MODE'
+  );
+
+  console.log(
+    '===================================='
+  );
+
+
+
+  /*
+   * =====================================================
+   * VARIABLES
+   * =====================================================
+   */
+
   let scanning = false;
 
   let scannerRunning = false;
@@ -811,14 +898,15 @@
   let currentValue = '';
 
 
+
   /*
-   * Same barcode ko 2 baar confirm karenge.
-   * Isse random one-frame reading kam hogi.
+   * Same barcode ko 2 baar confirm.
    */
 
   let candidateValue = '';
 
   let candidateCount = 0;
+
 
 
   /*
@@ -843,38 +931,58 @@
 
 
     const status =
-      document.getElementById('status');
+      document.getElementById(
+        'status'
+      );
 
 
     const startBtn =
-      document.getElementById('startBtn');
+      document.getElementById(
+        'startBtn'
+      );
 
 
     const stopBtn =
-      document.getElementById('stopBtn');
+      document.getElementById(
+        'stopBtn'
+      );
 
 
     const result =
-      document.getElementById('result');
+      document.getElementById(
+        'result'
+      );
 
 
     const scanInfo =
-      document.getElementById('scanInfo');
+      document.getElementById(
+        'scanInfo'
+      );
+
 
 
     try {
 
+
+      /*
+       * QUAGGA CHECK
+       */
 
       if (
         typeof Quagga === 'undefined'
       ) {
 
         throw new Error(
-          'Barcode scanner library load nahi hui.'
+          'Quagga library load nahi hui.'
         );
 
       }
 
+
+
+      /*
+       * RESET
+       */
 
       scanning = true;
 
@@ -886,10 +994,12 @@
 
       candidateCount = 0;
 
+
       currentZoom = 1;
 
 
-      result.style.display = 'none';
+      result.style.display =
+        'none';
 
 
       startBtn.classList.add(
@@ -912,9 +1022,14 @@
 
 
       /*
-       * CAMERA
+       * =================================================
+       * PROVEN CAMERA CONFIG
        *
-       * Same working camera settings.
+       * IMPORTANT:
+       * Ye wahi simple LiveStream setup hai
+       * jo pehle successfully camera start
+       * kar chuka hai.
+       * =================================================
        */
 
       const config = {
@@ -925,6 +1040,7 @@
           name: 'Live',
 
           type: 'LiveStream',
+
 
           target:
             document.getElementById(
@@ -954,18 +1070,18 @@
 
 
           /*
-           * Central scanning area.
+           * Scanner area.
            */
 
           area: {
 
-            top: '28%',
+            top: '20%',
 
-            right: '6%',
+            right: '5%',
 
-            left: '6%',
+            left: '5%',
 
-            bottom: '45%'
+            bottom: '20%'
 
           }
 
@@ -973,7 +1089,7 @@
 
 
         /*
-         * Barcode locator.
+         * LOCATOR
          */
 
         locator: {
@@ -985,6 +1101,10 @@
         },
 
 
+        /*
+         * WORKERS
+         */
+
         numOfWorkers:
           navigator.hardwareConcurrency
             ? Math.min(
@@ -994,16 +1114,18 @@
             : 2,
 
 
+        /*
+         * SCAN FREQUENCY
+         */
+
         frequency: 10,
 
 
         /*
-         * IMPORTANT:
+         * MULTIPLE BARCODE FORMATS
          *
-         * Multiple common barcode readers.
-         *
-         * FINAL RESULT PAR koi
-         * numeric/IMEI restriction nahi hai.
+         * FINAL VALUE par koi
+         * 15 digit restriction nahi.
          */
 
         decoder: {
@@ -1079,8 +1201,15 @@
 
 
       /*
-       * START
+       * =================================================
+       * INITIALIZE
+       * =================================================
        */
+
+      console.log(
+        'Starting Quagga...'
+      );
+
 
       Quagga.init(
 
@@ -1093,7 +1222,7 @@
 
 
             console.error(
-              'QUAGGA ERROR:',
+              'QUAGGA INIT ERROR:',
               error
             );
 
@@ -1119,36 +1248,47 @@
               );
 
 
+            scanInfo.textContent =
+              '';
+
+
             return;
 
           }
+
 
 
           /*
            * CAMERA START
            */
 
+          console.log(
+            'Quagga initialized.'
+          );
+
+
           Quagga.start();
+
 
           scannerRunning = true;
 
 
           status.textContent =
-            '✅ Camera ready — barcode green frame mein rakhein.';
+            '✅ Camera ready';
 
 
           scanInfo.textContent =
             '🔎 Any barcode searching...';
 
 
+
           /*
-           * Camera ke actual zoom
-           * capabilities check karo.
+           * Zoom capabilities check.
            */
 
           setTimeout(
             setupZoom,
-            700
+            800
           );
 
 
@@ -1193,7 +1333,7 @@
 
 
   /* =====================================================
-     SETUP HARDWARE ZOOM
+     ZOOM SETUP
      ===================================================== */
 
   function setupZoom() {
@@ -1219,7 +1359,8 @@
         !video.srcObject
       ) {
 
-        hardwareZoomSupported = false;
+        hardwareZoomSupported =
+          false;
 
         updateZoomText();
 
@@ -1229,15 +1370,16 @@
 
 
       const tracks =
-        video.srcObject.getVideoTracks();
+        video.srcObject
+          .getVideoTracks();
 
 
       if (
-        !tracks ||
         !tracks.length
       ) {
 
-        hardwareZoomSupported = false;
+        hardwareZoomSupported =
+          false;
 
         updateZoomText();
 
@@ -1254,7 +1396,8 @@
         !track.getCapabilities
       ) {
 
-        hardwareZoomSupported = false;
+        hardwareZoomSupported =
+          false;
 
         updateZoomText();
 
@@ -1270,10 +1413,11 @@
       if (
         capabilities &&
         capabilities.zoom
-      {
+      ) {
 
 
-        hardwareZoomSupported = true;
+        hardwareZoomSupported =
+          true;
 
 
         minZoom =
@@ -1298,36 +1442,37 @@
           );
 
 
-        updateZoomText();
-
-
       } else {
 
 
-        hardwareZoomSupported = false;
+        hardwareZoomSupported =
+          false;
+
 
         minZoom = 1;
 
-        maxZoom = 1;
+        maxZoom = 3;
 
         currentZoom = 1;
 
-
-        updateZoomText();
-
       }
+
+
+      updateZoomText();
 
 
     } catch (error) {
 
 
       console.log(
-        'Zoom setup error:',
+        'Zoom setup:',
         error
       );
 
 
-      hardwareZoomSupported = false;
+      hardwareZoomSupported =
+        false;
+
 
       updateZoomText();
 
@@ -1351,11 +1496,14 @@
     }
 
 
+
     /*
-     * Hardware zoom available
+     * HARDWARE ZOOM
      */
 
-    if (hardwareZoomSupported) {
+    if (
+      hardwareZoomSupported
+    ) {
 
 
       try {
@@ -1400,7 +1548,8 @@
 
 
           const tracks =
-            video.srcObject.getVideoTracks();
+            video.srcObject
+              .getVideoTracks();
 
 
           if (
@@ -1412,11 +1561,9 @@
               .applyConstraints({
 
                 advanced: [
-
                   {
                     zoom: newZoom
                   }
-
                 ]
 
               });
@@ -1427,6 +1574,7 @@
 
 
             updateZoomText();
+
 
             return;
 
@@ -1448,9 +1596,9 @@
     }
 
 
+
     /*
-     * Agar hardware zoom available nahi hai,
-     * visual digital zoom use karenge.
+     * DIGITAL FALLBACK
      */
 
     currentZoom += amount;
@@ -1472,22 +1620,6 @@
       ) / 10;
 
 
-    applyDigitalZoom();
-
-
-    updateZoomText();
-
-  }
-
-
-
-  /* =====================================================
-     DIGITAL ZOOM
-     ===================================================== */
-
-  function applyDigitalZoom() {
-
-
     const scanner =
       document.getElementById(
         'scanner'
@@ -1500,18 +1632,7 @@
       );
 
 
-    if (!video) {
-      return;
-    }
-
-
-    /*
-     * Visual zoom only.
-     *
-     * Camera hardware zoom preferred.
-     */
-
-    if (!hardwareZoomSupported) {
+    if (video) {
 
       video.style.transform =
         'scale(' +
@@ -1519,6 +1640,9 @@
         ')';
 
     }
+
+
+    updateZoomText();
 
   }
 
@@ -1594,11 +1718,13 @@
 
 
       /*
-       * Empty barcode ignore.
+       * Empty value ignore.
        */
 
       if (!value) {
+
         return;
+
       }
 
 
@@ -1609,9 +1735,18 @@
 
 
       /*
-       * Same value confirmation.
+       * ===============================================
+       * ANY VALUE ACCEPTED
        *
-       * Koi bhi value allowed hai.
+       * No 15 digit check.
+       * No IMEI check.
+       * No alphabet restriction.
+       * ===============================================
+       */
+
+
+      /*
+       * Same value confirmation.
        */
 
       if (
@@ -1622,7 +1757,8 @@
 
       } else {
 
-        candidateValue = value;
+        candidateValue =
+          value;
 
         candidateCount = 1;
 
@@ -1634,21 +1770,23 @@
           'scanInfo'
         )
         .textContent =
-        '🔎 Barcode found — confirming ' +
+        '🔎 Found — confirming ' +
         candidateCount +
         '/2';
 
 
 
       /*
-       * Same value 2 baar mil gaya.
+       * 2 baar same value
        */
 
       if (
         candidateCount >= 2
       ) {
 
-        acceptBarcode(value);
+        acceptBarcode(
+          value
+        );
 
       }
 
@@ -1659,25 +1797,21 @@
 
 
   /* =====================================================
-     ACCEPT ANY BARCODE
+     ACCEPT BARCODE
      ===================================================== */
 
   function acceptBarcode(value) {
 
 
     if (!scanning) {
+
       return;
+
     }
 
 
     /*
-     * NO IMEI CHECK
-     * NO 15 DIGIT CHECK
-     * NO LUHN CHECK
-     * NO ALPHABET CHECK
-     *
-     * Whatever barcode says,
-     * accept it.
+     * EXACT VALUE
      */
 
     currentValue =
@@ -1734,14 +1868,13 @@
 
 
   /* =====================================================
-     STOP CAMERA
+     STOP CAMERA ONLY
      ===================================================== */
 
   function stopCameraOnly() {
 
 
     try {
-
 
       if (
         scannerRunning
@@ -1874,7 +2007,10 @@
 
     currentZoom = 1;
 
-    hardwareZoomSupported = false;
+
+    hardwareZoomSupported =
+      false;
+
 
     updateZoomText();
 
@@ -1922,7 +2058,8 @@
     currentZoom = 1;
 
 
-    hardwareZoomSupported = false;
+    hardwareZoomSupported =
+      false;
 
 
     startScanner();
@@ -1932,14 +2069,16 @@
 
 
   /* =====================================================
-     SEND VALUE BACK
+     SEND BARCODE BACK
      ===================================================== */
 
   function sendBarcodeBack() {
 
 
     if (!currentValue) {
+
       return;
+
     }
 
 
@@ -1961,7 +2100,7 @@
 
 
     /*
-     * Direct scanner testing
+     * Direct GitHub test
      */
 
     if (!returnUrl) {
@@ -1986,11 +2125,6 @@
         ? '&'
         : '?';
 
-
-    /*
-     * Scanner se exact barcode value
-     * return URL mein bhejna.
-     */
 
     window.location.href =
       returnUrl +
@@ -2033,7 +2167,6 @@
 
 
 </script>
-
 
 </body>
 
