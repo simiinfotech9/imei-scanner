@@ -10,16 +10,7 @@
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
   >
 
-  <title>SCAN TEST v4.2</title>
-
-  <!--
-    =====================================================
-    SCAN TEST v4.2
-    AUTO CAMERA
-    FAST BARCODE READ
-    ANY BARCODE
-    =====================================================
-  -->
+  <title>SCAN TEST v4.3</title>
 
   <script src="https://unpkg.com/@ericblade/quagga2@1.12.1/dist/quagga.js"></script>
 
@@ -63,9 +54,9 @@
     }
 
 
-    /* =================================================
+    /* ================================================
        HEADER
-       ================================================= */
+       ================================================ */
 
     .header {
 
@@ -94,9 +85,9 @@
     }
 
 
-    /* =================================================
-       VERSION BADGE
-       ================================================= */
+    /* ================================================
+       VERSION
+       ================================================ */
 
     .version {
 
@@ -122,9 +113,9 @@
     }
 
 
-    /* =================================================
-       MAIN CONTAINER
-       ================================================= */
+    /* ================================================
+       CONTAINER
+       ================================================ */
 
     .container {
 
@@ -147,9 +138,9 @@
     }
 
 
-    /* =================================================
+    /* ================================================
        TITLE
-       ================================================= */
+       ================================================ */
 
     .title {
 
@@ -168,9 +159,9 @@
     }
 
 
-    /* =================================================
+    /* ================================================
        STATUS
-       ================================================= */
+       ================================================ */
 
     .status {
 
@@ -212,9 +203,9 @@
     }
 
 
-    /* =================================================
+    /* ================================================
        CAMERA
-       ================================================= */
+       ================================================ */
 
     #scanner {
 
@@ -271,9 +262,9 @@
     }
 
 
-    /* =================================================
-       GREEN SCAN FRAME
-       ================================================= */
+    /* ================================================
+       GREEN FRAME
+       ================================================ */
 
     .scan-frame {
 
@@ -323,9 +314,9 @@
     }
 
 
-    /* =================================================
+    /* ================================================
        ZOOM
-       ================================================= */
+       ================================================ */
 
     .zoom-row {
 
@@ -402,9 +393,9 @@
     }
 
 
-    /* =================================================
+    /* ================================================
        INSTRUCTION
-       ================================================= */
+       ================================================ */
 
     .instruction {
 
@@ -423,9 +414,9 @@
     }
 
 
-    /* =================================================
+    /* ================================================
        SCAN INFO
-       ================================================= */
+       ================================================ */
 
     .scan-info {
 
@@ -444,9 +435,9 @@
     }
 
 
-    /* =================================================
-       MAIN BUTTON
-       ================================================= */
+    /* ================================================
+       BUTTONS
+       ================================================ */
 
     button {
 
@@ -499,9 +490,6 @@
 
       color: white;
 
-      box-shadow:
-        0 3px 8px rgba(0,0,0,0.3);
-
     }
 
 
@@ -516,15 +504,12 @@
 
       color: white;
 
-      box-shadow:
-        0 3px 8px rgba(0,0,0,0.3);
-
     }
 
 
-    /* =================================================
+    /* ================================================
        RESULT
-       ================================================= */
+       ================================================ */
 
     .result {
 
@@ -596,12 +581,9 @@
     }
 
 
-    /* =================================================
+    /* ================================================
        RESULT BUTTONS
-
-       LEFT  = SCAN AGAIN
-       RIGHT = ACCEPT
-       ================================================= */
+       ================================================ */
 
     .result-buttons {
 
@@ -643,8 +625,6 @@
     }
 
 
-    /* LEFT */
-
     .again-btn {
 
       background:
@@ -661,8 +641,6 @@
 
     }
 
-
-    /* RIGHT */
 
     .use-btn {
 
@@ -681,9 +659,9 @@
     }
 
 
-    /* =================================================
+    /* ================================================
        HIDDEN
-       ================================================= */
+       ================================================ */
 
     .hidden {
 
@@ -692,9 +670,9 @@
     }
 
 
-    /* =================================================
+    /* ================================================
        FOOTER
-       ================================================= */
+       ================================================ */
 
     .small-info {
 
@@ -711,9 +689,9 @@
     }
 
 
-    /* =================================================
+    /* ================================================
        SMALL PHONE
-       ================================================= */
+       ================================================ */
 
     @media (max-height: 700px) {
 
@@ -825,9 +803,9 @@
 <body>
 
 
-  <!-- =================================================
+  <!-- ================================================
        HEADER
-       ================================================= -->
+       ================================================ -->
 
   <div class="header">
 
@@ -836,13 +814,13 @@
   </div>
 
 
-  <!-- =================================================
+  <!-- ================================================
        VERSION
-       ================================================= -->
+       ================================================ -->
 
   <div class="version">
 
-    🟢 SCAN TEST v4.2 • AUTO CAMERA • FAST READ
+    🟢 SCAN TEST v4.3 • SMART READ • ANY BARCODE
 
   </div>
 
@@ -850,16 +828,12 @@
   <div class="container">
 
 
-    <!-- TITLE -->
-
     <div class="title">
 
       Scan Any Barcode
 
     </div>
 
-
-    <!-- STATUS -->
 
     <div
       id="status"
@@ -870,9 +844,9 @@
     </div>
 
 
-    <!-- =================================================
+    <!-- ==============================================
          CAMERA
-         ================================================= -->
+         ============================================== -->
 
     <div id="scanner">
 
@@ -887,9 +861,9 @@
     </div>
 
 
-    <!-- =================================================
+    <!-- ==============================================
          ZOOM
-         ================================================= -->
+         ============================================== -->
 
     <div class="zoom-row">
 
@@ -924,11 +898,9 @@
     </div>
 
 
-    <!-- INSTRUCTION -->
-
     <div class="instruction">
 
-      Barcode green frame mein rakhein.
+      Barcode ko green frame mein rakhein.
 
       <br>
 
@@ -937,24 +909,16 @@
     </div>
 
 
-    <!-- SCAN INFO -->
-
     <div
       id="scanInfo"
       class="scan-info">
 
-      🔎 Starting scanner...
+      🔎 Starting smart scanner...
 
     </div>
 
 
-    <!-- =================================================
-         MANUAL START
-         Hidden normally.
-
-         Agar browser ne auto-start allow nahi kiya
-         to ye button automatically dikhega.
-         ================================================= -->
+    <!-- MANUAL FALLBACK -->
 
     <button
       id="startBtn"
@@ -978,9 +942,9 @@
     </button>
 
 
-    <!-- =================================================
+    <!-- ==============================================
          RESULT
-         ================================================= -->
+         ============================================== -->
 
     <div
       id="result"
@@ -1000,9 +964,6 @@
 
       </div>
 
-
-      <!-- LEFT = SCAN AGAIN -->
-      <!-- RIGHT = ACCEPT -->
 
       <div class="result-buttons">
 
@@ -1031,11 +992,9 @@
     </div>
 
 
-    <!-- FOOTER -->
-
     <div class="small-info">
 
-      SCAN TEST v4.2 • ANY BARCODE • FAST READ
+      SCAN TEST v4.3 • SMART READ
 
     </div>
 
@@ -1047,12 +1006,12 @@
 <script>
 
 
-  /* =====================================================
+  /* =================================================
      VERSION
-     ===================================================== */
+     ================================================= */
 
   const SCANNER_VERSION =
-    'SCAN TEST v4.2';
+    'SCAN TEST v4.3';
 
 
   console.log(
@@ -1064,11 +1023,7 @@
   );
 
   console.log(
-    'AUTO CAMERA'
-  );
-
-  console.log(
-    'FAST READ'
+    'SMART BARCODE READ'
   );
 
   console.log(
@@ -1081,9 +1036,9 @@
 
 
 
-  /* =====================================================
+  /* =================================================
      VARIABLES
-     ===================================================== */
+     ================================================= */
 
   let scanning = false;
 
@@ -1093,19 +1048,22 @@
 
 
   /*
-   * Last detected value.
-   *
-   * Same barcode continuously detect hota rahe
-   * to result ko baar-baar process nahi karna.
+   * Candidate barcode.
    */
 
-  let lastDetectedValue = '';
+  let candidateValue = '';
 
-  let lastDetectedTime = 0;
+  let candidateFormat = '';
+
+  let candidateCount = 0;
+
+  let candidateFirstTime = 0;
+
+  let candidateLastTime = 0;
 
 
   /*
-   * Zoom
+   * Zoom.
    */
 
   let currentZoom = 1;
@@ -1118,9 +1076,9 @@
 
 
 
-  /* =====================================================
+  /* =================================================
      START SCANNER
-     ===================================================== */
+     ================================================= */
 
   function startScanner() {
 
@@ -1158,10 +1116,6 @@
     try {
 
 
-      /*
-       * Quagga loaded?
-       */
-
       if (
         typeof Quagga === 'undefined'
       ) {
@@ -1174,7 +1128,7 @@
 
 
       /*
-       * RESET
+       * Reset scanner state.
        */
 
       scanning = true;
@@ -1183,9 +1137,15 @@
 
       currentValue = '';
 
-      lastDetectedValue = '';
+      candidateValue = '';
 
-      lastDetectedTime = 0;
+      candidateFormat = '';
+
+      candidateCount = 0;
+
+      candidateFirstTime = 0;
+
+      candidateLastTime = 0;
 
       currentZoom = 1;
 
@@ -1209,13 +1169,13 @@
 
 
       scanInfo.textContent =
-        '🔎 Fast barcode search...';
+        '🔎 Smart barcode search...';
 
 
 
-      /* =================================================
-         PROVEN CAMERA SETUP
-         ================================================= */
+      /* ===============================================
+         CAMERA CONFIG
+         =============================================== */
 
       const config = {
 
@@ -1255,7 +1215,7 @@
 
 
           /*
-           * Green frame ke around central area.
+           * Camera processing area.
            */
 
           area: {
@@ -1273,14 +1233,9 @@
         },
 
 
-        /* =================================================
+        /* =============================================
            LOCATOR
-
-           Fast detection ke liye medium patch.
-
-           halfSample false rakha hai taaki
-           barcode image quality maintain rahe.
-           ================================================= */
+           ============================================= */
 
         locator: {
 
@@ -1291,9 +1246,9 @@
         },
 
 
-        /*
-         * Workers.
-         */
+        /* =============================================
+           WORKERS
+           ============================================= */
 
         numOfWorkers:
           navigator.hardwareConcurrency
@@ -1304,16 +1259,16 @@
             : 2,
 
 
-        /*
-         * Faster scan frequency.
-         */
+        /* =============================================
+           FAST BUT STABLE
+           ============================================= */
 
-        frequency: 15,
+        frequency: 12,
 
 
-        /* =================================================
-           COMMON BARCODE FORMATS
-           ================================================= */
+        /* =============================================
+           BARCODE FORMATS
+           ============================================= */
 
         decoder: {
 
@@ -1387,12 +1342,8 @@
 
 
 
-      /* =================================================
-         INIT
-         ================================================= */
-
       console.log(
-        'Starting Quagga...'
+        'Starting Quagga v4.3...'
       );
 
 
@@ -1407,7 +1358,7 @@
 
 
             console.error(
-              'QUAGGA INIT ERROR:',
+              'QUAGGA ERROR:',
               error
             );
 
@@ -1426,11 +1377,11 @@
 
 
             status.textContent =
-              '⚠️ Auto camera start nahi hua. Neeche START CAMERA dabayein.';
+              '⚠️ Auto camera start nahi hua. START CAMERA dabayein.';
 
 
             scanInfo.textContent =
-              '📷 Manual camera start required';
+              '📷 Manual start available';
 
 
             return;
@@ -1440,13 +1391,8 @@
 
 
           /*
-           * CAMERA ON
+           * Camera ON.
            */
-
-          console.log(
-            'Quagga initialized.'
-          );
-
 
           Quagga.start();
 
@@ -1455,17 +1401,13 @@
 
 
           status.textContent =
-            '🟢 Camera ON — barcode scan karein';
+            '🟢 Camera ON — smart scan active';
 
 
           scanInfo.textContent =
-            '🔎 Fast reading active...';
+            '🔎 Barcode ko green frame mein rakhein...';
 
 
-
-          /*
-           * Zoom capabilities.
-           */
 
           setTimeout(
             setupZoom,
@@ -1513,33 +1455,32 @@
 
 
 
-  /* =====================================================
+  /* =================================================
      AUTO START
-     ===================================================== */
+     ================================================= */
 
   function autoStartCamera() {
 
 
-    /*
-     * Page open hote hi scanner start.
-     */
-
     setTimeout(
+
       function() {
 
         startScanner();
 
       },
+
       250
+
     );
 
   }
 
 
 
-  /* =====================================================
+  /* =================================================
      ZOOM SETUP
-     ===================================================== */
+     ================================================= */
 
   function setupZoom() {
 
@@ -1687,9 +1628,9 @@
 
 
 
-  /* =====================================================
+  /* =================================================
      CHANGE ZOOM
-     ===================================================== */
+     ================================================= */
 
   async function changeZoom(amount) {
 
@@ -1703,9 +1644,8 @@
     }
 
 
-
     /*
-     * HARDWARE ZOOM
+     * Hardware zoom.
      */
 
     if (
@@ -1805,9 +1745,8 @@
     }
 
 
-
     /*
-     * DIGITAL FALLBACK
+     * Digital zoom fallback.
      */
 
     currentZoom += amount;
@@ -1857,9 +1796,9 @@
 
 
 
-  /* =====================================================
+  /* =================================================
      ZOOM TEXT
-     ===================================================== */
+     ================================================= */
 
   function updateZoomText() {
 
@@ -1886,9 +1825,224 @@
 
 
 
-  /* =====================================================
+  /* =================================================
+     CHECK BARCODE POSITION
+     ================================================= */
+
+  function isBarcodeInsideScanFrame(result) {
+
+
+    /*
+     * Agar Quagga ne box nahi diya,
+     * to barcode ko reject nahi karenge.
+     */
+
+    if (
+      !result ||
+      !result.box ||
+      !result.box.length
+    ) {
+
+      return true;
+
+    }
+
+
+    try {
+
+
+      let minX = Infinity;
+
+      let maxX = -Infinity;
+
+      let minY = Infinity;
+
+      let maxY = -Infinity;
+
+
+      result.box.forEach(
+
+        function(point) {
+
+
+          if (
+            !point ||
+            point.length < 2
+          ) {
+
+            return;
+
+          }
+
+
+          const x =
+            Number(point[0]);
+
+
+          const y =
+            Number(point[1]);
+
+
+          if (
+            !Number.isFinite(x) ||
+            !Number.isFinite(y)
+          ) {
+
+            return;
+
+          }
+
+
+          minX =
+            Math.min(
+              minX,
+              x
+            );
+
+
+          maxX =
+            Math.max(
+              maxX,
+              x
+            );
+
+
+          minY =
+            Math.min(
+              minY,
+              y
+            );
+
+
+          maxY =
+            Math.max(
+              maxY,
+              y
+            );
+
+        }
+
+      );
+
+
+      if (
+        !Number.isFinite(minX) ||
+        !Number.isFinite(maxX) ||
+        !Number.isFinite(minY) ||
+        !Number.isFinite(maxY)
+      ) {
+
+        return true;
+
+      }
+
+
+      /*
+       * Quagga video/canvas size.
+       */
+
+      const scanner =
+        document.getElementById(
+          'scanner'
+        );
+
+
+      const video =
+        scanner.querySelector(
+          'video'
+        );
+
+
+      const width =
+        (
+          video &&
+          video.videoWidth
+        )
+          ? video.videoWidth
+          : 1920;
+
+
+      const height =
+        (
+          video &&
+          video.videoHeight
+        )
+          ? video.videoHeight
+          : 1080;
+
+
+      const centerX =
+        (
+          minX +
+          maxX
+        ) / 2;
+
+
+      const centerY =
+        (
+          minY +
+          maxY
+        ) / 2;
+
+
+      const xRatio =
+        centerX / width;
+
+
+      const yRatio =
+        centerY / height;
+
+
+      /*
+       * Green frame approximately:
+       *
+       * X = 7% to 93%
+       * Y = 27% to 73%
+       *
+       * Thoda tolerance rakha hai.
+       */
+
+      const insideX =
+        xRatio >= 0.05 &&
+        xRatio <= 0.95;
+
+
+      const insideY =
+        yRatio >= 0.22 &&
+        yRatio <= 0.78;
+
+
+      return (
+        insideX &&
+        insideY
+      );
+
+
+    } catch (error) {
+
+
+      console.log(
+        'Position check:',
+        error
+      );
+
+
+      /*
+       * Error ki wajah se genuine barcode
+       * reject nahi karenge.
+       */
+
+      return true;
+
+    }
+
+  }
+
+
+
+  /* =================================================
      BARCODE DETECTED
-     ===================================================== */
+     ================================================= */
 
   Quagga.onDetected(
 
@@ -1902,14 +2056,10 @@
       }
 
 
-      if (!result) {
-
-        return;
-
-      }
-
-
-      if (!result.codeResult) {
+      if (
+        !result ||
+        !result.codeResult
+      ) {
 
         return;
 
@@ -1934,10 +2084,6 @@
         String(code).trim();
 
 
-      /*
-       * Empty barcode ignore.
-       */
-
       if (!value) {
 
         return;
@@ -1945,55 +2091,123 @@
       }
 
 
+      const format =
+        String(
+          result.codeResult.format || ''
+        );
+
+
       console.log(
-        'BARCODE FOUND:',
-        value
+        'Detected:',
+        value,
+        'Format:',
+        format
       );
 
 
-      /*
-       * ===============================================
-       * FAST MODE
-       *
-       * No 15 digit check.
-       * No IMEI validation.
-       * No alphabet restriction.
-       *
-       * First successful decode accepted.
-       * ===============================================
-       */
-
-
-      const now =
-        Date.now();
-
-
-      /*
-       * Same value ko immediately dobara
-       * process nahi karna.
-       */
+      /* =============================================
+         POSITION FILTER
+         ============================================= */
 
       if (
-        value === lastDetectedValue &&
-        (now - lastDetectedTime) < 1500
+        !isBarcodeInsideScanFrame(
+          result
+        )
       ) {
+
+
+        console.log(
+          'Ignored: outside scan frame',
+          value
+        );
+
 
         return;
 
       }
 
 
-      lastDetectedValue =
-        value;
+
+      /* =============================================
+         SAME VALUE CONFIRMATION
+         ============================================= */
+
+      const now =
+        Date.now();
 
 
-      lastDetectedTime =
+      /*
+       * Agar same value hai aur
+       * short time ke andar dobara mili.
+       */
+
+      if (
+        candidateValue === value &&
+        candidateFormat === format &&
+        (now - candidateLastTime) <= 900
+      ) {
+
+
+        candidateCount++;
+
+
+      } else {
+
+
+        candidateValue =
+          value;
+
+
+        candidateFormat =
+          format;
+
+
+        candidateCount = 1;
+
+
+        candidateFirstTime =
+          now;
+
+      }
+
+
+      candidateLastTime =
         now;
 
 
-      acceptBarcode(
-        value
-      );
+      document
+        .getElementById(
+          'scanInfo'
+        )
+        .textContent =
+        '🔎 Checking barcode... ' +
+        candidateCount +
+        '/2';
+
+
+
+      /*
+       * =============================================
+       * FAST SMART CONFIRMATION
+       *
+       * Same barcode 2 readings.
+       *
+       * Normally very fast.
+       * =============================================
+       */
+
+      if (
+        candidateCount >= 2 &&
+        (now - candidateFirstTime) <= 1200
+      ) {
+
+
+        acceptBarcode(
+          value
+        );
+
+
+      }
 
     }
 
@@ -2001,9 +2215,9 @@
 
 
 
-  /* =====================================================
+  /* =================================================
      ACCEPT BARCODE
-     ===================================================== */
+     ================================================= */
 
   function acceptBarcode(value) {
 
@@ -2014,10 +2228,6 @@
 
     }
 
-
-    /*
-     * EXACT BARCODE VALUE
-     */
 
     currentValue =
       String(value);
@@ -2063,7 +2273,7 @@
         'scanInfo'
       )
       .textContent =
-      '✅ Value captured instantly';
+      '✅ Smart read confirmed';
 
 
     stopCameraOnly();
@@ -2072,9 +2282,9 @@
 
 
 
-  /* =====================================================
-     STOP CAMERA ONLY
-     ===================================================== */
+  /* =================================================
+     STOP CAMERA
+     ================================================= */
 
   function stopCameraOnly() {
 
@@ -2109,6 +2319,7 @@
 
 
     videos.forEach(
+
       function(video) {
 
 
@@ -2123,11 +2334,13 @@
             video.srcObject
               .getTracks()
               .forEach(
+
                 function(track) {
 
                   track.stop();
 
                 }
+
               );
 
           }
@@ -2140,15 +2353,16 @@
         } catch (e) {}
 
       }
+
     );
 
   }
 
 
 
-  /* =====================================================
+  /* =================================================
      STOP SCANNER
-     ===================================================== */
+     ================================================= */
 
   function stopScanner() {
 
@@ -2161,9 +2375,15 @@
 
     currentValue = '';
 
-    lastDetectedValue = '';
+    candidateValue = '';
 
-    lastDetectedTime = 0;
+    candidateFormat = '';
+
+    candidateCount = 0;
+
+    candidateFirstTime = 0;
+
+    candidateLastTime = 0;
 
 
     document
@@ -2223,9 +2443,9 @@
 
 
 
-  /* =====================================================
+  /* =================================================
      SCAN AGAIN
-     ===================================================== */
+     ================================================= */
 
   function scanAgain() {
 
@@ -2238,9 +2458,15 @@
 
     currentValue = '';
 
-    lastDetectedValue = '';
+    candidateValue = '';
 
-    lastDetectedTime = 0;
+    candidateFormat = '';
+
+    candidateCount = 0;
+
+    candidateFirstTime = 0;
+
+    candidateLastTime = 0;
 
 
     document
@@ -2257,7 +2483,7 @@
         'scanInfo'
       )
       .textContent =
-      '🔎 Starting fast scan...';
+      '🔎 Starting smart scan...';
 
 
     currentZoom = 1;
@@ -2272,9 +2498,9 @@
 
 
 
-  /* =====================================================
-     ACCEPT / USE VALUE
-     ===================================================== */
+  /* =================================================
+     ACCEPT BUTTON
+     ================================================= */
 
   function sendBarcodeBack() {
 
@@ -2346,9 +2572,9 @@
 
 
 
-  /* =====================================================
-     AUTO START WHEN PAGE OPENS
-     ===================================================== */
+  /* =================================================
+     AUTO CAMERA START
+     ================================================= */
 
   if (
     document.readyState === 'loading'
@@ -2370,9 +2596,9 @@
 
 
 
-  /* =====================================================
+  /* =================================================
      PAGE CLOSE
-     ===================================================== */
+     ================================================= */
 
   window.addEventListener(
     'pagehide',
