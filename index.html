@@ -45,7 +45,7 @@
     .container {
       width: 100%;
       max-width: 650px;
-      margin: auto;
+      margin: 0 auto;
       padding: 16px;
     }
 
@@ -85,21 +85,20 @@
       min-height: 300px;
       max-height: 75vh;
       display: block;
-      object-fit: cover;
       background: #000;
+      object-fit: cover;
     }
 
     .scan-frame {
       position: absolute;
       left: 6%;
       right: 6%;
-      top: 30%;
-      height: 40%;
+      top: 32%;
+      height: 36%;
       border: 3px solid #00ff55;
       border-radius: 12px;
       pointer-events: none;
-      box-shadow:
-        0 0 12px rgba(0,255,85,0.7);
+      box-shadow: 0 0 12px rgba(0, 255, 85, 0.6);
     }
 
     .scan-line {
@@ -146,42 +145,6 @@
       color: white;
     }
 
-    .zoom-area {
-      display: none;
-      background: #222;
-      border-radius: 12px;
-      padding: 12px;
-      margin-top: 12px;
-    }
-
-    .zoom-title {
-      text-align: center;
-      font-size: 14px;
-      color: #ddd;
-      margin-bottom: 8px;
-    }
-
-    .zoom-buttons {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-    }
-
-    .zoom-btn {
-      background: #444;
-      color: white;
-      padding: 11px 5px;
-      font-size: 15px;
-    }
-
-    .zoom-btn.active {
-      background: #1976d2;
-    }
-
-    .zoom-btn:disabled {
-      opacity: 0.35;
-    }
-
     .result {
       display: none;
       background: #1b5e20;
@@ -202,7 +165,7 @@
       font-weight: bold;
       letter-spacing: 1px;
       word-break: break-all;
-      background: rgba(0,0,0,0.25);
+      background: rgba(0, 0, 0, 0.25);
       padding: 12px;
       border-radius: 8px;
     }
@@ -243,6 +206,7 @@
 
   <div class="container">
 
+
     <div class="title">
       Scan IMEI 1 Barcode
     </div>
@@ -267,6 +231,7 @@
         playsinline>
       </video>
 
+
       <div class="scan-frame">
 
         <div class="scan-line"></div>
@@ -283,7 +248,7 @@
 
       <br>
 
-      Barcode clear hone dein.
+      Barcode ko clear aur seedha rakhein.
 
     </div>
 
@@ -309,54 +274,13 @@
 
 
     <div
-      id="zoomArea"
-      class="zoom-area">
-
-      <div class="zoom-title">
-        🔍 Camera Zoom
-      </div>
-
-      <div class="zoom-buttons">
-
-        <button
-          id="zoom1"
-          class="zoom-btn"
-          onclick="setZoom(1)">
-
-          1×
-
-        </button>
-
-        <button
-          id="zoom2"
-          class="zoom-btn"
-          onclick="setZoom(2)">
-
-          2×
-
-        </button>
-
-        <button
-          id="zoom3"
-          class="zoom-btn"
-          onclick="setZoom(3)">
-
-          3×
-
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <div
       id="result"
       class="result">
 
       <div class="result-title">
         ✅ IMEI 1 SCANNED
       </div>
+
 
       <div
         id="imeiValue"
@@ -386,12 +310,11 @@
 
     <div class="small-info">
 
-      High quality camera •
-      Auto focus •
-      Smart zoom •
-      IMEI validation
+      Rear Camera • Barcode Scanner •
+      IMEI Validation
 
     </div>
+
 
   </div>
 
@@ -404,37 +327,30 @@
 
   let controls = null;
 
-  let cameraStream = null;
-
-  let videoTrack = null;
-
   let currentIMEI = '';
-
-  let maxZoom = 1;
-
-  let currentZoom = 1;
 
   let scanning = false;
 
 
 
   /*
-   * START CAMERA + SCANNER
+   * START SCANNER
    */
 
   async function startScanner() {
 
+
     const status =
       document.getElementById('status');
+
 
     const startBtn =
       document.getElementById('startBtn');
 
+
     const stopBtn =
       document.getElementById('stopBtn');
 
-    const zoomArea =
-      document.getElementById('zoomArea');
 
     const result =
       document.getElementById('result');
@@ -442,22 +358,34 @@
 
     try {
 
+
       scanning = true;
+
 
       currentIMEI = '';
 
-      result.style.display = 'none';
 
-      startBtn.classList.add('hidden');
+      result.style.display =
+        'none';
 
-      stopBtn.classList.remove('hidden');
+
+      startBtn.classList.add(
+        'hidden'
+      );
+
+
+      stopBtn.classList.remove(
+        'hidden'
+      );
+
 
       status.textContent =
         '📷 Camera starting...';
 
 
+
       /*
-       * Check browser support
+       * Check browser camera support
        */
 
       if (
@@ -472,150 +400,45 @@
       }
 
 
+
       /*
-       * First try:
-       * rear camera + HD
+       * Simple rear camera.
+       *
+       * No forced focus.
+       * No forced zoom.
+       * No complicated constraints.
        */
 
-      let stream;
+      const constraints = {
 
+        video: {
 
-      try {
+          facingMode: {
+            ideal: 'environment'
+          },
 
-        stream =
-          await navigator.mediaDevices.getUserMedia({
+          width: {
+            ideal: 1920
+          },
 
-            video: {
+          height: {
+            ideal: 1080
+          },
 
-              facingMode: {
-                ideal: 'environment'
-              },
+          frameRate: {
+            ideal: 30
+          }
 
-              width: {
-                ideal: 1920
-              },
+        },
 
-              height: {
-                ideal: 1080
-              },
+        audio: false
 
-              frameRate: {
-                ideal: 30
-              }
+      };
 
-            },
-
-            audio: false
-
-          });
-
-      } catch (firstError) {
-
-        console.log(
-          'HD camera request failed:',
-          firstError
-        );
-
-
-        /*
-         * Fallback:
-         * simple rear camera
-         */
-
-        try {
-
-          stream =
-            await navigator.mediaDevices.getUserMedia({
-
-              video: {
-                facingMode: 'environment'
-              },
-
-              audio: false
-
-            });
-
-        } catch (secondError) {
-
-          console.log(
-            'Rear camera request failed:',
-            secondError
-          );
-
-
-          /*
-           * Final fallback:
-           * any available camera
-           */
-
-          stream =
-            await navigator.mediaDevices.getUserMedia({
-
-              video: true,
-
-              audio: false
-
-            });
-
-        }
-
-      }
-
-
-      cameraStream = stream;
 
 
       /*
-       * Put stream into video
-       */
-
-      const video =
-        document.getElementById('video');
-
-
-      video.srcObject =
-        stream;
-
-
-      await video.play();
-
-
-      /*
-       * Get camera track
-       */
-
-      const tracks =
-        stream.getVideoTracks();
-
-
-      if (tracks.length > 0) {
-
-        videoTrack =
-          tracks[0];
-
-        console.log(
-          'Camera:',
-          videoTrack.label
-        );
-
-        console.log(
-          'Camera settings:',
-          videoTrack.getSettings()
-        );
-
-      }
-
-
-      /*
-       * Safely improve camera
-       */
-
-      await improveCamera();
-
-
-      /*
-       * Start ZXing using the
-       * already-running camera stream
+       * Start ZXing camera
        */
 
       if (
@@ -634,37 +457,57 @@
 
 
       status.textContent =
-        '🔍 Barcode scanner starting...';
+        '📷 Camera starting...';
 
+
+
+      /*
+       * ZXing starts the camera.
+       */
 
       controls =
-        await codeReader.decodeFromStream(
+        await codeReader.decodeFromConstraints(
 
-          stream,
+          constraints,
 
-          video,
+          document.getElementById('video'),
 
           function(result, error) {
 
+
             if (!scanning) {
+
               return;
+
             }
 
 
             if (!result) {
+
               return;
+
             }
 
+
+
+            /*
+             * Barcode text
+             */
 
             const raw =
               result.getText();
 
 
             console.log(
-              'Barcode:',
+              'Barcode detected:',
               raw
             );
 
+
+
+            /*
+             * Find IMEI
+             */
 
             const imei =
               extractIMEI(raw);
@@ -680,7 +523,14 @@
             }
 
 
-            if (!isValidIMEI(imei)) {
+
+            /*
+             * Validate IMEI
+             */
+
+            if (
+              !isValidIMEI(imei)
+            ) {
 
               status.textContent =
                 '⚠️ IMEI invalid hai. Dobara scan karein.';
@@ -690,6 +540,7 @@
             }
 
 
+
             /*
              * SUCCESS
              */
@@ -697,8 +548,10 @@
             currentIMEI =
               imei;
 
+
             scanning =
               false;
+
 
 
             try {
@@ -708,10 +561,12 @@
             } catch (e) {}
 
 
+
             document
               .getElementById('imeiValue')
               .textContent =
               imei;
+
 
 
             document
@@ -720,32 +575,31 @@
               'block';
 
 
+
             status.textContent =
               '✅ IMEI 1 successfully scanned.';
 
 
+
             stopCameraOnly();
+
 
           }
 
         );
 
 
-      zoomArea.style.display =
-        'block';
-
-
-      setupZoom();
-
 
       status.textContent =
         '✅ Camera ready — IMEI 1 barcode scan karein.';
 
 
+
     } catch (error) {
 
+
       console.error(
-        'CAMERA ERROR:',
+        'Camera error:',
         error
       );
 
@@ -754,12 +608,14 @@
         false;
 
 
-      startBtn.classList.remove('hidden');
+      startBtn.classList.remove(
+        'hidden'
+      );
 
-      stopBtn.classList.add('hidden');
 
-      zoomArea.style.display =
-        'none';
+      stopBtn.classList.add(
+        'hidden'
+      );
 
 
       status.textContent =
@@ -772,331 +628,53 @@
 
 
   /*
-   * Improve camera AFTER it starts
-   */
-
-  async function improveCamera() {
-
-    if (!videoTrack) {
-      return;
-    }
-
-
-    try {
-
-      const capabilities =
-        videoTrack.getCapabilities
-          ? videoTrack.getCapabilities()
-          : {};
-
-
-      console.log(
-        'Capabilities:',
-        capabilities
-      );
-
-
-      /*
-       * Autofocus
-       */
-
-      if (
-        capabilities.focusMode &&
-        capabilities.focusMode.includes('continuous')
-      ) {
-
-        try {
-
-          await videoTrack.applyConstraints({
-
-            advanced: [
-
-              {
-                focusMode: 'continuous'
-              }
-
-            ]
-
-          });
-
-        } catch (focusError) {
-
-          console.log(
-            'Autofocus not available:',
-            focusError
-          );
-
-        }
-
-      }
-
-
-      /*
-       * Zoom
-       */
-
-      if (capabilities.zoom) {
-
-        const min =
-          capabilities.zoom.min || 1;
-
-        const max =
-          capabilities.zoom.max || 1;
-
-
-        maxZoom =
-          max;
-
-
-        const preferred =
-          Math.min(
-            Math.max(1.5, min),
-            max
-          );
-
-
-        if (
-          preferred > min
-        ) {
-
-          try {
-
-            await videoTrack.applyConstraints({
-
-              advanced: [
-
-                {
-                  zoom: preferred
-                }
-
-              ]
-
-            });
-
-
-            currentZoom =
-              preferred;
-
-          } catch (zoomError) {
-
-            console.log(
-              'Auto zoom unavailable:',
-              zoomError
-            );
-
-          }
-
-        }
-
-      }
-
-    } catch (error) {
-
-      console.log(
-        'Camera improvement skipped:',
-        error
-      );
-
-    }
-
-  }
-
-
-
-  /*
-   * Setup zoom buttons
-   */
-
-  function setupZoom() {
-
-    const zoom1 =
-      document.getElementById('zoom1');
-
-    const zoom2 =
-      document.getElementById('zoom2');
-
-    const zoom3 =
-      document.getElementById('zoom3');
-
-
-    zoom1.disabled =
-      false;
-
-
-    zoom2.disabled =
-      maxZoom < 2;
-
-
-    zoom3.disabled =
-      maxZoom < 3;
-
-
-    updateZoomButtons();
-
-  }
-
-
-
-  /*
-   * Set zoom
-   */
-
-  async function setZoom(level) {
-
-    if (!videoTrack) {
-      return;
-    }
-
-
-    const capabilities =
-      videoTrack.getCapabilities
-        ? videoTrack.getCapabilities()
-        : {};
-
-
-    if (!capabilities.zoom) {
-
-      document
-        .getElementById('status')
-        .textContent =
-        'ℹ️ Is phone/browser mein manual zoom available nahi hai.';
-
-      return;
-
-    }
-
-
-    const min =
-      capabilities.zoom.min || 1;
-
-    const max =
-      capabilities.zoom.max || 1;
-
-
-    const target =
-      Math.min(
-        Math.max(level, min),
-        max
-      );
-
-
-    try {
-
-      await videoTrack.applyConstraints({
-
-        advanced: [
-
-          {
-            zoom: target
-          }
-
-        ]
-
-      });
-
-
-      currentZoom =
-        target;
-
-
-      updateZoomButtons();
-
-
-    } catch (error) {
-
-      console.log(
-        'Zoom error:',
-        error
-      );
-
-    }
-
-  }
-
-
-
-  /*
-   * Zoom button UI
-   */
-
-  function updateZoomButtons() {
-
-    document
-      .getElementById('zoom1')
-      .classList.remove('active');
-
-    document
-      .getElementById('zoom2')
-      .classList.remove('active');
-
-    document
-      .getElementById('zoom3')
-      .classList.remove('active');
-
-
-    if (currentZoom < 1.5) {
-
-      document
-        .getElementById('zoom1')
-        .classList.add('active');
-
-    } else if (currentZoom < 2.5) {
-
-      document
-        .getElementById('zoom2')
-        .classList.add('active');
-
-    } else {
-
-      document
-        .getElementById('zoom3')
-        .classList.add('active');
-
-    }
-
-  }
-
-
-
-  /*
-   * Extract 15 digit IMEI
+   * Extract IMEI
    */
 
   function extractIMEI(text) {
 
+
     if (!text) {
+
       return null;
+
     }
 
 
     const value =
-      String(text);
+      String(text).trim();
+
 
 
     /*
-     * Direct 15 digits
+     * Look for exactly
+     * 15 consecutive digits.
      */
 
-    const direct =
+    const match =
       value.match(/\d{15}/);
 
 
-    if (direct) {
+    if (match) {
 
-      return direct[0];
+      return match[0];
 
     }
 
 
+
     /*
-     * Remove separators
+     * Fallback:
+     * remove all non-digits.
      */
 
     const digits =
       value.replace(/\D/g, '');
 
 
-    if (digits.length === 15) {
+    if (
+      digits.length === 15
+    ) {
 
       return digits;
 
@@ -1115,12 +693,15 @@
 
   function isValidIMEI(imei) {
 
+
     imei =
       String(imei || '')
         .replace(/\D/g, '');
 
 
-    if (imei.length !== 15) {
+    if (
+      imei.length !== 15
+    ) {
 
       return false;
 
@@ -1136,6 +717,7 @@
       i++
     ) {
 
+
       let digit =
         parseInt(
           imei.charAt(i),
@@ -1143,14 +725,20 @@
         );
 
 
-      if (i % 2 === 1) {
+      if (
+        i % 2 === 1
+      ) {
 
-        digit *= 2;
+        digit =
+          digit * 2;
 
 
-        if (digit > 9) {
+        if (
+          digit > 9
+        ) {
 
-          digit -= 9;
+          digit =
+            digit - 9;
 
         }
 
@@ -1171,10 +759,11 @@
 
 
   /*
-   * Stop camera only
+   * Stop camera
    */
 
   function stopCameraOnly() {
+
 
     try {
 
@@ -1191,11 +780,17 @@
       null;
 
 
-    if (cameraStream) {
+    const video =
+      document.getElementById('video');
 
-      try {
 
-        cameraStream
+    try {
+
+      if (
+        video.srcObject
+      ) {
+
+        video.srcObject
           .getTracks()
           .forEach(function(track) {
 
@@ -1203,23 +798,7 @@
 
           });
 
-      } catch (e) {}
-
-    }
-
-
-    cameraStream =
-      null;
-
-    videoTrack =
-      null;
-
-
-    const video =
-      document.getElementById('video');
-
-
-    try {
+      }
 
       video.srcObject =
         null;
@@ -1231,10 +810,11 @@
 
 
   /*
-   * Stop everything
+   * STOP SCANNER
    */
 
   function stopScanner() {
+
 
     scanning =
       false;
@@ -1262,27 +842,18 @@
       '';
 
 
-    currentZoom =
-      1;
-
-    maxZoom =
-      1;
-
-
     document
       .getElementById('startBtn')
-      .classList.remove('hidden');
+      .classList.remove(
+        'hidden'
+      );
 
 
     document
       .getElementById('stopBtn')
-      .classList.add('hidden');
-
-
-    document
-      .getElementById('zoomArea')
-      .style.display =
-      'none';
+      .classList.add(
+        'hidden'
+      );
 
 
     document
@@ -1301,10 +872,11 @@
 
 
   /*
-   * Scan again
+   * SCAN AGAIN
    */
 
   function scanAgain() {
+
 
     stopCameraOnly();
 
@@ -1341,21 +913,16 @@
 
 
   /*
-   * Better camera error
+   * Camera error
    */
 
   function cameraError(error) {
-
-    console.error(
-      'Detailed error:',
-      error
-    );
 
 
     if (!error) {
 
       return (
-        '❌ Camera start nahi hua. Dobara try karein.'
+        '❌ Camera start nahi hua.'
       );
 
     }
@@ -1376,7 +943,7 @@
 
       return (
         '❌ Camera permission denied. ' +
-        'Chrome mein Camera → Allow karein.'
+        'Chrome mein Camera permission Allow karein.'
       );
 
     }
@@ -1405,22 +972,14 @@
     }
 
 
-    if (
-      name === 'OverconstrainedError'
-    ) {
-
-      return (
-        '❌ Requested camera quality available nahi hai. ' +
-        'Fallback camera try nahi ho saka.'
-      );
-
-    }
-
-
     return (
       '❌ Camera error: ' +
       name +
-      (message ? ' — ' + message : '')
+      (
+        message
+          ? ' — ' + message
+          : ''
+      )
     );
 
   }
@@ -1428,10 +987,11 @@
 
 
   /*
-   * Send IMEI back to Invoice app
+   * RETURN IMEI TO INVOICE APP
    */
 
   function sendIMEIBack() {
+
 
     if (!currentIMEI) {
 
@@ -1447,6 +1007,7 @@
     } catch (e) {}
 
 
+
     const params =
       new URLSearchParams(
         window.location.search
@@ -1457,7 +1018,14 @@
       params.get('return');
 
 
+
+    /*
+     * Scanner opened directly,
+     * without Invoice app.
+     */
+
     if (!returnUrl) {
+
 
       document
         .getElementById('status')
@@ -1465,10 +1033,16 @@
         '✅ IMEI: ' +
         currentIMEI;
 
+
       return;
 
     }
 
+
+
+    /*
+     * Return to Invoice app.
+     */
 
     const separator =
       returnUrl.includes('?')
@@ -1488,6 +1062,7 @@
 
 
 </script>
+
 
 </body>
 
