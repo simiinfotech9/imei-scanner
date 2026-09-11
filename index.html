@@ -446,6 +446,20 @@ button:active{
 
 }
 
+.back-form{
+
+  background:linear-gradient(
+    135deg,
+    #374151,
+    #1f2937
+  );
+
+  color:#fff;
+
+  border:1px solid #59636b;
+
+}
+
 
 /* ================= RESULT ================= */
 
@@ -817,6 +831,16 @@ Number + Alphabet dono allowed.
 >
 
 ✕ STOP CAMERA
+
+</button>
+
+<button
+  id="backFormBtn"
+  class="main-btn back-form hidden"
+  onclick="backToForm()"
+>
+
+← BACK TO FORM
 
 </button>
 
@@ -2036,6 +2060,11 @@ function stopScanner(){
       'hidden'
     );
 
+  document
+    .getElementById('backFormBtn')
+    .classList
+    .add('hidden');
+
 
   document
     .getElementById(
@@ -2109,6 +2138,49 @@ function scanAgain(){
 
 
   startScanner();
+
+}
+
+
+/* =================================================
+   BACK TO FORM
+   ================================================= */
+
+function backToForm(){
+
+  scanning=false;
+
+  stopCameraOnly();
+
+  const params=
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const returnUrl=
+    params.get('return');
+
+  if(returnUrl){
+
+    window.location.href=
+      returnUrl;
+
+    return;
+
+  }
+
+  if(window.history.length>1){
+
+    window.history.back();
+
+    return;
+
+  }
+
+  document
+    .getElementById('status')
+    .textContent=
+    'No return form found.';
 
 }
 
