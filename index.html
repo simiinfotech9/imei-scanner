@@ -446,36 +446,6 @@ button:active{
 
 }
 
-.scan-actions{
-
-  display:flex;
-  gap:8px;
-  width:100%;
-  margin-top:3px;
-
-}
-
-.scan-actions .main-btn{
-
-  width:calc(50% - 4px);
-  margin-top:0;
-
-}
-
-.back-form{
-
-  background:linear-gradient(
-    135deg,
-    #374151,
-    #1f2937
-  );
-
-  color:#fff;
-
-  border:1px solid #59636b;
-
-}
-
 
 /* ================= RESULT ================= */
 
@@ -606,6 +576,61 @@ button:active{
 }
 
 
+/* ================= CAMERA ACTION BUTTONS ================= */
+
+.action-buttons{
+
+  width:100%;
+
+  display:flex;
+
+  flex-direction:row;
+
+  align-items:stretch;
+
+  justify-content:center;
+
+  gap:12px;
+
+  margin:6px 0 4px;
+
+}
+
+
+.action-buttons .main-btn{
+
+  width:50%;
+
+  flex:1 1 0;
+
+  margin-top:0;
+
+  height:48px;
+
+  min-height:48px;
+
+  font-size:15px;
+
+  border-radius:10px;
+
+}
+
+
+.back{
+
+  background:linear-gradient(
+    135deg,
+    #4b5b6b,
+    #303d49
+  );
+
+  color:#fff;
+
+  border:1px solid #627384;
+
+}
+
+
 /* ================= HIDDEN ================= */
 
 .hidden{
@@ -714,6 +739,28 @@ button:active{
     height:39px;
 
     font-size:13px;
+
+  }
+
+
+  .action-buttons{
+
+    gap:10px;
+
+    margin-top:5px;
+
+  }
+
+
+  .action-buttons .main-btn{
+
+    height:46px;
+
+    min-height:46px;
+
+    flex-basis:0;
+
+    font-size:14px;
 
   }
 
@@ -829,8 +876,6 @@ Number + Alphabet dono allowed.
 </div>
 
 
-<div class="scan-actions">
-
 <button
   id="startBtn"
   class="main-btn start hidden"
@@ -840,6 +885,9 @@ Number + Alphabet dono allowed.
 📷 START CAMERA
 
 </button>
+
+
+<div class="action-buttons">
 
 <button
   id="stopBtn"
@@ -852,8 +900,8 @@ Number + Alphabet dono allowed.
 </button>
 
 <button
-  id="backFormBtn"
-  class="main-btn back-form hidden"
+  id="backBtn"
+  class="main-btn back"
   onclick="backToForm()"
 >
 
@@ -1021,7 +1069,6 @@ function startScanner(){
     startBtn.classList.add('hidden');
 
     stopBtn.classList.remove('hidden');
-    document.getElementById('backFormBtn').classList.remove('hidden');
 
 
     status.textContent=
@@ -2080,11 +2127,6 @@ function stopScanner(){
       'hidden'
     );
 
-  document
-    .getElementById('backFormBtn')
-    .classList
-    .add('hidden');
-
 
   document
     .getElementById(
@@ -2158,49 +2200,6 @@ function scanAgain(){
 
 
   startScanner();
-
-}
-
-
-/* =================================================
-   BACK TO FORM
-   ================================================= */
-
-function backToForm(){
-
-  scanning=false;
-
-  stopCameraOnly();
-
-  const params=
-    new URLSearchParams(
-      window.location.search
-    );
-
-  const returnUrl=
-    params.get('return');
-
-  if(returnUrl){
-
-    window.location.href=
-      returnUrl;
-
-    return;
-
-  }
-
-  if(window.history.length>1){
-
-    window.history.back();
-
-    return;
-
-  }
-
-  document
-    .getElementById('status')
-    .textContent=
-    'No return form found.';
 
 }
 
@@ -2302,6 +2301,52 @@ if(
 }else{
 
   autoStartCamera();
+
+}
+
+
+/* =================================================
+   BACK TO FORM
+   ================================================= */
+
+function backToForm(){
+
+  try{
+
+    scanning=false;
+
+    stopCameraOnly();
+
+  }catch(e){}
+
+
+  const params=
+    new URLSearchParams(
+      window.location.search
+    );
+
+
+  const returnUrl=
+    params.get('return');
+
+
+  if(returnUrl){
+
+    window.location.href=
+      returnUrl;
+
+    return;
+
+  }
+
+
+  /* Direct GitHub test: no return URL. */
+
+  if(history.length>1){
+
+    history.back();
+
+  }
 
 }
 
