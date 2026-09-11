@@ -446,6 +446,22 @@ button:active{
 
 }
 
+.scan-actions{
+
+  display:flex;
+  gap:8px;
+  width:100%;
+  margin-top:3px;
+
+}
+
+.scan-actions .main-btn{
+
+  width:calc(50% - 4px);
+  margin-top:0;
+
+}
+
 .back-form{
 
   background:linear-gradient(
@@ -813,6 +829,8 @@ Number + Alphabet dono allowed.
 </div>
 
 
+<div class="scan-actions">
+
 <button
   id="startBtn"
   class="main-btn start hidden"
@@ -822,7 +840,6 @@ Number + Alphabet dono allowed.
 📷 START CAMERA
 
 </button>
-
 
 <button
   id="stopBtn"
@@ -843,6 +860,8 @@ Number + Alphabet dono allowed.
 ← BACK TO FORM
 
 </button>
+
+</div>
 
 
 <div
@@ -1002,6 +1021,7 @@ function startScanner(){
     startBtn.classList.add('hidden');
 
     stopBtn.classList.remove('hidden');
+    document.getElementById('backFormBtn').classList.remove('hidden');
 
 
     status.textContent=
